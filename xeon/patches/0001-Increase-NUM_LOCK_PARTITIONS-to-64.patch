@@ -1,0 +1,33 @@
+From e6c5fa71f7160e78947612f34fc5cf5ec47ec7c0 Mon Sep 17 00:00:00 2001
+From: Tomas Vondra <tomas@2ndquadrant.com>
+Date: Mon, 8 Jan 2024 00:32:22 +0100
+Subject: [PATCH 1/2] Increase NUM_LOCK_PARTITIONS to 64
+
+The LWLock table has 16 partitions by default, which may be a bottleneck
+on systems with many cores, which are becoming more and more common. This
+increases the number of partitions to 64, to reduce the contention.
+
+This may affect cases that need to process the whole table and lock all
+the partitions. But there's not too many of those cases, especially in
+performance sensitive paths, and the increase from 16 to 64 is not that
+significant to really matter.
+---
+ src/include/storage/lwlock.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/include/storage/lwlock.h b/src/include/storage/lwlock.h
+index d70e6d37e09..302d3619986 100644
+--- a/src/include/storage/lwlock.h
++++ b/src/include/storage/lwlock.h
+@@ -93,7 +93,7 @@ extern PGDLLIMPORT int NamedLWLockTrancheRequests;
+ #define NUM_BUFFER_PARTITIONS  128
+ 
+ /* Number of partitions the shared lock tables are divided into */
+-#define LOG2_NUM_LOCK_PARTITIONS  4
++#define LOG2_NUM_LOCK_PARTITIONS  6
+ #define NUM_LOCK_PARTITIONS  (1 << LOG2_NUM_LOCK_PARTITIONS)
+ 
+ /* Number of partitions the shared predicate lock tables are divided into */
+-- 
+2.45.2
+

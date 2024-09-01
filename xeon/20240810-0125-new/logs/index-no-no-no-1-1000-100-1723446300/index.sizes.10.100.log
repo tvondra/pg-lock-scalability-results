@@ -1,0 +1,113 @@
+                                       List of relations
+ Schema |   Name   |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+----------+----------+-------+-------------+---------------+------------+-------------
+ public | t        | table    | tomas | permanent   | heap          | 43 MB      | 
+ public | t_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+(2 rows)
+
+                                         List of relations
+ Schema |    Name    | Type  | Owner | Table | Persistence | Access method |  Size   | Description 
+--------+------------+-------+-------+-------+-------------+---------------+---------+-------------
+ public | t_c100_idx | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c10_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c11_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c12_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c13_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c14_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c15_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c16_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c17_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c18_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c19_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c1_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c20_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c21_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c22_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c23_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c24_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c25_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c26_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c27_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c28_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c29_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c2_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c30_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c31_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c32_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c33_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c34_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c35_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c36_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c37_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c38_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c39_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c3_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c40_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c41_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c42_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c43_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c44_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c45_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c46_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c47_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c48_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c49_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c4_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c50_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c51_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c52_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c53_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c54_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c55_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c56_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c57_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c58_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c59_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c5_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c60_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c61_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c62_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c63_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c64_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c65_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c66_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c67_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c68_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c69_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c6_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c70_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c71_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c72_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c73_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c74_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c75_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c76_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c77_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c78_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c79_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c7_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c80_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c81_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c82_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c83_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c84_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c85_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c86_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c87_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c88_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c89_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c8_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c90_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c91_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c92_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c93_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c94_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c95_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c96_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c97_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c98_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c99_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c9_idx   | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_pkey     | index | tomas | t     | permanent   | btree         | 2208 kB | 
+(101 rows)
+

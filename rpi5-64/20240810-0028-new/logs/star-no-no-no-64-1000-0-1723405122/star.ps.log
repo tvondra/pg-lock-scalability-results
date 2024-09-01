@@ -1,0 +1,160 @@
+    PID TTY      STAT   TIME COMMAND
+      1 ?        Ss     0:44 /sbin/init
+      2 ?        S      0:01 [kthreadd]
+      3 ?        S      0:00 [pool_workqueue_release]
+      4 ?        I<     0:00 [kworker/R-rcu_g]
+      5 ?        I<     0:00 [kworker/R-rcu_p]
+      6 ?        I<     0:00 [kworker/R-slub_]
+      7 ?        I<     0:00 [kworker/R-netns]
+     11 ?        I      0:00 [kworker/u8:0-netns]
+     12 ?        I<     0:00 [kworker/R-mm_pe]
+     13 ?        I      0:00 [rcu_tasks_kthread]
+     14 ?        I      0:00 [rcu_tasks_rude_kthread]
+     15 ?        I      0:00 [rcu_tasks_trace_kthread]
+     16 ?        S     15:36 [ksoftirqd/0]
+     17 ?        I     14:05 [rcu_preempt]
+     18 ?        S      0:04 [migration/0]
+     19 ?        S      0:00 [cpuhp/0]
+     20 ?        S      0:00 [cpuhp/1]
+     21 ?        S      0:03 [migration/1]
+     22 ?        S     15:01 [ksoftirqd/1]
+     25 ?        S      0:00 [cpuhp/2]
+     26 ?        S      0:03 [migration/2]
+     27 ?        S     15:18 [ksoftirqd/2]
+     30 ?        S      0:00 [cpuhp/3]
+     31 ?        S      0:03 [migration/3]
+     32 ?        S     15:27 [ksoftirqd/3]
+     39 ?        S      0:00 [kdevtmpfs]
+     40 ?        I<     0:00 [kworker/R-inet_]
+     42 ?        S      0:00 [kauditd]
+     44 ?        S      0:00 [khungtaskd]
+     45 ?        S      0:00 [oom_reaper]
+     46 ?        I<     0:00 [kworker/R-write]
+     47 ?        S     65:16 [kcompactd0]
+     48 ?        I<     0:00 [kworker/R-kinte]
+     49 ?        I<     0:00 [kworker/R-kbloc]
+     50 ?        I<     0:00 [kworker/R-blkcg]
+     53 ?        S      0:00 [watchdogd]
+     57 ?        I<     0:00 [kworker/R-rpcio]
+     58 ?        I<     0:00 [kworker/R-xprti]
+     59 ?        S     48:24 [kswapd0]
+     60 ?        I<     0:00 [kworker/R-nfsio]
+     61 ?        I<     0:00 [kworker/R-kthro]
+     62 ?        S      0:00 [hwrng]
+     63 ?        I<     0:00 [kworker/R-iscsi]
+     64 ?        I<     0:00 [kworker/R-nvme-]
+     65 ?        I<     0:00 [kworker/R-nvme-]
+     66 ?        I<     0:00 [kworker/R-nvme-]
+     67 ?        I<     0:00 [kworker/R-DWC N]
+     68 ?        I<     0:00 [kworker/R-uas]
+     69 ?        I<     2:36 [kworker/u13:0-brcmf_wq/mmc1:0001:1]
+     70 ?        I<     0:00 [kworker/u14:0]
+     71 ?        I<     0:00 [kworker/u15:0]
+     72 ?        I<     0:00 [kworker/u16:0]
+     73 ?        I<     0:00 [kworker/u17:0]
+     74 ?        S      0:00 [irq/38-aerdrv]
+     76 ?        S      0:00 [irq/44-aerdrv]
+     85 ?        I<     0:00 [kworker/R-sdhci]
+     87 ?        S      0:00 [irq/167-mmc1]
+     88 ?        I<     0:00 [kworker/R-sdhci]
+     89 ?        S      0:03 [irq/168-mmc0]
+     91 ?        I<     0:00 [kworker/R-mmc_c]
+    198 ?        S      0:00 [spi10]
+    220 ?        S      5:10 [jbd2/mmcblk0p2-8]
+    221 ?        I<     0:00 [kworker/R-ext4-]
+    236 ?        I<     0:00 [kworker/R-mld]
+    237 ?        I<     0:00 [kworker/R-ipv6_]
+    285 ?        Ss     0:22 /lib/systemd/systemd-journald
+    315 ?        Ss     0:28 /lib/systemd/systemd-udevd
+    388 ?        S      4:05 [jbd2/nvme0n1p1-8]
+    396 ?        I<     0:00 [kworker/R-ext4-]
+    449 ?        S      0:00 [v3d_bin]
+    451 ?        S      0:00 [v3d_render]
+    452 ?        S      0:00 [v3d_tfu]
+    453 ?        S      0:00 [v3d_csd]
+    456 ?        S      0:00 [v3d_cache_clean]
+    469 ?        I<     0:00 [kworker/R-cfg80]
+    505 ?        I<     0:00 [kworker/R-brcmf]
+    507 ?        S      0:16 [brcmf_wdog/mmc1:0001:1]
+    535 ?        S      0:00 [irq/176-1000800000.codec]
+    598 ?        I<     0:00 [kworker/u13:2-hci0]
+    605 ?        Ssl    0:05 /lib/systemd/systemd-timesyncd
+    610 ?        S      0:00 [irq/180-vc4 hdmi hpd connected]
+    613 ?        S      0:00 [irq/181-vc4 hdmi hpd disconnected]
+    614 ?        S      0:00 [cec-vc4-hdmi-0]
+    615 ?        S      0:00 [irq/182-vc4 hdmi cec rx]
+    616 ?        S      0:00 [irq/183-vc4 hdmi cec tx]
+    620 ?        S      0:00 [irq/184-vc4 hdmi hpd connected]
+    623 ?        S      0:00 [irq/185-vc4 hdmi hpd disconnected]
+    625 ?        S      0:00 [cec-vc4-hdmi-1]
+    626 ?        S      0:00 [irq/186-vc4 hdmi cec rx]
+    627 ?        S      0:00 [irq/187-vc4 hdmi cec tx]
+    636 ?        S      0:00 [card1-crtc0]
+    637 ?        S      0:00 [card1-crtc1]
+    639 ?        S      0:00 [card1-crtc2]
+    640 ?        S      0:00 [card1-crtc3]
+    663 ?        Ss     0:33 avahi-daemon: running [raspberry-64.local]
+    664 ?        Ss     0:00 /usr/libexec/bluetooth/bluetoothd
+    665 ?        Ss     0:03 /usr/sbin/cron -f
+    666 ?        Ss     0:48 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+    669 ?        Ssl    0:01 /usr/lib/polkit-1/polkitd --no-debug
+    678 ?        Ss     0:00 /usr/sbin/smartd -n
+    680 ?        Ss     0:04 /lib/systemd/systemd-logind
+    683 ?        Ss     0:08 /usr/sbin/thd --triggers /etc/triggerhappy/triggers.d/ --socket /run/thd.socket --user nobody --deviceglob /dev/input/event*
+    694 ?        S      0:00 avahi-daemon: chroot helper
+    749 ?        Ssl    2:20 /usr/sbin/NetworkManager --no-daemon
+    756 ?        Ss     1:24 /sbin/wpa_supplicant -u -s -O DIR=/run/wpa_supplicant GROUP=netdev
+    757 ?        Ssl    0:01 /usr/sbin/ModemManager
+    792 ?        I      0:00 [kworker/u8:1]
+    794 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+    816 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear - linux
+    817 ?        Ss+    0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,57600,38400,9600 - vt220
+   3326 ?        Ss     0:02 /lib/systemd/systemd --user
+   3327 ?        S      0:00 (sd-pam)
+   3382 ?        Ss     0:00 SCREEN
+   3383 pts/1    Ss     0:01 /bin/bash
+  19344 ?        I      0:07 [kworker/u11:1-writeback]
+  30056 pts/1    S+     0:07 /usr/bin/bash -x ./run.sh new
+1294693 ?        I      0:08 [kworker/u10:0-events_unbound]
+2045798 ?        I<     0:05 [kworker/2:2H-kblockd]
+2631295 ?        I      0:05 [kworker/u11:2-writeback]
+2885036 ?        I      0:02 [kworker/u12:3-flush-259:0]
+3231354 ?        I      0:02 [kworker/u11:0-writeback]
+3234978 ?        I      0:02 [kworker/u12:0-writeback]
+3244800 ?        I      0:02 [kworker/u9:0-events_unbound]
+3297978 ?        I      0:02 [kworker/u10:1-events_unbound]
+3330636 ?        I<     0:01 [kworker/1:2H-kblockd]
+3410953 ?        I      0:00 [kworker/u9:2-events_unbound]
+3551972 ?        I      0:00 [kworker/u12:1-writeback]
+3644941 ?        I      0:01 [kworker/u9:1-writeback]
+3747276 ?        I      0:00 [kworker/u10:2-writeback]
+3908078 ?        I      0:00 [kworker/2:1-wg-kex-wg0]
+3991649 ?        I      0:00 [kworker/3:2-mm_percpu_wq]
+4046177 ?        I      0:00 [kworker/2:2-events_power_efficient]
+4104702 ?        I<     0:00 [kworker/3:1H-kblockd]
+4111802 ?        I      0:00 [kworker/0:2-events]
+4113471 ?        I      0:01 [kworker/1:1-events]
+4125539 ?        I      0:00 [kworker/0:0-wg-kex-wg0]
+4125596 ?        I<     0:00 [kworker/R-wg-cr]
+4126118 ?        I<     0:00 [kworker/3:0H-kblockd]
+4131252 ?        I<     0:00 [kworker/0:0H-kblockd]
+4131271 ?        I<     0:00 [kworker/1:1H-kblockd]
+4131431 ?        I<     0:00 [kworker/2:0H-kblockd]
+4133747 ?        I<     0:00 [kworker/0:3H-kblockd]
+4138570 ?        I      0:00 [kworker/1:0-mm_percpu_wq]
+4143579 ?        I      0:00 [kworker/3:1-events]
+4148717 ?        I      0:00 [kworker/2:0-mm_percpu_wq]
+4151742 ?        I<     0:00 [kworker/3:2H-kblockd]
+4151986 ?        I      0:00 [kworker/0:1-events_power_efficient]
+4152140 ?        I      0:00 [kworker/1:2-events_freezable]
+4154099 ?        I<     0:00 [kworker/0:1H-kblockd]
+4157263 ?        I<     0:00 [kworker/2:1H-kblockd]
+4158084 ?        I<     0:00 [kworker/1:0H]
+4165131 ?        Ss     0:01 /mnt/data/builds/star-no-no-no-64-1000-0-1723405122/bin/postgres -D /mnt/data/data-test
+4165132 ?        Ss     0:00 postgres: checkpointer 
+4165133 ?        Ss     0:00 postgres: background writer 
+4165135 ?        Ss     0:00 postgres: walwriter 
+4165136 ?        Ss     0:00 postgres: autovacuum launcher 
+4165137 ?        Ss     0:00 postgres: logical replication launcher 
+4165141 pts/1    S+     0:00 /usr/bin/bash ./run-star.sh rpi5-64 star-no-no-no-64-1000-0-1723405122 1000 no no no 64 /mnt/data/lock-scalability-test-2/20240810-0028-new/logs/star-no-no-no-64-1000-0-1723405122 3 10 16 1 4 0
+4165142 pts/1    R+     0:00 ps ax

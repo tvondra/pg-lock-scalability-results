@@ -1,0 +1,19 @@
+2024-08-10 00:29:55.048 BST [43324] LOG:  starting PostgreSQL 18devel on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-10 00:29:55.048 BST [43324] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 00:29:55.048 BST [43324] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 00:29:55.112 BST [43324] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 00:29:55.123 BST [43327] LOG:  database system was interrupted; last known up at 2024-08-10 00:28:05 BST
+2024-08-10 00:29:55.353 BST [43327] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-10 00:29:55.360 BST [43327] LOG:  redo starts at 6/53E96860
+2024-08-10 00:29:55.360 BST [43327] LOG:  invalid record length at 6/53E96898: expected at least 24, got 0
+2024-08-10 00:29:55.360 BST [43327] LOG:  redo done at 6/53E96860 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-10 00:29:55.371 BST [43325] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-10 00:29:55.416 BST [43325] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.024 s, sync=0.004 s, total=0.048 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=6/53E96898, redo lsn=6/53E96898
+2024-08-10 00:29:55.421 BST [43324] LOG:  database system is ready to accept connections
+2024-08-10 00:33:05.995 BST [43324] LOG:  received fast shutdown request
+2024-08-10 00:33:06.002 BST [43324] LOG:  aborting any active transactions
+2024-08-10 00:33:06.003 BST [43324] LOG:  background worker "logical replication launcher" (PID 43330) exited with exit code 1
+2024-08-10 00:33:06.003 BST [43325] LOG:  shutting down
+2024-08-10 00:33:06.007 BST [43325] LOG:  checkpoint starting: shutdown immediate
+2024-08-10 00:33:06.039 BST [43325] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.015 s, sync=0.001 s, total=0.037 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=6/53E96948, redo lsn=6/53E96948
+2024-08-10 00:33:06.090 BST [43324] LOG:  database system is shut down

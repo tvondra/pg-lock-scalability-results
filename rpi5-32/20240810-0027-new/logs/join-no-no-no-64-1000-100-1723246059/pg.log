@@ -1,0 +1,19 @@
+2024-08-10 00:29:29.736 BST [7602] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-10 00:29:29.736 BST [7602] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 00:29:29.736 BST [7602] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 00:29:29.792 BST [7602] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 00:29:29.799 BST [7605] LOG:  database system was interrupted; last known up at 2024-08-10 00:27:39 BST
+2024-08-10 00:29:29.821 BST [7605] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-10 00:29:29.823 BST [7605] LOG:  redo starts at 0/4F7D3B70
+2024-08-10 00:29:29.823 BST [7605] LOG:  invalid record length at 0/4F7D3BA8: expected at least 24, got 0
+2024-08-10 00:29:29.823 BST [7605] LOG:  redo done at 0/4F7D3B70 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-10 00:29:29.829 BST [7603] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-10 00:29:29.841 BST [7603] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.003 s, total=0.014 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=0/4F7D3BA8, redo lsn=0/4F7D3BA8
+2024-08-10 00:29:29.844 BST [7602] LOG:  database system is ready to accept connections
+2024-08-10 00:32:40.338 BST [7602] LOG:  received fast shutdown request
+2024-08-10 00:32:40.347 BST [7602] LOG:  aborting any active transactions
+2024-08-10 00:32:40.348 BST [7602] LOG:  background worker "logical replication launcher" (PID 7608) exited with exit code 1
+2024-08-10 00:32:40.349 BST [7603] LOG:  shutting down
+2024-08-10 00:32:40.351 BST [7603] LOG:  checkpoint starting: shutdown immediate
+2024-08-10 00:32:40.360 BST [7603] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.001 s, total=0.011 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/4F7D3C58, redo lsn=0/4F7D3C58
+2024-08-10 00:32:40.388 BST [7602] LOG:  database system is shut down

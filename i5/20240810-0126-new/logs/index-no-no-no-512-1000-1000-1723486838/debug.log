@@ -1,0 +1,23 @@
+BINDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/bin
+DOCDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/share/doc/postgresql
+HTMLDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/share/doc/postgresql
+INCLUDEDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/include
+PKGINCLUDEDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/include/postgresql
+INCLUDEDIR-SERVER = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/include/postgresql/server
+LIBDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/lib
+PKGLIBDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/lib/postgresql
+LOCALEDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/share/locale
+MANDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/share/man
+SHAREDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/share/postgresql
+SYSCONFDIR = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/etc/postgresql
+PGXS = /mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/lib/postgresql/pgxs/src/makefiles/pgxs.mk
+CONFIGURE =  '--prefix=/mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838' '--enable-debug' '--enable-depend' 'CC=ccache gcc'
+CC = ccache gcc
+CPPFLAGS = -D_GNU_SOURCE
+CFLAGS = -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wimplicit-fallthrough=3 -Wcast-function-type -Wshadow=compatible-local -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -Wno-format-truncation -Wno-stringop-truncation -g -O2
+CFLAGS_SL = -fPIC
+LDFLAGS = -Wl,--as-needed -Wl,-rpath,'/mnt/pgdata/builds/index-no-no-no-512-1000-1000-1723486838/lib',--enable-new-dtags
+LDFLAGS_EX = 
+LDFLAGS_SL = 
+LIBS = -lpgcommon -lpgport -lz -lreadline -lm 
+VERSION = PostgreSQL 18devel

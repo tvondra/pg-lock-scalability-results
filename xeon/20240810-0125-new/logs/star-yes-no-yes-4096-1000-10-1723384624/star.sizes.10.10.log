@@ -1,0 +1,53 @@
+                                         List of relations
+ Schema |     Name     |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+--------------+----------+-------+-------------+---------------+------------+-------------
+ public | dim1         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim10        | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim10_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim1_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim2         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim2_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim3         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim3_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim4         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim4_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim5         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim5_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim6         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim6_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim7         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim7_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim8         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim8_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim9         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim9_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | t            | table    | tomas | permanent   | heap          | 730 MB     | 
+ public | t_id_seq     | sequence | tomas | permanent   |               | 8192 bytes | 
+(22 rows)
+
+                                        List of relations
+ Schema |    Name    | Type  | Owner | Table | Persistence | Access method |  Size  | Description 
+--------+------------+-------+-------+-------+-------------+---------------+--------+-------------
+ public | dim10_pkey | index | tomas | dim10 | permanent   | btree         | 240 kB | 
+ public | dim1_pkey  | index | tomas | dim1  | permanent   | btree         | 240 kB | 
+ public | dim2_pkey  | index | tomas | dim2  | permanent   | btree         | 240 kB | 
+ public | dim3_pkey  | index | tomas | dim3  | permanent   | btree         | 240 kB | 
+ public | dim4_pkey  | index | tomas | dim4  | permanent   | btree         | 240 kB | 
+ public | dim5_pkey  | index | tomas | dim5  | permanent   | btree         | 240 kB | 
+ public | dim6_pkey  | index | tomas | dim6  | permanent   | btree         | 240 kB | 
+ public | dim7_pkey  | index | tomas | dim7  | permanent   | btree         | 240 kB | 
+ public | dim8_pkey  | index | tomas | dim8  | permanent   | btree         | 240 kB | 
+ public | dim9_pkey  | index | tomas | dim9  | permanent   | btree         | 240 kB | 
+ public | t_d10_idx  | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d1_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d2_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d3_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d4_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d5_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d6_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d7_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d8_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_d9_idx   | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_pkey     | index | tomas | t     | permanent   | btree         | 214 MB | 
+(21 rows)
+

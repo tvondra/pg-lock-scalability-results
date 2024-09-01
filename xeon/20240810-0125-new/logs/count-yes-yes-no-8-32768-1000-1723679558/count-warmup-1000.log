@@ -1,0 +1,13 @@
+pgbench (18devel)
+transaction type: select.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 32
+number of threads: 32
+maximum number of tries: 1
+duration: 10 s
+number of transactions actually processed: 23043
+number of failed transactions: 0 (0.000%)
+latency average = 13.863 ms
+initial connection time = 29.443 ms
+tps = 2308.361562 (without initial connection time)

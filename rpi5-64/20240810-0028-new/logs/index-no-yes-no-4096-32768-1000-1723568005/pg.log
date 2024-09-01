@@ -1,0 +1,13 @@
+2024-08-13 17:54:29.372 BST [1959237] LOG:  starting PostgreSQL 18devel on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-13 17:54:29.372 BST [1959237] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-13 17:54:29.372 BST [1959237] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-13 17:54:29.402 BST [1959237] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-13 17:54:29.409 BST [1959240] LOG:  database system was shut down at 2024-08-13 17:53:25 BST
+2024-08-13 17:54:29.417 BST [1959237] LOG:  database system is ready to accept connections
+2024-08-13 17:57:39.951 BST [1959237] LOG:  received fast shutdown request
+2024-08-13 17:57:39.954 BST [1959237] LOG:  aborting any active transactions
+2024-08-13 17:57:39.956 BST [1959237] LOG:  background worker "logical replication launcher" (PID 1959243) exited with exit code 1
+2024-08-13 17:57:39.956 BST [1959238] LOG:  shutting down
+2024-08-13 17:57:39.957 BST [1959238] LOG:  checkpoint starting: shutdown immediate
+2024-08-13 17:57:39.981 BST [1959238] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.018 s, sync=0.002 s, total=0.025 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=8/16BF8C08, redo lsn=8/16BF8C08
+2024-08-13 17:57:40.039 BST [1959237] LOG:  database system is shut down

@@ -1,0 +1,51 @@
+2024-08-09 10:24:03.891 BST [28636] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-09 10:24:03.891 BST [28636] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 10:24:03.891 BST [28636] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 10:24:03.907 BST [28636] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 10:24:03.911 BST [28639] LOG:  database system was shut down at 2024-08-09 02:09:34 BST
+2024-08-09 10:24:03.914 BST [28636] LOG:  database system is ready to accept connections
+2024-08-09 10:27:11.275 BST [9025] FATAL:  requested shared memory size overflows size_t
+2024-08-09 10:27:11.276 BST [9025] LOG:  database system is shut down
+2024-08-09 10:27:48.229 BST [9059] FATAL:  requested shared memory size overflows size_t
+2024-08-09 10:27:48.229 BST [9059] LOG:  database system is shut down
+2024-08-09 10:28:28.882 BST [9085] FATAL:  requested shared memory size overflows size_t
+2024-08-09 10:28:28.882 BST [9085] LOG:  database system is shut down
+2024-08-09 10:29:24.587 BST [9102] FATAL:  requested shared memory size overflows size_t
+2024-08-09 10:29:24.587 BST [9102] LOG:  database system is shut down
+2024-08-09 09:30:49.528 GMT [9237] LOG:  skipping missing configuration file "/mnt/data/data-test/postgresql.auto.conf"
+2024-08-09 10:30:49.561 BST [9237] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-09 10:30:49.561 BST [9237] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 10:30:49.561 BST [9237] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 10:30:49.572 BST [9237] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 10:30:49.576 BST [9240] LOG:  database system was interrupted; last known up at 2024-08-09 10:24:03 BST
+2024-08-09 10:30:49.588 BST [9240] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-09 10:30:49.590 BST [9240] LOG:  redo starts at 0/14E5CE0
+2024-08-09 10:30:49.592 BST [9240] LOG:  invalid record length at 0/1523FA0: expected at least 24, got 0
+2024-08-09 10:30:49.592 BST [9240] LOG:  redo done at 0/1523F68 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-09 10:30:49.595 BST [9238] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-09 10:30:49.618 BST [9238] LOG:  checkpoint complete: wrote 40 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.014 s, total=0.024 s; sync files=11, longest=0.003 s, average=0.002 s; distance=248 kB, estimate=248 kB; lsn=0/1523FA0, redo lsn=0/1523FA0
+2024-08-09 10:30:49.623 BST [9237] LOG:  database system is ready to accept connections
+2024-08-09 11:25:06.471 BST [21209] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-09 11:25:06.472 BST [21209] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 11:25:06.472 BST [21209] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 11:25:06.488 BST [21209] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 11:25:06.491 BST [21212] LOG:  database system was shut down at 2024-08-09 11:16:19 BST
+2024-08-09 11:25:06.497 BST [21209] LOG:  database system is ready to accept connections
+2024-08-09 11:25:42.378 BST [28231] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-09 11:25:42.378 BST [28231] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 11:25:42.378 BST [28231] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 11:25:42.399 BST [28231] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 11:25:42.405 BST [28235] LOG:  database system was interrupted; last known up at 2024-08-09 11:25:06 BST
+2024-08-09 11:25:42.422 BST [28235] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-09 11:25:42.424 BST [28235] LOG:  redo starts at 0/28921298
+2024-08-09 11:25:42.425 BST [28235] LOG:  invalid record length at 0/28921308: expected at least 24, got 0
+2024-08-09 11:25:42.425 BST [28235] LOG:  redo done at 0/289212D0 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-09 11:25:42.428 BST [28233] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-09 11:25:42.445 BST [28233] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.009 s, sync=0.003 s, total=0.019 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=0/28921308, redo lsn=0/28921308
+2024-08-09 11:25:42.448 BST [28231] LOG:  database system is ready to accept connections
+2024-08-10 00:27:39.302 BST [26729] LOG:  starting PostgreSQL 18devel on armv8l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 12.2.0-14+rpi1) 12.2.0, 32-bit
+2024-08-10 00:27:39.303 BST [26729] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 00:27:39.303 BST [26729] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 00:27:39.318 BST [26729] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 00:27:39.322 BST [26732] LOG:  database system was shut down at 2024-08-10 00:25:23 BST
+2024-08-10 00:27:39.326 BST [26729] LOG:  database system is ready to accept connections

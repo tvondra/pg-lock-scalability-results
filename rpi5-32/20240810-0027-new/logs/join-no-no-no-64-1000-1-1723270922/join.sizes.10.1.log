@@ -1,0 +1,21 @@
+                                               List of relations
+ Schema |        Name        |       Type        | Owner  | Persistence | Access method |  Size   | Description 
+--------+--------------------+-------------------+--------+-------------+---------------+---------+-------------
+ public | pgbench_accounts   | partitioned table | debian | permanent   |               | 0 bytes | 
+ public | pgbench_accounts_1 | table             | debian | permanent   | heap          | 128 MB  | 
+ public | pgbench_branches   | table             | debian | permanent   | heap          | 40 kB   | 
+ public | pgbench_history    | table             | debian | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers    | table             | debian | permanent   | heap          | 40 kB   | 
+(5 rows)
+
+                                                                 List of relations
+ Schema |               Name                |       Type        | Owner  |       Table        | Persistence | Access method |  Size   | Description 
+--------+-----------------------------------+-------------------+--------+--------------------+-------------+---------------+---------+-------------
+ public | pgbench_accounts_1_aid_parent_idx | index             | debian | pgbench_accounts_1 | permanent   | btree         | 21 MB   | 
+ public | pgbench_accounts_1_pkey           | index             | debian | pgbench_accounts_1 | permanent   | btree         | 21 MB   | 
+ public | pgbench_accounts_aid_parent_idx   | partitioned index | debian | pgbench_accounts   | permanent   | btree         | 0 bytes | 
+ public | pgbench_accounts_pkey             | partitioned index | debian | pgbench_accounts   | permanent   | btree         | 0 bytes | 
+ public | pgbench_branches_pkey             | index             | debian | pgbench_branches   | permanent   | btree         | 16 kB   | 
+ public | pgbench_tellers_pkey              | index             | debian | pgbench_tellers    | permanent   | btree         | 16 kB   | 
+(6 rows)
+

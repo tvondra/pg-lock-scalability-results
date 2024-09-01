@@ -1,0 +1,17 @@
+                                        List of relations
+ Schema |       Name       | Type  | Owner | Persistence | Access method |  Size   | Description 
+--------+------------------+-------+-------+-------------+---------------+---------+-------------
+ public | pgbench_accounts | table | tomas | permanent   | heap          | 64 MB   | 
+ public | pgbench_branches | table | tomas | permanent   | heap          | 40 kB   | 
+ public | pgbench_history  | table | tomas | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers  | table | tomas | permanent   | heap          | 40 kB   | 
+(4 rows)
+
+                                                   List of relations
+ Schema |         Name          | Type  | Owner |      Table       | Persistence | Access method | Size  | Description 
+--------+-----------------------+-------+-------+------------------+-------------+---------------+-------+-------------
+ public | pgbench_accounts_pkey | index | tomas | pgbench_accounts | permanent   | btree         | 11 MB | 
+ public | pgbench_branches_pkey | index | tomas | pgbench_branches | permanent   | btree         | 16 kB | 
+ public | pgbench_tellers_pkey  | index | tomas | pgbench_tellers  | permanent   | btree         | 16 kB | 
+(3 rows)
+

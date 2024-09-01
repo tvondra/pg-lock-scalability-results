@@ -1,0 +1,60 @@
+2024-08-07 16:41:11.186 CEST [3598989] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-07 16:41:11.186 CEST [3598989] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-07 16:41:11.186 CEST [3598989] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-07 16:41:11.187 CEST [3598989] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-07 16:41:11.189 CEST [3598992] LOG:  database system was shut down at 2024-08-07 16:41:10 CEST
+2024-08-07 16:41:11.192 CEST [3598989] LOG:  database system is ready to accept connections
+2024-08-08 11:20:08.036 CEST [1406016] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-08 11:20:08.036 CEST [1406016] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-08 11:20:08.036 CEST [1406016] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-08 11:20:08.038 CEST [1406016] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-08 11:20:08.040 CEST [1406019] LOG:  database system was interrupted; last known up at 2024-08-08 02:46:21 CEST
+2024-08-08 11:20:08.080 CEST [1406019] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-08 11:20:08.082 CEST [1406019] LOG:  redo starts at 0/3CBE37B8
+2024-08-08 11:20:08.082 CEST [1406019] LOG:  invalid record length at 0/3CBE38C0: expected at least 24, got 0
+2024-08-08 11:20:08.082 CEST [1406019] LOG:  redo done at 0/3CBE3888 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-08 11:20:08.085 CEST [1406017] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-08 11:20:08.094 CEST [1406017] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.001 s, total=0.010 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/3CBE38C0, redo lsn=0/3CBE38C0
+2024-08-08 11:20:08.095 CEST [1406016] LOG:  database system is ready to accept connections
+2024-08-08 16:59:38.361 CEST [3301160] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-08 16:59:38.361 CEST [3301160] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-08 16:59:38.361 CEST [3301160] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-08 16:59:38.363 CEST [3301160] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-08 16:59:38.366 CEST [3301163] LOG:  database system was interrupted; last known up at 2024-08-08 14:07:42 CEST
+2024-08-08 16:59:38.420 CEST [3301163] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-08 16:59:38.422 CEST [3301163] LOG:  redo starts at 5/86197DC0
+2024-08-08 16:59:38.422 CEST [3301163] LOG:  invalid record length at 5/86197F00: expected at least 24, got 0
+2024-08-08 16:59:38.422 CEST [3301163] LOG:  redo done at 5/86197EC8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-08 16:59:38.426 CEST [3301161] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-08 16:59:38.436 CEST [3301161] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.001 s, total=0.011 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=5/86197F00, redo lsn=5/86197F00
+2024-08-08 16:59:38.437 CEST [3301160] LOG:  database system is ready to accept connections
+2024-08-09 10:55:45.488 CEST [121159] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-09 10:55:45.489 CEST [121159] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 10:55:45.489 CEST [121159] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 10:55:45.490 CEST [121159] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 10:55:45.493 CEST [121162] LOG:  database system was shut down at 2024-08-09 05:26:21 CEST
+2024-08-09 10:55:45.497 CEST [121159] LOG:  database system is ready to accept connections
+2024-08-09 10:58:08.412 CEST [126109] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-09 10:58:08.412 CEST [126109] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 10:58:08.412 CEST [126109] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 10:58:08.413 CEST [126109] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 10:58:08.416 CEST [126113] LOG:  database system was interrupted; last known up at 2024-08-09 10:55:45 CEST
+2024-08-09 10:58:08.483 CEST [126113] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-09 10:58:08.486 CEST [126113] LOG:  redo starts at B/762F7DB8
+2024-08-09 10:58:08.487 CEST [126113] LOG:  invalid record length at B/7630F6E0: expected at least 24, got 0
+2024-08-09 10:58:08.487 CEST [126113] LOG:  redo done at B/7630F6A8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-09 10:58:08.493 CEST [126111] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-09 10:58:08.504 CEST [126111] LOG:  checkpoint complete: wrote 40 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.009 s, sync=0.002 s, total=0.012 s; sync files=7, longest=0.001 s, average=0.001 s; distance=94 kB, estimate=94 kB; lsn=B/7630F6E0, redo lsn=B/7630F6E0
+2024-08-09 10:58:08.506 CEST [126109] LOG:  database system is ready to accept connections
+2024-08-10 01:25:18.721 CEST [1732150] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-10 01:25:18.722 CEST [1732150] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 01:25:18.722 CEST [1732150] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 01:25:18.723 CEST [1732150] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 01:25:18.726 CEST [1732153] LOG:  database system was interrupted; last known up at 2024-08-10 01:21:33 CEST
+2024-08-10 01:25:18.781 CEST [1732153] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-10 01:25:18.783 CEST [1732153] LOG:  redo starts at B/9D151A50
+2024-08-10 01:25:18.783 CEST [1732153] LOG:  invalid record length at B/9D151A88: expected at least 24, got 0
+2024-08-10 01:25:18.783 CEST [1732153] LOG:  redo done at B/9D151A50 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-10 01:25:18.787 CEST [1732151] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-10 01:25:18.798 CEST [1732151] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.010 s, sync=0.001 s, total=0.012 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=B/9D151A88, redo lsn=B/9D151A88
+2024-08-10 01:25:18.799 CEST [1732150] LOG:  database system is ready to accept connections

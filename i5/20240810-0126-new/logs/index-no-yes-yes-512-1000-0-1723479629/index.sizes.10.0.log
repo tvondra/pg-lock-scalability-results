@@ -1,0 +1,13 @@
+                                       List of relations
+ Schema |   Name   |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+----------+----------+-------+-------------+---------------+------------+-------------
+ public | t        | table    | tomas | permanent   | heap          | 43 MB      | 
+ public | t_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+(2 rows)
+
+                                       List of relations
+ Schema |  Name  | Type  | Owner | Table | Persistence | Access method |  Size   | Description 
+--------+--------+-------+-------+-------+-------------+---------------+---------+-------------
+ public | t_pkey | index | tomas | t     | permanent   | btree         | 2208 kB | 
+(1 row)
+

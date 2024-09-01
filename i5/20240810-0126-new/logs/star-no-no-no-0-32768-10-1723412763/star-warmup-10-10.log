@@ -1,0 +1,13 @@
+pgbench (18devel)
+transaction type: /mnt/data/lock-scalability-test-2/20240810-0126-new/logs/star-no-no-no-0-32768-10-1723412763/star-10-10.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 32
+number of threads: 32
+maximum number of tries: 1
+duration: 10 s
+number of transactions actually processed: 307153
+number of failed transactions: 0 (0.000%)
+latency average = 1.044 ms
+initial connection time = 18.072 ms
+tps = 30658.930490 (without initial connection time)

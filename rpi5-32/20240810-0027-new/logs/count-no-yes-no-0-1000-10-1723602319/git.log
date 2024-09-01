@@ -1,0 +1,1000 @@
+commit da4017a694de0610bd5b3a54adda311e46e26300
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Sat Jul 27 15:38:54 2024 -0400
+
+    Doc: fix text's description of regexp_replace's arguments.
+    
+    Section 9.7.3 had a syntax synopsis for regexp_replace()
+    that was different from Table 9.10's, but still wrong.
+    Update that one too.  Oversight in 580f8727c.
+    
+    Jian He
+    
+    Discussion: https://postgr.es/m/CACJufxG3NFKKsh6x4fRLv8h3V-HvN4W5dA=zNKMxsNcDwOKang@mail.gmail.com
+
+commit 17a5871d9d58ea639b6d1ba4f0ce58462d55a33c
+Author: David Rowley <drowley@postgresql.org>
+Date:   Sat Jul 27 23:46:07 2024 +1200
+
+    Optimize escaping of JSON strings
+    
+    There were quite a few places where we either had a non-NUL-terminated
+    string or a text Datum which we needed to call escape_json() on.  Many of
+    these places required that a temporary string was created due to the fact
+    that escape_json() needs a NUL-terminated cstring.  For text types, those
+    first had to be converted to cstring before calling escape_json() on them.
+    
+    Here we introduce two new functions to make escaping JSON more optimal:
+    
+    escape_json_text() can be given a text Datum to append onto the given
+    buffer.  This is more optimal as it foregoes the need to convert the text
+    Datum into a cstring.  A temporary allocation is only required if the text
+    Datum needs to be detoasted.
+    
+    escape_json_with_len() can be used when the length of the cstring is
+    already known or the given string isn't NUL-terminated.  Having this
+    allows various places which were creating a temporary NUL-terminated
+    string to just call escape_json_with_len() without any temporary memory
+    allocations.
+    
+    Discussion: https://postgr.es/m/CAApHDvpLXwMZvbCKcdGfU9XQjGCDm7tFpRdTXuB9PVgpNUYfEQ@mail.gmail.com
+    Reviewed-by: Melih Mutlu, Heikki Linnakangas
+
+commit 67427f10093a9c50c79e1dbfdcd1698433e8a88f
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Sat Jul 27 13:53:16 2024 +0300
+
+    Support falling back to non-preferred readline implementation with meson
+    
+    To build with -Dreadline=enabled one can use either readline or
+    libedit. The -Dlibedit_preferred flag is supposed to control the order
+    of names to lookup.  This works fine when either both libraries are
+    present or -Dreadline is set to auto. However, explicitly enabling
+    readline with only libedit present, but not setting libedit_preferred,
+    or alternatively enabling readline with only readline present, but
+    setting libedit_preferred, too, are both broken. This is because
+    cc.find_library will throw an error for a not found dependency as soon
+    as the first required dependency is checked, thus it's impossible to
+    fallback to the alternative.
+    
+    Here we only check the second of the two dependencies for
+    requiredness, thus we only fail when none of the two can be found.
+    
+    Author: Wolfgang Walther
+    Reviewed-by: Nazir Bilal Yavuz, Alvaro Herrera, Peter Eisentraut
+    Reviewed-by: Tristan Partin
+    Discussion: https://www.postgresql.org/message-id/ca8f37e1-a2c3-40e2-91f6-59c3d3652ad4@technowledgy.de
+    Backpatch: 16-, where meson support was added
+
+commit ff34ae368bdb11f9f66e22a4d79e2a179b3a6f0e
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Sat Jul 27 13:53:14 2024 +0300
+
+    Support absolute bindir/libdir in regression tests with meson
+    
+    Passing an absolute bindir/libdir will install the binaries and
+    libraries to <build>/tmp_install/<bindir> and
+    <build>/tmp_install/<libdir> respectively.
+    
+    This path is correctly passed to the regression test suite via
+    configure/make, but not via meson, yet. This is because the "/"
+    operator in the following expression throws away the whole left side
+    when the right side is an absolute path:
+    
+        test_install_location / get_option('libdir')
+    
+    This was already correctly handled for dir_prefix, which is likely
+    absolute as well. This patch handles both bindir and libdir in the
+    same way - prefixing absolute paths with the tmp_install path
+    correctly.
+    
+    Author: Wolfgang Walther
+    Reviewed-by: Nazir Bilal Yavuz, Alvaro Herrera, Peter Eisentraut
+    Reviewed-by: Tristan Partin
+    Discussion: https://www.postgresql.org/message-id/ca8f37e1-a2c3-40e2-91f6-59c3d3652ad4@technowledgy.de
+    Backpatch: 16-, where meson support was added
+
+commit 4d8de281b5834c8f5e0be6ae21e884e69dffd4ce
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Sat Jul 27 13:53:11 2024 +0300
+
+    Fallback to clang in PATH with meson
+    
+    Some distributions put clang into a different path than the llvm
+    binary path.
+    
+    For example, this is the case on NixOS / nixpkgs, which failed to find
+    clang with meson before this patch.
+    
+    Author: Wolfgang Walther
+    Reviewed-by: Nazir Bilal Yavuz, Alvaro Herrera, Peter Eisentraut
+    Reviewed-by: Tristan Partin
+    Discussion: https://www.postgresql.org/message-id/ca8f37e1-a2c3-40e2-91f6-59c3d3652ad4@technowledgy.de
+    Backpatch: 16-, where meson support was added
+
+commit a00fae9d43e5adabc56e64a4df6d332062666501
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Sat Jul 27 13:53:08 2024 +0300
+
+    Fallback to uuid for ossp-uuid with meson
+    
+    The upstream name for the ossp-uuid package / pkg-config file is
+    "uuid". Many distributions change this to be "ossp-uuid" to not
+    conflict with e2fsprogs.
+    
+    This lookup fails on distributions which don't change this name, for
+    example NixOS / nixpkgs. Both "ossp-uuid" and "uuid" are also checked
+    in configure.ac.
+    
+    Author: Wolfgang Walther
+    Reviewed-by: Nazir Bilal Yavuz, Alvaro Herrera, Peter Eisentraut
+    Reviewed-by: Tristan Partin
+    Discussion: https://www.postgresql.org/message-id/ca8f37e1-a2c3-40e2-91f6-59c3d3652ad4@technowledgy.de
+    Backpatch: 16-, where meson support was added
+
+commit c9e24573905bef7fc3e4efb02bdb4d0cc8e43c51
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Sat Jul 27 07:16:52 2024 +0900
+
+    Fix more holes with SLRU code in need of int64 for segment numbers
+    
+    This is a continuation of 3937cadfd438, taking care of more areas I have
+    managed to miss previously.
+    
+    Reported-by: Noah Misch
+    Reviewed-by: Noah Misch
+    Discussion: https://postgr.es/m/20240724130059.1f.nmisch@google.com
+    Backpatch-through: 17
+
+commit 0dcaea56903489e8abedf231f286272495c3beb4
+Author: Nathan Bossart <nathan@postgresql.org>
+Date:   Fri Jul 26 15:28:55 2024 -0500
+
+    Introduce num_os_semaphores GUC.
+    
+    The documentation for System V IPC parameters provides complicated
+    formulas to determine the appropriate values for SEMMNI and SEMMNS.
+    Furthermore, these formulas have often been wrong because folks
+    forget to update them (e.g., when adding a new auxiliary process).
+    
+    This commit introduces a new runtime-computed GUC named
+    num_os_semaphores that reports the number of semaphores needed for
+    the configured number of allowed connections, worker processes,
+    etc.  This new GUC allows us to simplify the formulas in the
+    documentation, and it should help prevent future inaccuracies.
+    Like the other runtime-computed GUCs, users can view it with
+    "postgres -C" before starting the server, which is useful for
+    preconfiguring the necessary operating system resources.
+    
+    Reviewed-by: Tom Lane, Sami Imseih, Andres Freund, Robert Haas
+    Discussion: https://postgr.es/m/20240517164452.GA1914161%40nathanxps13
+
+commit 8a53539bd603e5fe8fa52bdbb7277f6f49724522
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Fri Jul 26 14:50:21 2024 -0400
+
+    Wait for WAL summarization to catch up before creating .partial file.
+    
+    When a standby is promoted, CleanupAfterArchiveRecovery() may decide
+    to rename the final WAL file from the old timeline by adding ".partial"
+    to the name. If WAL summarization is enabled and this file is renamed
+    before its partial contents are summarized, WAL summarization breaks:
+    the summarizer gets stuck at that point in the WAL stream and just
+    errors out.
+    
+    To fix that, first make the startup process wait for WAL summarization
+    to catch up before renaming the file. Generally, this should be quick,
+    and if it's not, the user can shut off summarize_wal and try again.
+    To make this fix work, also teach the WAL summarizer that after a
+    promotion has occurred, no more WAL can appear on the previous
+    timeline: previously, the WAL summarizer wouldn't switch to the new
+    timeline until we actually started writing WAL there, but that meant
+    that when the startup process was waiting for the WAL summarizer, it
+    was waiting for an action that the summarizer wasn't yet prepared to
+    take.
+    
+    In the process of fixing these bugs, I realized that the logic to wait
+    for WAL summarization to catch up was spread out in a way that made
+    it difficult to reuse properly, so this code refactors things to make
+    it easier.
+    
+    Finally, add a test case that would have caught this bug and the
+    previously-fixed bug that WAL summarization sometimes needs to back up
+    when the timeline changes.
+    
+    Discussion: https://postgr.es/m/CA+TgmoZGEsZodXC4f=XZNkAeyuDmWTSkpkjCEOcF19Am0mt_OA@mail.gmail.com
+
+commit 454aab4b738e53a5dbfca9251a7807a2ad21f87e
+Author: Fujii Masao <fujii@postgresql.org>
+Date:   Sat Jul 27 03:05:47 2024 +0900
+
+    postgres_fdw: Fix bug in connection status check.
+    
+    The buildfarm member "hake" reported a failure in the regression test
+    added by commit 857df3cef7, where postgres_fdw_get_connections(true)
+    returned unexpected results.
+    
+    The function postgres_fdw_get_connections(true) checks
+    if a connection is closed by using POLLRDHUP in the requested events
+    and calling poll(). Previously, the function only considered
+    POLLRDHUP or 0 as valid returned events. However, poll() can also
+    return POLLHUP, POLLERR, and/or POLLNVAL. So if any of these events
+    were returned, postgres_fdw_get_connections(true) would report
+    incorrect results. postgres_fdw_get_connections(true) failed to
+    account for these return events.
+    
+    This commit updates postgres_fdw_get_connections(true) to correctly
+    report a closed connection when poll() returns not only POLLRDHUP
+    but also POLLHUP, POLLERR, or POLLNVAL.
+    
+    Discussion: https://postgr.es/m/fd8f6186-9e1e-4b9a-92c5-e71e3697d381@oss.nttdata.com
+
+commit 4b56bb4ab4856070d5ea4aeafdd663d8bf96b874
+Author: Nathan Bossart <nathan@postgresql.org>
+Date:   Fri Jul 26 13:37:32 2024 -0500
+
+    pg_upgrade: Move live_check variable to user_opts.
+    
+    At the moment, pg_upgrade stores whether it is doing a "live check"
+    (i.e., the user specified --check and the old server is still
+    running) in a local variable scoped to main().  This live_check
+    variable is passed to several functions.  To further complicate
+    matters, a few call sites provide a hard-coded "false" as the
+    live_check argument.  Specifically, this is done when calling these
+    functions for the new cluster, for which any live-check-only paths
+    won't apply.
+    
+    This commit moves the live_check variable to the global user_opts
+    variable, which stores information about the options the user
+    specified on the command line.  This allows us to remove the
+    live_check parameter from several functions.  For the functions
+    with callers that provide a hard-coded "false" as the live_check
+    argument (e.g., get_control_data()), we verify the given cluster is
+    the old cluster before taking any live-check-only paths.
+    
+    This small refactoring effort helps simplify some proposed changes
+    that would parallelize many of pg_upgrade's once-in-each-database
+    tasks using libpq's asynchronous APIs.  By removing the live_check
+    parameter, we can more easily convert the functions to callbacks
+    for the new parallel system.
+    
+    Reviewed-by: Daniel Gustafsson
+    Discussion: https://postgr.es/m/20240516211638.GA1688936%40nathanxps13
+
+commit 5d1d8b3c82c2a796bf7d89f2a5785ce9424acab1
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Fri Jul 26 12:39:45 2024 -0400
+
+    Clarify error message and documentation related to typed tables.
+    
+    We restrict typed tables (those declared as "OF composite_type")
+    to be based on stand-alone composite types, not composite types
+    that are the implicitly-created rowtypes of other tables.
+    But if you tried to do that, you got the very confusing error
+    message "type foo is not a composite type".  Provide a more specific
+    message for that case.  Also clarify related documentation in the
+    CREATE TABLE man page.
+    
+    Erik Wienhold and David G. Johnston, per complaint from Hannu Krosing.
+    
+    Discussion: https://postgr.es/m/CAMT0RQRysCb_Amy5CTENSc5GfsvXL1a4qX3mv_hx31_v74P==g@mail.gmail.com
+
+commit c883453cb29cb40c1e59c3c54d159c5e744da8a9
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Fri Jul 26 11:59:34 2024 -0400
+
+    Fix indentation.
+
+commit 161c73462bf2b9845371d785eac21e32f8fdcae0
+Author: Daniel Gustafsson <dgustafsson@postgresql.org>
+Date:   Fri Jul 26 16:25:28 2024 +0200
+
+    Fix macro placement in pg_config.h.in
+    
+    Commit 274bbced85383e831dde accidentally placed the pg_config.h.in
+    for SSL_CTX_set_num_tickets on the wrong line wrt where autoheader
+    places it.  Fix by re-arranging and backpatch to the same level as
+    the original commit.
+    
+    Reported-by: Marina Polyakova <m.polyakova@postgrespro.ru>
+    Discussion: https://postgr.es/m/48cebe8c3eaf308bae253b1dbf4e4a75@postgrespro.ru
+    Backpatch-through: v12
+
+commit cf8a4898360bbb70a0f9eec7bac8bcb4fcb7aa42
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Fri Jul 26 09:50:31 2024 -0400
+
+    Allow WAL summarization to back up when timeline changes.
+    
+    The old code believed that it was not possible to switch timelines
+    without first replaying all of the WAL from the old timeline, but
+    that turns out to be false, as demonstrated by an example from Fujii
+    Masao. As a result, it assumed that summarization would always
+    continue from the LSN where summarization previously ended. But in
+    fact, when a timeline switch occurs without replaying all the WAL
+    from the previous timeline, we can need to back up to an earlier
+    LSN. Adjust accordingly.
+    
+    Discussion: https://postgr.es/m/CA+TgmoZGEsZodXC4f=XZNkAeyuDmWTSkpkjCEOcF19Am0mt_OA@mail.gmail.com
+
+commit 857df3cef7be93f7b9214c926e7af6f06a8cf23e
+Author: Fujii Masao <fujii@postgresql.org>
+Date:   Fri Jul 26 22:16:39 2024 +0900
+
+    postgres_fdw: Add connection status check to postgres_fdw_get_connections().
+    
+    This commit extends the postgres_fdw_get_connections() function
+    to check if connections are closed. This is useful for detecting closed
+    postgres_fdw connections that could prevent successful transaction
+    commits. Users can roll back transactions immediately upon detecting
+    closed connections, avoiding unnecessary processing of failed
+    transactions.
+    
+    This feature is available only on systems supporting the non-standard
+    POLLRDHUP extension to the poll system call, including Linux.
+    
+    Author: Hayato Kuroda
+    Reviewed-by: Shinya Kato, Zhihong Yu, Kyotaro Horiguchi, Andres Freund
+    Reviewed-by: Onder Kalaci, Takamichi Osumi, Vignesh C, Tom Lane, Ted Yu
+    Reviewed-by: Katsuragi Yuta, Peter Smith, Shubham Khanna, Fujii Masao
+    Discussion: https://postgr.es/m/TYAPR01MB58662809E678253B90E82CE5F5889@TYAPR01MB5866.jpnprd01.prod.outlook.com
+
+commit c297a47c5f8da78d976e8c3f790dbeeb6a21a853
+Author: Fujii Masao <fujii@postgresql.org>
+Date:   Fri Jul 26 22:15:51 2024 +0900
+
+    postgres_fdw: Add "used_in_xact" column to postgres_fdw_get_connections().
+    
+    This commit extends the postgres_fdw_get_connections() function to
+    include a new used_in_xact column, indicating whether each connection
+    is used in the current transaction.
+    
+    This addition is particularly useful for the upcoming feature that
+    will check if connections are closed. By using those information,
+    users can verify if postgres_fdw connections used in a transaction
+    remain open. If any connection is closed, the transaction cannot
+    be committed successfully. In this case users can roll back it
+    immediately without waiting for transaction end.
+    
+    The SQL API for postgres_fdw_get_connections() is updated by
+    this commit and may change in the future. To handle compatibility
+    with older SQL declarations, an API versioning system is introduced,
+    allowing the function to behave differently based on the API version.
+    
+    Author: Hayato Kuroda
+    Reviewed-by: Fujii Masao
+    Discussion: https://postgr.es/m/be9382f7-5072-4760-8b3f-31d6dffa8d62@oss.nttdata.com
+
+commit 5687f8c0dd766acb15587a0af8b5208aa3841b21
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Fri Jul 26 14:45:13 2024 +0200
+
+    pg_createsubscriber: Message style improvements
+    
+    Refactor some messages, improve quoting.
+
+commit ef7fa900fb587cbaac9f3e943f789155b97aa02b
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Fri Jul 26 15:12:23 2024 +0300
+
+    Add tests for errors during SSL or GSSAPI handshake
+    
+    These test that libpq correctly falls back to a plaintext connection
+    on handshake error, in the "prefer" modes.
+    
+    Reviewed-by: Michael Paquier
+    Discussion: https://www.postgresql.org/message-id/CAOYmi%2Bnwvu21mJ4DYKUa98HdfM_KZJi7B1MhyXtnsyOO-PB6Ww%40mail.gmail.com
+
+commit 20e0e7da9bc0089433c70b2b53ddf6a340ab5df3
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Fri Jul 26 15:12:21 2024 +0300
+
+    Add test for early backend startup errors
+    
+    The new test tests the libpq fallback behavior on an early error,
+    which was fixed in the previous commit.
+    
+    This adds an IS_INJECTION_POINT_ATTACHED() macro, to allow writing
+    injected test code alongside the normal source code. In principle, the
+    new test could've been implemented by an extra test module with a
+    callback that sets the FrontendProtocol global variable, but I think
+    it's more clear to have the test code right where the injection point
+    is, because it has pretty intimate knowledge of the surrounding
+    context it runs in.
+    
+    Reviewed-by: Michael Paquier
+    Discussion: https://www.postgresql.org/message-id/CAOYmi%2Bnwvu21mJ4DYKUa98HdfM_KZJi7B1MhyXtnsyOO-PB6Ww%40mail.gmail.com
+
+commit b9e5249c29354186576d8fc00609fe7eaf7c8d25
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Fri Jul 26 14:55:04 2024 +0300
+
+    Fix using injection points at backend startup in EXEC_BACKEND mode
+    
+    Commit 86db52a506 changed the locking of injection points to use only
+    atomic ops and spinlocks, to make it possible to define injection
+    points in processes that don't have a PGPROC entry (yet). However, it
+    didn't work in EXEC_BACKEND mode, because the pointer to shared memory
+    area was not initialized until the process "attaches" to all the
+    shared memory structs. To fix, pass the pointer to the child process
+    along with other global variables that need to be set up early.
+    
+    Backpatch-through: 17
+
+commit c95d2159c1dd3f269383a9bd830e1c804dba34c8
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Fri Jul 26 14:52:08 2024 +0300
+
+    Fix fallback behavior when server sends an ERROR early at startup
+    
+    With sslmode=prefer, the desired behavior is to completely fail the
+    connection attempt, *not* fall back to a plaintext connection, if the
+    server responds to the SSLRequest with an error ('E') response instead
+    of rejecting SSL with an 'N' response. This was broken in commit
+    05fd30c0e7.
+    
+    Reported-by: Jacob Champion
+    Reviewed-by: Michael Paquier
+    Discussion: https://www.postgresql.org/message-id/CAOYmi%2Bnwvu21mJ4DYKUa98HdfM_KZJi7B1MhyXtnsyOO-PB6Ww%40mail.gmail.com
+    Backpatch-through: 17
+
+commit 284c030a10b838bb016e8c2de56ae9b845a6b30e
+Author: Fujii Masao <fujii@postgresql.org>
+Date:   Fri Jul 26 20:47:05 2024 +0900
+
+    doc: Enhance documentation for postgres_fdw_get_connections() output columns.
+    
+    The documentation previously described the output columns of
+    postgres_fdw_get_connections() in text format, which was manageable
+    for the original two columns. However, upcoming patches will add
+    new columns, making text descriptions less readable.
+    
+    This commit updates the documentation to use a table format,
+    making it easier for users to understand each output column.
+    
+    Author: Fujii Masao, Hayato Kuroda
+    Reviewed-by: Hayato Kuroda
+    Discussion: https://postgr.es/m/d04aae8d-05f5-42f4-a263-b962334d9f75@oss.nttdata.com
+
+commit 274bbced85383e831ddeb9d83a8af74c4992e7a1
+Author: Daniel Gustafsson <dgustafsson@postgresql.org>
+Date:   Fri Jul 26 11:09:45 2024 +0200
+
+    Disable all TLS session tickets
+    
+    OpenSSL supports two types of session tickets for TLSv1.3, stateless
+    and stateful. The option we've used only turns off stateless tickets
+    leaving stateful tickets active. Use the new API introduced in 1.1.1
+    to disable all types of tickets.
+    
+    Backpatch to all supported versions.
+    
+    Reviewed-by: Heikki Linnakangas <hlinnaka@iki.fi>
+    Reported-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://postgr.es/m/20240617173803.6alnafnxpiqvlh3g@awork3.anarazel.de
+    Backpatch-through: v12
+
+commit 6f9a62b454e8d36f57d54efa141c464f69ce9206
+Author: Amit Langote <amitlan@postgresql.org>
+Date:   Fri Jul 26 16:38:46 2024 +0900
+
+    SQL/JSON: Remove useless code in ExecInitJsonExpr()
+    
+    The code was for adding an unconditional JUMP to the next step,
+    which is unnecessary processing.
+    
+    Reported-by: Jian He <jian.universality@gmail.com>
+    Discussion: https://postgr.es/m/CACJufxEo4sUjKCYtda0_qt9tazqqKPmF1cqhW9KBOUeJFqQd2g@mail.gmail.com
+    Backpatch-through: 17
+
+commit 4fc6a555606de003690d46e900339e78214ee363
+Author: Amit Langote <amitlan@postgresql.org>
+Date:   Fri Jul 26 16:08:13 2024 +0900
+
+    SQL/JSON: Respect OMIT QUOTES when RETURNING domains over jsonb
+    
+    populate_domain() didn't take into account the omit_quotes flag passed
+    down to json_populate_type() by ExecEvalJsonCoercion() and that led
+    to incorrect behavior when the RETURNING type is a domain over
+    jsonb.  Fix that by passing the flag by adding a new function
+    parameter to populate_domain().
+    
+    Reported-by: Jian He <jian.universality@gmail.com>
+    Discussion: https://postgr.es/m/CACJufxEo4sUjKCYtda0_qt9tazqqKPmF1cqhW9KBOUeJFqQd2g@mail.gmail.com
+    Backpatch-through: 17
+
+commit 231b7d670b218d6a5cde0574cf160c8157ab91fb
+Author: Amit Langote <amitlan@postgresql.org>
+Date:   Fri Jul 26 16:00:16 2024 +0900
+
+    SQL/JSON: Improve error-handling of JsonBehavior expressions
+    
+    Instead of returning a NULL when the JsonBehavior expression value
+    could not be coerced to the RETURNING type, throw the error message
+    informing the user that it is the JsonBehavior expression that caused
+    the error with the actual coercion error message shown in its DETAIL
+    line.
+    
+    Discussion: https://postgr.es/m/CACJufxEo4sUjKCYtda0_qt9tazqqKPmF1cqhW9KBOUeJFqQd2g@mail.gmail.com
+    Backpatch-through: 17
+
+commit 63e6c5f4a2eeb22e0dd446a62c2b4b417d2b51f0
+Author: Amit Langote <amitlan@postgresql.org>
+Date:   Fri Jul 26 15:59:27 2024 +0900
+
+    SQL/JSON: Fix error-handling of some JsonBehavior expressions
+    
+    To ensure that the errors of executing a JsonBehavior expression that
+    is coerced in the parser are caught instead of being thrown directly,
+    pass ErrorSaveContext to ExecInitExprRec() when initializing it.
+    Also, add a EEOP_JSONEXPR_COERCION_FINISH step to handle the errors
+    that are caught that way.
+    
+    Discussion: https://postgr.es/m/CACJufxEo4sUjKCYtda0_qt9tazqqKPmF1cqhW9KBOUeJFqQd2g@mail.gmail.com
+    Backpatch-through: 17
+
+commit c7301c3b6fe2feaf96d52cbf35a85ac6b95374dc
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Thu Jul 25 19:52:08 2024 -0400
+
+    Doc: fix misleading syntax synopses for targetlists.
+    
+    In the syntax synopses for SELECT, INSERT, UPDATE, etc,
+    SELECT ... and RETURNING ... targetlists were missing { ... }
+    braces around an OR (|) operator.  That allows misinterpretation
+    which could lead to confusion.
+    
+    David G. Johnston, per gripe from masondeanm@aol.com.
+    
+    Discussion: https://postgr.es/m/172193970148.915373.2403176471224676074@wrigleys.postgresql.org
+
+commit e458dc1ac8388b33e3ce6b971d8de2721dd73870
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Thu Jul 25 16:38:19 2024 -0400
+
+    Doc: update some HTTP links to point to canonical URLs.
+    
+    These aren't actually broken at present, but we might as well
+    avoid redirects.
+    
+    Joel Jacobson
+    
+    Discussion: https://postgr.es/m/8ccc96c7-0515-491b-be98-cfacdaeda815@app.fastmail.com
+
+commit 744ddc6c6a0fa5d4d6d0e187cadcc632daaefc0e
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Thu Jul 25 15:45:06 2024 -0400
+
+    Document restrictions regarding incremental backups and standbys.
+    
+    If you try to take an incremental backup on a standby and there hasn't
+    been much system activity, it might fail. Document why this happens.
+    Also add a hint to the error message you get, to make it more likely
+    that users will understand what has gone wrong.
+    
+    Laurenz Albe and Robert Haas
+    
+    Discussion: https://postgr.es/m/5468641ad821dad7aa3b2d65bf843146443a1b68.camel@cybertec.at
+
+commit 580f8727ca93b7b9a2ce49746b9cdbcb0a2b4a7e
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Thu Jul 25 14:51:46 2024 -0400
+
+    Add argument names to the regexp_XXX functions.
+    
+    This change allows these functions to be called using named-argument
+    notation, which can be helpful for readability, particularly for
+    the ones with many arguments.
+    
+    There was considerable debate about exactly which names to use,
+    but in the end we settled on the names already shown in our
+    documentation table 9.10.
+    
+    The citext extension provides citext-aware versions of some of
+    these functions, so add argument names to those too.
+    
+    In passing, fix table 9.10's syntax synopses for regexp_match,
+    which were slightly wrong about which combinations of arguments
+    are allowed.
+    
+    Jian He, reviewed by Dian Fay and others
+    
+    Discussion: https://postgr.es/m/CACJufxG3NFKKsh6x4fRLv8h3V-HvN4W5dA=zNKMxsNcDwOKang@mail.gmail.com
+
+commit 05faf06e9c21f012355e7095435a5bfb013f5eec
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Jul 25 15:25:42 2024 +0200
+
+    pg_createsubscriber: Message improvements
+    
+    Objects are typically "in" a database, not "on".
+
+commit 88e3da5658c55d49522f01694dc43ad177987f43
+Author: Daniel Gustafsson <dgustafsson@postgresql.org>
+Date:   Thu Jul 25 15:03:50 2024 +0200
+
+    pg_upgrade: Remove unused macro
+    
+    Commit f06b1c598 removed validate_exec from pg_upgrade and instead
+    exported it from src/common, but the macro for checking executable
+    suffix on Windows was accidentally left.  Fix by removing.
+    
+    Author: Alexander Lakhin <exclusion@gmail.com>
+    Discussion: https://postgr.es/m/c1d63754-cb85-2d8a-8409-bde2c4d2d04b@gmail.com
+
+commit cc59f9d0ff27bc63b41992e04afc67f7efe44019
+Author: Daniel Gustafsson <dgustafsson@postgresql.org>
+Date:   Thu Jul 25 14:27:01 2024 +0200
+
+    pgcrypto: Remove unused binary from clean target
+    
+    Generation of the gen-rtab binary was removed in db7d1a7b0 but it
+    was accidentally left in the cleaning target.  Remove since it is
+    no longer built.
+    
+    Author: Alexander Lakhin <exclusion@gmail.com>
+    Discussion: https://postgr.es/m/c1d63754-cb85-2d8a-8409-bde2c4d2d04b@gmail.com
+
+commit c5c71830267b42098add2862df4b15bc25ae0103
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Jul 25 11:38:05 2024 +0200
+
+    Remove useless unconstify() call
+    
+    This should have been part of 67c0ef9752 but was apparently forgotten
+    there.
+
+commit 37c6923cf3d8ec1bd44924aab6f58f72754a0e7b
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Wed Jul 24 06:21:40 2024 +0200
+
+    Fix -Wmissing-variable-declarations warnings for float.c special case
+    
+    This adds extern declarations for the global variables defined in
+    float.c but not meant for external use.  This is a workaround to be
+    able to add -Wmissing-variable-declarations to the global set of
+    warning options in the near future.
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit ab61c40bfa2ba1887fee304b2ef5306a14a7248c
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Jul 25 09:26:08 2024 +0200
+
+    Add extern declarations for Bison global variables
+    
+    This adds extern declarations for some global variables produced by
+    Bison that are not already declared in its generated header file.
+    This is a workaround to be able to add -Wmissing-variable-declarations
+    to the global set of warning options in the near future.
+    
+    Another longer-term solution would be to convert these grammars to
+    "pure" parsers in Bison, to avoid global variables altogether.  Note
+    that the core grammar is already pure, so this patch did not need to
+    touch it.
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit 32d3ed8165f821f6994c95230a9a4b2ff0ce9f12
+Author: David Rowley <drowley@postgresql.org>
+Date:   Thu Jul 25 15:03:28 2024 +1200
+
+    Add path column to pg_backend_memory_contexts view
+    
+    "path" provides a reliable method of determining the parent/child
+    relationships between memory contexts.  Previously this could be done in
+    a non-reliable way by writing a recursive query and joining the "parent"
+    and "name" columns.  This wasn't reliable as the names were not unique,
+    which could result in joining to the wrong parent.
+    
+    To make this reliable, "path" stores an array of numerical identifiers
+    starting with the identifier for TopLevelMemoryContext.  It contains an
+    element for each intermediate parent between that and the current context.
+    
+    Incompatibility: Here we also adjust the "level" column to make it
+    1-based rather than 0-based.  A 1-based level provides a convenient way
+    to access elements in the "path" array. e.g. path[level] gives the
+    identifier for the current context.
+    
+    Identifiers are not stable across multiple evaluations of the view.  In
+    an attempt to make these more stable for ad-hoc queries, the identifiers
+    are assigned breadth-first.  Contexts closer to TopLevelMemoryContext
+    are less likely to change between queries and during queries.
+    
+    Author: Melih Mutlu <m.melihmutlu@gmail.com>
+    Discussion: https://postgr.es/m/CAGPVpCThLyOsj3e_gYEvLoHkr5w=tadDiN_=z2OwsK3VJppeBA@mail.gmail.com
+    Reviewed-by: Andres Freund, Stephen Frost, Atsushi Torikoshi,
+    Reviewed-by: Michael Paquier, Robert Haas, David Rowley
+
+commit 64c39bd5047e6ee045bbc80ea1399feb59cd2b53
+Author: Thomas Munro <tmunro@postgresql.org>
+Date:   Thu Jul 25 14:46:01 2024 +1200
+
+    ci: Pin MacPorts version to 2.9.3.
+    
+    Commit d01ce180 invented a new way to find the latest MacPorts version.
+    By bad luck, a new beta release has just been published, and it seems
+    to lack some packages we need.  Go back to searching for this specific
+    version for now.  We still search with a pattern so that we can find the
+    package for the running version of macOS, but for now we always look for
+    2.9.3.  The code to do that had been anticipated already in a commented
+    out line, I just didn't expect to have to use it so soon...
+    
+    Also include the whole MacPorts installation script in the cache key, so
+    that changes to the script cause a fresh installation.  This should make
+    it a bit easier to reason about the effect of changes on cached state in
+    github accounts using CI, when we make adjustments.
+    
+    Back-patch to 15, like d01ce180.
+    
+    Discussion: https://postgr.es/m/CA%2BhUKGLqJdv6RcwyZ_0H7khxtLTNJyuK%2BvDFzv3uwYbn8hKH6A%40mail.gmail.com
+
+commit b8aa44fd4f86ed1ba5798ad360423555865c437c
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Thu Jul 25 10:59:49 2024 +0900
+
+    doc: Decorate psql page with application markup tags
+    
+    Noticed while looking at this area of the documentation for a separate
+    patch.
+
+commit d01ce180d9b5f0656d499840e138ab9ae9f8bf76
+Author: Thomas Munro <tmunro@postgresql.org>
+Date:   Thu Jul 25 11:26:48 2024 +1200
+
+    ci: Upgrade macOS version from 13 to 14.
+    
+    1.  Previously we were using ghcr.io/cirruslabs/macos-XXX-base:latest
+    images, but Cirrus has started ignoring that and using a particular
+    image, currently ghcr.io/cirruslabs/macos-runner:sonoma, for github
+    accounts using free CI resources (as opposed to dedicated runner
+    machines, as cfbot uses).  Let's just ask for that image anyway, to stay
+    in sync.
+    
+    2.  Instead of hard-coding a MacPorts installation URL, deduce it from
+    the running macOS version and the available releases.  This removes the
+    need to keep the ci_macports_packages.sh in sync with .cirrus.task.yml,
+    and to advance the MacPorts version from time to time.
+    
+    3.  Change the cache key we use to cache the whole macports installation
+    across builds to include the OS major version, to trigger a fresh
+    installation when appropriate.
+    
+    Back-patch to 15 where CI began.
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://postgr.es/m/CA%2BhUKGLqJdv6RcwyZ_0H7khxtLTNJyuK%2BvDFzv3uwYbn8hKH6A%40mail.gmail.com
+
+commit 364509a2e7f92785407348ec702e39729fda6cf8
+Author: Nathan Bossart <nathan@postgresql.org>
+Date:   Wed Jul 24 11:30:33 2024 -0500
+
+    pg_upgrade: Retrieve subscription count more efficiently.
+    
+    Presently, pg_upgrade obtains the number of subscriptions in the
+    to-be-upgraded cluster by first querying pg_subscription in every
+    database for the number of subscriptions in only that database.
+    Then, in count_old_cluster_subscriptions(), it adds all the values
+    collected in the first step.  This is expensive, especially when
+    there are many databases.
+    
+    Fortunately, there is a better way to retrieve the subscription
+    count.  Since pg_subscription is a shared catalog, we only need to
+    connect to a single database and query it once.  This commit
+    modifies pg_upgrade to use that approach, which also allows us to
+    trim several lines of code.  In passing, move the call to
+    get_db_subscription_count(), which has been renamed to
+    get_subscription_count(), from get_db_rel_and_slot_infos() to the
+    dedicated >= v17 section in check_and_dump_old_cluster().
+    
+    We may be able to make similar improvements to
+    get_old_cluster_logical_slot_infos(), but that is left as a future
+    exercise.
+    
+    Reviewed-by: Michael Paquier, Amit Kapila
+    Discussion: https://postgr.es/m/ZprQJv_TxccN3tkr%40nathan
+    Backpatch-through: 17
+
+commit 9f21482fe189c3b6193e9a7c3c50518a8a805165
+Author: Alvaro Herrera <alvherre@alvh.no-ip.org>
+Date:   Wed Jul 24 14:13:55 2024 +0200
+
+    Fix a missing article in the documentation
+    
+    Per complaint from Grant Gryczan.
+    
+    It's a very old typo; backpatch all the way back.
+    
+    Author: Laurenz Albe <laurenz.albe@cybertec.at>
+    Discussion: https://postgr.es/m/172179789219.915368.16590585529628354757@wrigleys.postgresql.org
+
+commit 97f2bc5aa531e32e91c7f27aeaeb87a07e13e822
+Author: Fujii Masao <fujii@postgresql.org>
+Date:   Wed Jul 24 20:54:51 2024 +0900
+
+    pg_stat_statements: Add regression test for privilege handling.
+    
+    This commit adds a regression test to verify that pg_stat_statements
+    correctly handles privileges, improving its test coverage.
+    
+    Author: Keisuke Kuroda
+    Reviewed-by: Michael Paquier, Fujii Masao
+    Discussion: https://postgr.es/m/2224ccf2e12c41ccb81702ef3303d5ac@nttcom.co.jp
+
+commit 3dd637f3d5997eb5ef3ccf8787e6fa091d93cd0c
+Author: Alvaro Herrera <alvherre@alvh.no-ip.org>
+Date:   Wed Jul 24 12:38:18 2024 +0200
+
+    Reset relhassubclass upon attaching table as a partition
+    
+    We don't allow inheritance parents as partitions, and have checks to
+    prevent this; but if a table _was_ in the past an inheritance parents
+    and all their children are removed, the pg_class.relhassubclass flag
+    may remain set, which confuses the partition pruning code (most
+    obviously, it results in an assertion failure; in production builds it
+    may be worse.)
+    
+    Fix by resetting relhassubclass on attach.
+    
+    Backpatch to all supported versions.
+    
+    Reported-by: Alexander Lakhin <exclusion@gmail.com>
+    Reviewed-by: Tom Lane <tgl@sss.pgh.pa.us>
+    Discussion: https://postgr.es/m/18550-d5e047e9a897a889@postgresql.org
+
+commit 07fbecb87b16bd52b5bfe6e0ab8a1960734eb04d
+Author: Amit Kapila <akapila@postgresql.org>
+Date:   Wed Jul 24 14:24:45 2024 +0530
+
+    Doc: Fix the mistakes in the subscription's failover option.
+    
+    The documentation incorrectly stated that users could not alter the
+    subscription's failover option when the two-phase commit is enabled.
+    
+    The steps to confirm that the standby server is ready for failover were
+    incorrect.
+    
+    Author: Shveta Malik, Hou Zhijie
+    Reviewed-by: Amit Kapila
+    Discussion: https://postgr.es/m/OS0PR01MB571657B72F8D75BD858DCCE394AD2@OS0PR01MB5716.jpnprd01.prod.outlook.com
+    Discussion: https://postgr.es/m/CAJpy0uBBk+OZXXqQ00Gai09XR+mDi2=9sMBYY0F+BedoFivaMA@mail.gmail.com
+
+commit f6bef362cac8c47137f9786171eaee5a95fb538b
+Author: Thomas Munro <tmunro@postgresql.org>
+Date:   Wed Jul 24 17:24:59 2024 +1200
+
+    Refactor tidstore.c iterator buffering.
+    
+    Previously, TidStoreIterateNext() would expand the set of offsets for
+    each block into an internal buffer that it overwrote each time.  In
+    order to be able to collect the offsets for multiple blocks before
+    working with them, change the contract.  Now, the offsets are obtained
+    by a separate call to TidStoreGetBlockOffsets(), which can be called at
+    a later time.  TidStoreIteratorResult objects are safe to copy and store
+    in a queue.
+    
+    Reviewed-by: Noah Misch <noah@leadboat.com>
+    Discussion: https://postgr.es/m/CAAKRu_bbkmwAzSBgnezancgJeXrQZXy4G4kBTd+5=cr86H5yew@mail.gmail.com
+
+commit 1462aad2e4474ab61174f8ab00992cd3d6d57c7b
+Author: Amit Kapila <akapila@postgresql.org>
+Date:   Wed Jul 24 10:13:36 2024 +0530
+
+    Allow altering of two_phase option of a SUBSCRIPTION.
+    
+    The two_phase option is controlled by both the publisher (as a slot
+    option) and the subscriber (as a subscription option), so the slot option
+    must also be modified.
+    
+    Changing the 'two_phase' option for a subscription from 'true' to 'false'
+    is permitted only when there are no pending prepared transactions
+    corresponding to that subscription. Otherwise, the changes of already
+    prepared transactions can be replicated again along with their corresponding
+    commit leading to duplicate data or errors.
+    
+    To avoid data loss, the 'two_phase' option for a subscription can only be
+    changed from 'false' to 'true' once the initial data synchronization is
+    completed. Therefore this is performed later by the logical replication worker.
+    
+    Author: Hayato Kuroda, Ajin Cherian, Amit Kapila
+    Reviewed-by: Peter Smith, Hou Zhijie, Amit Kapila, Vitaly Davydov, Vignesh C
+    Discussion: https://postgr.es/m/8fab8-65d74c80-1-2f28e880@39088166
+
+commit 774d47b6c01a8b8111ae390b97343f25ebdf9267
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Wed Jul 24 06:21:39 2024 +0200
+
+    Move all extern declarations for GUC variables to header files
+    
+    Add extern declarations in appropriate header files for global
+    variables related to GUC.  In many cases, this was handled quite
+    inconsistently before, with some GUC variables declared in a header
+    file and some only pulled in via ad-hoc extern declarations in various
+    .c files.
+    
+    Also add PGDLLIMPORT qualifications to those variables.  These were
+    previously missing because src/tools/mark_pgdllimport.pl has only been
+    used with header files.
+    
+    This also fixes -Wmissing-variable-declarations warnings for GUC
+    variables (not yet part of the standard warning options).
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit 991f8cf8abe244547093ddffcc4b9209076f3525
+Author: Nathan Bossart <nathan@postgresql.org>
+Date:   Tue Jul 23 21:59:02 2024 -0500
+
+    Detect integer overflow in array_set_slice().
+    
+    When provided an empty initial array, array_set_slice() fails to
+    check for overflow when computing the new array's dimensions.
+    While such overflows are ordinarily caught by ArrayGetNItems(),
+    commands with the following form are accepted:
+    
+            INSERT INTO t (i[-2147483648:2147483647]) VALUES ('{}');
+    
+    To fix, perform the hazardous computations using overflow-detecting
+    arithmetic routines.  As with commit 18b585155a, the added test
+    cases generate errors that include a platform-dependent value, so
+    we again use psql's VERBOSITY parameter to suppress printing the
+    message text.
+    
+    Reported-by: Alexander Lakhin
+    Author: Joseph Koshakow
+    Reviewed-by: Jian He
+    Discussion: https://postgr.es/m/31ad2cd1-db94-bdb3-f91a-65ffdb4bef95%40gmail.com
+    Backpatch-through: 12
+
+commit d3cc5ffe81f64c6418ba9b18a9db32392f8027e6
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Tue Jul 23 14:58:30 2024 +0200
+
+    Move extern declarations for EXEC_BACKEND to header files
+    
+    This fixes warnings from -Wmissing-variable-declarations (not yet part
+    of the standard warning options) under EXEC_BACKEND.  The
+    NON_EXEC_STATIC variables need a suitable declaration in a header file
+    under EXEC_BACKEND.
+    
+    Also fix the inconsistent application of the volatile qualifier for
+    PMSignalState, which was revealed by this change.
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit 840b3b5b4ee90ce8b692519e534dfb015d89fe8f
+Author: Noah Misch <noah@leadboat.com>
+Date:   Tue Jul 23 05:32:03 2024 -0700
+
+    Fix private struct field name to match the code using it.
+    
+    Commit 8720a15e9ab121e49174d889eaeafae8ac89de7b added the wrong name.
+    
+    Nazir Bilal Yavuz
+    
+    Discussion: https://postgr.es/m/20240720181405.5a.nmisch@google.com
+
+commit 3937cadfd4383fd32f3fd8d8dc5efc32b3d12664
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Tue Jul 23 17:59:05 2024 +0900
+
+    Use more consistently int64 for page numbers in SLRU-related code
+    
+    clog.c, async.c and predicate.c included some SLRU page numbers still
+    handled as 4-byte integers, while int64 should be used for this purpose.
+    
+    These holes have been introduced in 4ed8f0913bfd, that has introduced
+    the use of 8-byte integers for SLRU page numbers, still forgot about the
+    code paths updated by this commit.
+    
+    Reported-by: Noah Misch
+    Author: Aleksander Alekseev, Michael Paquier
+    Discussion: https://postgr.es/m/20240626002747.dc.nmisch@google.com
+    Backpatch-through: 17
+
+commit f68d85bf69233ef842a08707bbd1204ef8216549
+Author: Peter Eisentraut <peter@eisentraut.org>

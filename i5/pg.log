@@ -1,0 +1,40 @@
+2024-08-08 17:14:21.448 CEST [1748086] FATAL:  database files are incompatible with server
+2024-08-08 17:14:21.448 CEST [1748086] DETAIL:  The database cluster was initialized with CATALOG_VERSION_NO 202407251, but the server was compiled with CATALOG_VERSION_NO 202408021.
+2024-08-08 17:14:21.448 CEST [1748086] HINT:  It looks like you need to initdb.
+2024-08-08 17:14:21.448 CEST [1748086] LOG:  database system is shut down
+2024-08-08 17:14:45.821 CEST [1748130] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-08 17:14:45.821 CEST [1748130] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-08 17:14:45.822 CEST [1748130] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-08 17:14:45.823 CEST [1748130] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-08 17:14:45.826 CEST [1748133] LOG:  database system was shut down at 2024-08-08 17:14:45 CEST
+2024-08-08 17:14:45.828 CEST [1748130] LOG:  database system is ready to accept connections
+2024-08-08 17:32:47.687 CEST [1764013] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-08 17:32:47.687 CEST [1764013] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-08 17:32:47.687 CEST [1764013] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-08 17:32:47.689 CEST [1764013] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-08 17:32:47.692 CEST [1764016] LOG:  database system was interrupted; last known up at 2024-08-08 17:22:46 CEST
+2024-08-08 17:32:48.617 CEST [1764016] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-08 17:32:48.619 CEST [1764016] LOG:  redo starts at 0/28926920
+2024-08-08 17:32:48.619 CEST [1764016] LOG:  invalid record length at 0/28926A28: expected at least 24, got 0
+2024-08-08 17:32:48.619 CEST [1764016] LOG:  redo done at 0/289269F0 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-08 17:32:48.623 CEST [1764014] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-08 17:32:48.636 CEST [1764014] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.002 s, total=0.015 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/28926A28, redo lsn=0/28926A28
+2024-08-08 17:32:48.639 CEST [1764013] LOG:  database system is ready to accept connections
+2024-08-09 11:03:37.486 CEST [2773473] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-09 11:03:37.486 CEST [2773473] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-09 11:03:37.487 CEST [2773473] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-09 11:03:37.488 CEST [2773473] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-09 11:03:37.493 CEST [2773476] LOG:  database system was shut down at 2024-08-09 04:52:16 CEST
+2024-08-09 11:03:37.499 CEST [2773473] LOG:  database system is ready to accept connections
+2024-08-10 01:26:21.599 CEST [204591] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-10 01:26:21.600 CEST [204591] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 01:26:21.600 CEST [204591] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 01:26:21.602 CEST [204591] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 01:26:21.606 CEST [204594] LOG:  database system was interrupted; last known up at 2024-08-10 01:22:55 CEST
+2024-08-10 01:26:22.617 CEST [204594] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-08-10 01:26:22.621 CEST [204594] LOG:  redo starts at 6/53FBF6C0
+2024-08-10 01:26:22.621 CEST [204594] LOG:  invalid record length at 6/53FBF6F8: expected at least 24, got 0
+2024-08-10 01:26:22.621 CEST [204594] LOG:  redo done at 6/53FBF6C0 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-08-10 01:26:22.629 CEST [204592] LOG:  checkpoint starting: end-of-recovery immediate wait
+2024-08-10 01:26:22.641 CEST [204592] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.001 s, total=0.013 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=6/53FBF6F8, redo lsn=6/53FBF6F8
+2024-08-10 01:26:22.643 CEST [204591] LOG:  database system is ready to accept connections

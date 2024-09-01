@@ -1,0 +1,18 @@
+                                        List of relations
+ Schema |       Name       | Type  | Owner  | Persistence | Access method |  Size   | Description 
+--------+------------------+-------+--------+-------------+---------------+---------+-------------
+ public | pgbench_accounts | table | debian | permanent   | heap          | 128 MB  | 
+ public | pgbench_branches | table | debian | permanent   | heap          | 40 kB   | 
+ public | pgbench_history  | table | debian | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers  | table | debian | permanent   | heap          | 40 kB   | 
+(4 rows)
+
+                                                        List of relations
+ Schema |              Name               | Type  | Owner  |      Table       | Persistence | Access method | Size  | Description 
+--------+---------------------------------+-------+--------+------------------+-------------+---------------+-------+-------------
+ public | pgbench_accounts_aid_parent_idx | index | debian | pgbench_accounts | permanent   | btree         | 21 MB | 
+ public | pgbench_accounts_pkey           | index | debian | pgbench_accounts | permanent   | btree         | 21 MB | 
+ public | pgbench_branches_pkey           | index | debian | pgbench_branches | permanent   | btree         | 16 kB | 
+ public | pgbench_tellers_pkey            | index | debian | pgbench_tellers  | permanent   | btree         | 16 kB | 
+(4 rows)
+

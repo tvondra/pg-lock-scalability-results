@@ -1,0 +1,23 @@
+BINDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/bin
+DOCDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/share/doc/postgresql
+HTMLDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/share/doc/postgresql
+INCLUDEDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/include
+PKGINCLUDEDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/include/postgresql
+INCLUDEDIR-SERVER = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/include/postgresql/server
+LIBDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/lib
+PKGLIBDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/lib/postgresql
+LOCALEDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/share/locale
+MANDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/share/man
+SHAREDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/share/postgresql
+SYSCONFDIR = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/etc/postgresql
+PGXS = /mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/lib/postgresql/pgxs/src/makefiles/pgxs.mk
+CONFIGURE =  '--prefix=/mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259' '--enable-debug' '--enable-depend' 'CC=ccache gcc'
+CC = ccache gcc
+CPPFLAGS = -D_GNU_SOURCE
+CFLAGS = -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wimplicit-fallthrough=3 -Wcast-function-type -Wshadow=compatible-local -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -Wno-format-truncation -Wno-stringop-truncation -g -O2
+CFLAGS_SL = -fPIC
+LDFLAGS = -Wl,--as-needed -Wl,-rpath,'/mnt/data/builds/index-yes-no-no-1-32768-1000-1723558259/lib',--enable-new-dtags
+LDFLAGS_EX = 
+LDFLAGS_SL = 
+LIBS = -lpgcommon -lpgport -lz -lreadline -lm 
+VERSION = PostgreSQL 18devel

@@ -1,0 +1,21 @@
+                                               List of relations
+ Schema |        Name        |       Type        | Owner | Persistence | Access method |  Size   | Description 
+--------+--------------------+-------------------+-------+-------------+---------------+---------+-------------
+ public | pgbench_accounts   | partitioned table | tomas | permanent   |               | 0 bytes | 
+ public | pgbench_accounts_1 | table             | tomas | permanent   | heap          | 128 MB  | 
+ public | pgbench_branches   | table             | tomas | permanent   | heap          | 40 kB   | 
+ public | pgbench_history    | table             | tomas | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers    | table             | tomas | permanent   | heap          | 40 kB   | 
+(5 rows)
+
+                                                                 List of relations
+ Schema |               Name                |       Type        | Owner |       Table        | Persistence | Access method |  Size   | Description 
+--------+-----------------------------------+-------------------+-------+--------------------+-------------+---------------+---------+-------------
+ public | pgbench_accounts_1_aid_parent_idx | index             | tomas | pgbench_accounts_1 | permanent   | btree         | 21 MB   | 
+ public | pgbench_accounts_1_pkey           | index             | tomas | pgbench_accounts_1 | permanent   | btree         | 21 MB   | 
+ public | pgbench_accounts_aid_parent_idx   | partitioned index | tomas | pgbench_accounts   | permanent   | btree         | 0 bytes | 
+ public | pgbench_accounts_pkey             | partitioned index | tomas | pgbench_accounts   | permanent   | btree         | 0 bytes | 
+ public | pgbench_branches_pkey             | index             | tomas | pgbench_branches   | permanent   | btree         | 16 kB   | 
+ public | pgbench_tellers_pkey              | index             | tomas | pgbench_tellers    | permanent   | btree         | 16 kB   | 
+(6 rows)
+

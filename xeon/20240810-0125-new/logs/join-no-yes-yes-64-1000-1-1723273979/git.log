@@ -1,0 +1,1000 @@
+commit 60a52d805a2a303d08bdc422a649b395ef9dbfe4
+Author: dev <dev>
+Date:   Sat Aug 10 09:13:00 2024 +0200
+
+    memory pool
+
+commit e871601263a3b0f684e1ace1b8dbe61bc3878684
+Author: dev <dev>
+Date:   Sat Aug 10 09:13:00 2024 +0200
+
+    fastpath lock groups 64
+
+commit 22b4a1b561f830f2af80c21450a4c05f6efbb698
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Wed Aug 7 08:49:41 2024 -0400
+
+    Improve file header comments for astramer code.
+    
+    Make it clear that "astreamer" stands for "archive streamer".
+    Generalize comments that still believe this code can only be used
+    by pg_basebackup. Add some comments explaining the asymmetry
+    between the gzip, lz4, and zstd astreamers, in the hopes of making
+    life easier for anyone who hacks on this code in the future.
+    
+    Robert Haas, reviewed by Amul Sul.
+    
+    Discussion: http://postgr.es/m/CAAJ_b97O2kkKVTWxt8MxDN1o-cDfbgokqtiN2yqFf48=gXpcxQ@mail.gmail.com
+
+commit 2676040df0b2ebbcf8af759dbe5d34f393c3d5b5
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Wed Aug 7 10:43:52 2024 +0300
+
+    Make fallback MD5 implementation thread-safe on big-endian systems
+    
+    Replace a static scratch buffer with a local variable, because a
+    static buffer makes the function not thread-safe. This function is
+    used in client-code in libpq, so it needs to be thread-safe. It was
+    until commit b67b57a966, which replaced the implementation with the
+    one from pgcrypto.
+    
+    Backpatch to v14, where we switched to the new implementation.
+    
+    Reviewed-by: Robert Haas, Michael Paquier
+    Discussion: https://www.postgresql.org/message-id/dfa2015d-ad21-4802-a4cc-3850fc5fff3f@iki.fi
+
+commit 5388216f6adc7eac20f32db33cc5ce54ef0cc930
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Wed Aug 7 09:21:07 2024 +0200
+
+    Revert ECPG's use of pnstrdup()
+    
+    Commit 0b9466fce added a dependency on fe_memutils' pnstrdup() inside
+    informix.c.  This adds an exit() path in a library, which we don't
+    want.  (Unlike libpq, the ecpg libraries don't have an automated check
+    for that, but it makes sense to keep them to a similar standard.)  The
+    ecpg code can already handle failure results from the *strdup() call
+    by itself.
+    
+    Author: Jacob Champion <jacob.champion@enterprisedb.com>
+    Discussion: https://www.postgresql.org/message-id/CAOYmi+=pg=W5L1h=3MEP_EB24jaBu2FyATrLXqQHGe7cpuvwyg@mail.gmail.com
+
+commit 40064a8ee1b34d8a128d6007416acd89077a2c11
+Author: Alexander Korotkov <akorotkov@postgresql.org>
+Date:   Wed Aug 7 06:51:29 2024 +0300
+
+    Optimize InvalidateAttoptCacheCallback() and TypeCacheTypCallback()
+    
+    These callbacks are receiving hash values as arguments, which doesn't allow
+    direct lookups for AttoptCacheHash and TypeCacheHash.  This is why subject
+    callbacks currently use full iteration over corresponding hashes.
+    
+    This commit avoids full hash iteration in InvalidateAttoptCacheCallback(),
+    and TypeCacheTypCallback().  At first, we switch AttoptCacheHash and
+    TypeCacheHash to use same hash function as syscache.  As second, we
+    use hash_seq_init_with_hash_value() to iterate only hash entries with matching
+    hash value.
+    
+    Discussion: https://postgr.es/m/5812a6e5-68ae-4d84-9d85-b443176966a1%40sigaev.ru
+    Author: Teodor Sigaev
+    Reviewed-by: Aleksander Alekseev, Tom Lane, Michael Paquier, Roman Zharkov
+    Reviewed-by: Andrei Lepikhov
+
+commit d0f020037e19c33c74d683eb7e0c7cc5725294b4
+Author: Alexander Korotkov <akorotkov@postgresql.org>
+Date:   Wed Aug 7 06:51:16 2024 +0300
+
+    Introduce hash_search_with_hash_value() function
+    
+    This new function iterates hash entries with given hash values.  This function
+    is designed to avoid full sequential hash search in the syscache invalidation
+    callbacks.
+    
+    Discussion: https://postgr.es/m/5812a6e5-68ae-4d84-9d85-b443176966a1%40sigaev.ru
+    Author: Teodor Sigaev
+    Reviewed-by: Aleksander Alekseev, Tom Lane, Michael Paquier, Roman Zharkov
+    Reviewed-by: Andrei Lepikhov
+
+commit 3ab2668d48476e31d8809fbb36c9ee739cc444e1
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 23:05:25 2024 +0300
+
+    Use psprintf to simplify gtsvectorout()
+    
+    The buffer allocation was correct, but looked archaic and scary:
+    
+    - It was weird to calculate the buffer size before determining which
+      format string was used. With the same effort, we could've used the
+      right-sized buffer for each branch.
+    
+    - Commit aa0d3504560 added one more possible return string ("all true
+      bits"), but didn't adjust the code at the top of the function to
+      calculate the returned string's max size. It was not a live bug,
+      because the new string was smaller than the existing ones, but
+      seemed wrong in principle.
+    
+    - Use of sprintf() is generally eyebrow-raising these days
+    
+    Switch to psprintf(). psprintf() allocates a larger buffer than what
+    was allocated before, 128 bytes vs 80 bytes, which is acceptable as
+    this code is not performance or space critical.
+    
+    Reviewed-by: Andres Freund
+    Discussion: https://www.postgresql.org/message-id/54c29fb0-edf2-48ea-9814-44e918bbd6e8@iki.fi
+
+commit d5f139cb6814f0af2d2e1106899361e45c305630
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 23:04:51 2024 +0300
+
+    Constify fields and parameters in spell.c
+    
+    I started by marking VoidString as const, and fixing the fallout by
+    marking more fields and function arguments as const. It proliferated
+    quite a lot, but all within spell.c and spell.h.
+    
+    A more narrow patch to get rid of the static VoidString buffer would
+    be to replace it with '#define VoidString ""', as C99 allows assigning
+    "" to a non-const pointer, even though you're not allowed to modify
+    it. But it seems like good hygiene to mark all these as const. In the
+    structs, the pointers can point to the constant VoidString, or a
+    buffer allocated with palloc(), or with compact_palloc(), so you
+    should not modify them.
+    
+    Reviewed-by: Andres Freund
+    Discussion: https://www.postgresql.org/message-id/54c29fb0-edf2-48ea-9814-44e918bbd6e8@iki.fi
+
+commit fe8dd65bf28db1a6ad690ffcd5124d1863b5a4c6
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 23:04:48 2024 +0300
+
+    Mark misc static global variables as const
+    
+    Reviewed-by: Andres Freund
+    Discussion: https://www.postgresql.org/message-id/54c29fb0-edf2-48ea-9814-44e918bbd6e8@iki.fi
+
+commit 85829c973cb33592dbc0b0f3aaf9132f5dea6953
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 23:04:22 2024 +0300
+
+    Make nullSemAction const, add 'const' decorators to related functions
+    
+    To make it more clear that these should never be modified.
+    
+    Reviewed-by: Andres Freund
+    Discussion: https://www.postgresql.org/message-id/54c29fb0-edf2-48ea-9814-44e918bbd6e8@iki.fi
+
+commit 1e35951e71d37ab6716fa55ba399fbe6df4a7417
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 23:03:43 2024 +0300
+
+    Turn a few 'validnsps' static variables into locals
+    
+    There was no need for these to be static buffers, local variables work
+    just as well. I think they were marked as 'static' to imply that they
+    are read-only, but 'const' is more appropriate for that, so change
+    them to const.
+    
+    To make it possible to mark the variables as 'const', also add 'const'
+    decorations to the transformRelOptions() signature.
+    
+    Reviewed-by: Andres Freund
+    Discussion: https://www.postgresql.org/message-id/54c29fb0-edf2-48ea-9814-44e918bbd6e8@iki.fi
+
+commit a890ad214942c9eab1b2f0c6997e7dc114f99e71
+Author: Jeff Davis <jdavis@postgresql.org>
+Date:   Tue Aug 6 11:55:21 2024 -0700
+
+    selfuncs.c: use pg_strxfrm() instead of strxfrm().
+    
+    pg_strxfrm() takes a pg_locale_t, so it works properly with all
+    providers. This improves estimates for ICU when performing linear
+    interpolation within a histogram bin.
+    
+    Previously, convert_string_datum() always used strxfrm() and relied on
+    setlocale(). That did not produce good estimates for non-default or
+    non-libc collations.
+    
+    Discussion: https://postgr.es/m/89475ee5487d795124f4e25118ea8f1853edb8cb.camel@j-davis.com
+
+commit a54d4ed183927f15e1853b83106acebeeeee11c8
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 22:15:55 2024 +0300
+
+    Fix datatypes in comments in instr_time.h
+    
+    The INSTR_TIME_GET_NANOSEC(t) and INSTR_TIME_GET_MICROSEC(t) macros
+    return a signed int64.
+    
+    Discussion: https://www.postgresql.org/message-id/ZrHkv3MAQfwNSmTG@ip-10-97-1-34.eu-west-3.compute.internal
+
+commit 39a138fbef87803ab7fe494243c1ba36a093a0e8
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 22:15:46 2024 +0300
+
+    Revert "Fix comments in instr_time.h and remove an unneeded cast to int64"
+    
+    This reverts commit 3dcb09de7b. Tom Lane pointed out that it broke the
+    abstraction provided by the macros. The callers should not need to
+    know what the internal type is.
+    
+    This commit is an exact revert, the next commit will fix the comments
+    on the macros that incorrectly claim that they return uint64.
+    
+    Discussion: https://www.postgresql.org/message-id/ZrHkv3MAQfwNSmTG@ip-10-97-1-34.eu-west-3.compute.internal
+
+commit 6e086fa2e771ad4c0b2d3cca4e2de209a92c719b
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Tue Aug 6 12:36:42 2024 -0400
+
+    Allow parallel workers to cope with a newly-created session user ID.
+    
+    Parallel workers failed after a sequence like
+    BEGIN;
+    CREATE USER foo;
+    SET SESSION AUTHORIZATION foo;
+    because check_session_authorization could not see the uncommitted
+    pg_authid row for "foo".  This is because we ran RestoreGUCState()
+    in a separate transaction using an ordinary just-created snapshot.
+    The same disease afflicts any other GUC that requires catalog lookups
+    and isn't forgiving about the lookups failing.
+    
+    To fix, postpone RestoreGUCState() into the worker's main transaction
+    after we've set up a snapshot duplicating the leader's.  This affects
+    check_transaction_isolation and check_transaction_deferrable, which
+    think they should only run during transaction start.  Make them
+    act like check_transaction_read_only, which already knows it should
+    silently accept the value when InitializingParallelWorker.
+    
+    This un-reverts commit f5f30c22e.  The original plan was to back-patch
+    that, but the fact that 0ae5b763e proved to be a pre-requisite shows
+    that the subtle API change for GUC hooks might actually break some of
+    them.  The problem we're trying to fix seems not worth taking such a
+    risk for in stable branches.
+    
+    Per bug #18545 from Andrey Rachitskiy.
+    
+    Discussion: https://postgr.es/m/18545-feba138862f19aaa@postgresql.org
+
+commit 0ae5b763ea0e9dcd85521ebdc9285bbdc7470331
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Tue Aug 6 12:21:23 2024 -0400
+
+    Clean up handling of client_encoding GUC in parallel workers.
+    
+    The previous coding here threw an error from assign_client_encoding
+    if it was invoked in a parallel worker.  That's a very fundamental
+    violation of the GUC hook API: assign hooks must not throw errors.
+    The place to complain is in the check hook, so move the test to
+    there, and use the regular check-hook API (ie return false) to
+    report it.
+    
+    The reason this coding is a problem is that it breaks GUC rollback,
+    which may occur after we leave InitializingParallelWorker state.
+    That case seems not actually reachable before now, but commit
+    f5f30c22e made it reachable, so we need to fix this before that
+    can be un-reverted.
+    
+    In passing, improve the commentary in ParallelWorkerMain, and
+    add a check for failure of SetClientEncoding.  That's another
+    case that can't happen now but might become possible after
+    foreseeable code rearrangements (notably, if the shortcut of
+    skipping PrepareClientEncoding stops being OK).
+    
+    Discussion: https://postgr.es/m/18545-feba138862f19aaa@postgresql.org
+
+commit 8928817769de0d81758bc760333d3056c67b63c1
+Author: Nathan Bossart <nathan@postgresql.org>
+Date:   Tue Aug 6 10:56:37 2024 -0500
+
+    Remove volatile qualifiers from pg_stat_statements.c.
+    
+    Prior to commit 0709b7ee72, which changed the spinlock primitives
+    to function as compiler barriers, access to variables within a
+    spinlock-protected section required using a volatile pointer, but
+    that is no longer necessary.
+    
+    Reviewed-by: Bertrand Drouvot, Michael Paquier
+    Discussion: https://postgr.es/m/Zqkv9iK7MkNS0KaN%40nathan
+
+commit 3dcb09de7bb21c75d4df48263561af324fd099a4
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Tue Aug 6 14:28:02 2024 +0300
+
+    Fix comments in instr_time.h and remove an unneeded cast to int64
+    
+    03023a2664 represented time as an int64 on all platforms but forgot to
+    update the comment related to INSTR_TIME_GET_MICROSEC() and provided
+    an incorrect comment for INSTR_TIME_GET_NANOSEC().
+    
+    In passing remove an unneeded cast to int64.
+    
+    Author: Bertrand Drouvot
+    Discussion: https://www.postgresql.org/message-id/ZrHkv3MAQfwNSmTG@ip-10-97-1-34.eu-west-3.compute.internal
+
+commit 8771298605a6d81861634ed387a6fc7ed496fa61
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Tue Aug 6 16:27:38 2024 +0900
+
+    Remove unnecessary declaration of heapam_methods
+    
+    This overlaps with the declaration at the end of heapam_handler.c that
+    lists all the callback routines for the heap table AM.
+    
+    Author: Japin Li
+    Discussion: https://postgr.es/m/ME0P300MB04459456D5C4E70D48116896B6B12@ME0P300MB0445.AUSP300.PROD.OUTLOOK.COM
+
+commit e9931bfb7515b253cc26ff495ee917acff8995d0
+Author: Jeff Davis <jdavis@postgresql.org>
+Date:   Mon Aug 5 18:15:57 2024 -0700
+
+    Remove support for null pg_locale_t most places.
+    
+    Previously, passing NULL for pg_locale_t meant "use the libc provider
+    and the server environment". Now that the database collation is
+    represented as a proper pg_locale_t (not dependent on setlocale()),
+    remove special cases for NULL.
+    
+    Leave wchar2char() and char2wchar() unchanged for now, because the
+    callers don't always have a libc-based pg_locale_t available.
+    
+    Discussion: https://postgr.es/m/cfd9eb85-c52a-4ec9-a90e-a5e4de56e57d@eisentraut.org
+    Reviewed-by: Peter Eisentraut, Andreas Karlsson
+
+commit f80b09bac87d6b49f5dbb6131da5fbd9b9773c5c
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Mon Aug 5 11:40:29 2024 -0400
+
+    Move astreamer (except astreamer_inject) to fe_utils.
+    
+    This allows the code to be used by other frontend applications.
+    
+    Amul Sul, reviewed by Sravan Kumar, Andres Freund (whose input
+    I specifically solicited regarding the meson.build changes),
+    and me.
+    
+    Discussion: http://postgr.es/m/CAAJ_b94StvLWrc_p4q-f7n3OPfr6GhL8_XuAg2aAaYZp1tF-nw@mail.gmail.com
+
+commit 53b2c921a0f9b56465ab65165c1909f9616ffa98
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Mon Aug 5 10:40:23 2024 -0400
+
+    Move recovery injector astreamer to a separate header file.
+    
+    Unlike the rest of the astreamer (formerly bbstreamer) infrastructure
+    which is reusable by other tools, astreamer_inject.c seems extremely
+    specific to pg_basebackup. Hence, move the corresponding declarations
+    to a separate header file, so that we can move the rest of the code
+    without moving this.
+    
+    Amul Sul, reviewed by Sravan Kumar and by me.
+    
+    Discussion: http://postgr.es/m/CAAJ_b94StvLWrc_p4q-f7n3OPfr6GhL8_XuAg2aAaYZp1tF-nw@mail.gmail.com
+
+commit 3c905698114d6c4de4dc607c110c27e0723ae70c
+Author: Robert Haas <rhaas@postgresql.org>
+Date:   Mon Aug 5 09:35:42 2024 -0400
+
+    Rename bbstreamer to astreamer.
+    
+    I (rhaas) intended "bbstreamer" to stand for "base backup streamer,"
+    but that implies that this infrastructure can only ever be used by
+    pg_basebackup.  In fact, it is a generally useful way of streaming
+    data from a tar or compressed tar file, and it could be extended to
+    work with other archive formats as well if we ever wanted to do that.
+    Hence, rename it to "astreamer" (archive streamer) in preparation for
+    reusing the infrastructure from pg_verifybackup (and perhaps
+    eventually also other utilities, such as pg_combinebackup or
+    pg_waldump).
+    
+    This is purely a renaming commit. Comment adjustments and relocation
+    of the actual code to someplace from which it can be reused are left
+    to future commits.
+    
+    Amul Sul, reviewed by Sravan Kumar and by me.
+    
+    Discussion: http://postgr.es/m/CAAJ_b94StvLWrc_p4q-f7n3OPfr6GhL8_XuAg2aAaYZp1tF-nw@mail.gmail.com
+
+commit 66e94448abec3aad04faf0a79cab4881ae08e08a
+Author: Masahiko Sawada <msawada@postgresql.org>
+Date:   Mon Aug 5 06:05:33 2024 -0700
+
+    Restrict accesses to non-system views and foreign tables during pg_dump.
+    
+    When pg_dump retrieves the list of database objects and performs the
+    data dump, there was possibility that objects are replaced with others
+    of the same name, such as views, and access them. This vulnerability
+    could result in code execution with superuser privileges during the
+    pg_dump process.
+    
+    This issue can arise when dumping data of sequences, foreign
+    tables (only 13 or later), or tables registered with a WHERE clause in
+    the extension configuration table.
+    
+    To address this, pg_dump now utilizes the newly introduced
+    restrict_nonsystem_relation_kind GUC parameter to restrict the
+    accesses to non-system views and foreign tables during the dump
+    process. This new GUC parameter is added to back branches too, but
+    these changes do not require cluster recreation.
+    
+    Back-patch to all supported branches.
+    
+    Reviewed-by: Noah Misch
+    Security: CVE-2024-7348
+    Backpatch-through: 12
+
+commit ca6fde92258a328a98c1d9e41da5462b73da8529
+Author: David Rowley <drowley@postgresql.org>
+Date:   Mon Aug 5 23:16:44 2024 +1200
+
+    Optimize JSON escaping using SIMD
+    
+    Here we adjust escape_json_with_len() to make use of SIMD to allow
+    processing of up to 16-bytes at a time rather than processing a single
+    byte at a time.  This has been shown to speed up escaping of JSON
+    strings significantly.
+    
+    Escaping is required for both JSON string properties and also the
+    property names themselves, so this should also help improve the speed of
+    the conversion from JSON into text for JSON objects that have property
+    names 16 or more bytes long.
+    
+    Escaping JSON strings was often a significant bottleneck for longer
+    strings.  With these changes, some benchmarking has shown a query
+    performing nearly 4 times faster when escaping a JSON object with a 1MB
+    text property.  Tests with shorter text properties saw smaller but still
+    significant performance improvements.  For example, a test outputting 1024
+    JSON strings with a text property length ranging from 1 char to 1024 chars
+    became around 2 times faster.
+    
+    Author: David Rowley
+    Reviewed-by: Melih Mutlu
+    Discussion: https://postgr.es/m/CAApHDvpLXwMZvbCKcdGfU9XQjGCDm7tFpRdTXuB9PVgpNUYfEQ@mail.gmail.com
+
+commit b5df24e52044abfa6fe20a568ed8bfcb9761a090
+Author: Amit Kapila <akapila@postgresql.org>
+Date:   Mon Aug 5 14:38:00 2024 +0530
+
+    Fix typo in bufpage.h.
+    
+    Author: Senglee Choi
+    Reviewed-by: Tender Wang
+    Discussion: https://postgr.es/m/CACUsy79U0=S5zWEf6D57F=vB7rOEa86xFY6oovDZ58jRcROCxQ@mail.gmail.com
+
+commit f68cd847fa40ead44a786b9c34aff9ccc048004b
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Mon Aug 5 12:29:22 2024 +0900
+
+    injection_points: Add some fixed-numbered statistics
+    
+    Like 75534436a477, this acts mainly as a template to show what can be
+    achieved with fixed-numbered stats (like WAL, bgwriter, etc.) with the
+    pluggable cumulative statistics APIs introduced in 7949d9594582.
+    
+    Fixed-numbered stats are defined in their own file, named
+    injection_stats_fixed.c, separated entirely from the variable-numbered
+    case in injection_stats.c.  This is mainly for clarity as having both
+    examples in the same file would be confusing.
+    
+    Note that this commit uses the helper routines added in 2eff9e678d35.
+    The stats stored track globally the number of times injection points
+    have been attached, detached or run.  Two more fields should be added
+    later for the number of times a point has been cached or loaded, but
+    what's here is enough as a template.
+    
+    More TAP tests are added, providing coverage for fixed-numbered custom
+    stats.
+    
+    Author: Michael Paquier
+    Reviewed-by: Dmitry Dolgov, Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zmqm9j5EO0I4W8dx@paquier.xyz
+
+commit 75534436a477474ea05004b7fbed21e20cea774a
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Mon Aug 5 12:06:54 2024 +0900
+
+    injection_points: Add some cumulative stats for injection points
+    
+    This acts as a template of what can be achieved with the pluggable
+    cumulative stats APIs introduced in 7949d9594582 for the
+    variable-numbered case where stats entries are stored in the pgstats
+    dshash, while being potentially useful on its own for injection points,
+    say to add starting and/or stopping conditions based on the statistics
+    (want to trigger a callback after N calls, for example?).
+    
+    Currently, the only data gathered is the number of times an injection
+    point is run.  More fields can always be added as required.  All the
+    routines related to the stats are located in their own file, called
+    injection_stats.c in the test module injection_points, for clarity.
+    
+    The stats can be used only if the test module is loaded through
+    shared_preload_libraries.  The key of the dshash uses InvalidOid for the
+    database, and an int4 hash of the injection point name as object ID.
+    
+    A TAP test is added to provide coverage for the new custom cumulative
+    stats APIs, showing the persistency of the data across restarts, for
+    example.
+    
+    Author: Michael Paquier
+    Reviewed-by: Dmitry Dolgov, Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zmqm9j5EO0I4W8dx@paquier.xyz
+
+commit 2eff9e678d350882f7a4b6ec6361927c9093051c
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Mon Aug 5 11:43:33 2024 +0900
+
+    Add helper routines to retrieve data for custom fixed-numbered pgstats
+    
+    This is useful for extensions to get snapshot and shmem data for custom
+    cumulative statistics when these have a fixed number of objects, so as
+    these do not need to know about the snapshot internals, aka pgStatLocal.
+    
+    An upcoming commit introducing an example template for custom cumulative
+    stats with fixed-numbered objects will make use of these.  I have
+    noticed that this is useful for extension developers while hacking my
+    own example, actually.
+    
+    Author: Michael Paquier
+    Reviewed-by: Dmitry Dolgov, Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zmqm9j5EO0I4W8dx@paquier.xyz
+
+commit 8036d73ae3d4014a9dde21b0746dc1ac139d4dc1
+Author: Alexander Korotkov <akorotkov@postgresql.org>
+Date:   Sun Aug 4 20:26:48 2024 +0300
+
+    pg_wal_replay_wait(): Fix typo in the doc
+    
+    Reported-by: Kevin Hale Boyes
+    Discussion: https://postgr.es/m/CADAecHWKpaPuPGXAMOH%3DwmhTpydHWGPOk9KWX97UYhp5GdqCWw%40mail.gmail.com
+
+commit 7949d9594582ab49dee221e1db1aa5401ace49d4
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Sun Aug 4 19:41:24 2024 +0900
+
+    Introduce pluggable APIs for Cumulative Statistics
+    
+    This commit adds support in the backend for $subject, allowing
+    out-of-core extensions to plug their own custom kinds of cumulative
+    statistics.  This feature has come up a few times into the lists, and
+    the first, original, suggestion came from Andres Freund, about
+    pg_stat_statements to use the cumulative statistics APIs in shared
+    memory rather than its own less efficient internals.  The advantage of
+    this implementation is that this can be extended to any kind of
+    statistics.
+    
+    The stats kinds are divided into two parts:
+    - The in-core "builtin" stats kinds, with designated initializers, able
+    to use IDs up to 128.
+    - The "custom" stats kinds, able to use a range of IDs from 128 to 256
+    (128 slots available as of this patch), with information saved in
+    TopMemoryContext.  This can be made larger, if necessary.
+    
+    There are two types of cumulative statistics in the backend:
+    - For fixed-numbered objects (like WAL, archiver, etc.).  These are
+    attached to the snapshot and pgstats shmem control structures for
+    efficiency, and built-in stats kinds still do that to avoid any
+    redirection penalty.  The data of custom kinds is stored in a first
+    array in snapshot structure and a second array in the shmem control
+    structure, both indexed by their ID, acting as an equivalent of the
+    builtin stats.
+    - For variable-numbered objects (like tables, functions, etc.).  These
+    are stored in a dshash using the stats kind ID in the hash lookup key.
+    
+    Internally, the handling of the builtin stats is unchanged, and both
+    fixed and variabled-numbered objects are supported.  Structure
+    definitions for builtin stats kinds are renamed to reflect better the
+    differences with custom kinds.
+    
+    Like custom RMGRs, custom cumulative statistics can only be loaded with
+    shared_preload_libraries at startup, and must allocate a unique ID
+    shared across all the PostgreSQL extension ecosystem with the following
+    wiki page to avoid conflicts:
+    https://wiki.postgresql.org/wiki/CustomCumulativeStats
+    
+    This makes the detection of the stats kinds and their handling when
+    reading and writing stats much easier than, say, allocating IDs for
+    stats kinds from a shared memory counter, that may change the ID used by
+    a stats kind across restarts.  When under development, extensions can
+    use PGSTAT_KIND_EXPERIMENTAL.
+    
+    Two examples that can be used as templates for fixed-numbered and
+    variable-numbered stats kinds will be added in some follow-up commits,
+    with tests to provide coverage.
+    
+    Some documentation is added to explain how to use this plugin facility.
+    
+    Author: Michael Paquier
+    Reviewed-by: Dmitry Dolgov, Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zmqm9j5EO0I4W8dx@paquier.xyz
+
+commit 365b5a345b2680615527b23ee6befa09a2f784f2
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Sun Aug 4 11:17:46 2024 +0200
+
+    Use CXXFLAGS instead of CFLAGS for linking C++ code
+    
+    Otherwise, this would break if using C and C++ compilers from
+    different families and they understand different options.  It already
+    used the right flags for compiling, this is only for linking.  Also,
+    the meson setup already did this correctly.
+    
+    Reported-by: Tom Lane <tgl@sss.pgh.pa.us>
+    Discussion: https://www.postgresql.org/message-id/228700.1722717983@sss.pgh.pa.us
+
+commit 028b4b21df26fee67b3ce75c6f14fcfd3c7cf2ee
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Sun Aug 4 03:07:20 2024 +0900
+
+    Fix incorrect format placeholders in pgstat.c
+    
+    These should have been switched from %d to %u in 3188a4582a8c in the
+    debugging elogs added in ca1ba50fcb6f.  PgStat_Kind should never be
+    higher than INT32_MAX, but let's be clean.
+    
+    Issue noticed while hacking more on this area.
+
+commit 66188912566b5614dff095ae86f4b1e06d58e875
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Sat Aug 3 11:42:37 2024 +0200
+
+    Add -Wmissing-variable-declarations to the standard compilation flags
+    
+    This warning flag detects global variables not declared in header
+    files.  This is similar to what -Wmissing-prototypes does for
+    functions.  (More correctly, it is similar to what
+    -Wmissing-declarations does for functions, but -Wmissing-prototypes is
+    a superset of that in C.)
+    
+    This flag is new in GCC 14.  Clang has supported it for a while.
+    
+    Several recent commits have cleaned up warnings triggered by this, so
+    it should now be clean.
+    
+    Reviewed-by: Andres Freund <andres@anarazel.de>
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit 7926a9a80f6daf0fcc1feb1bee5c51fd001bc173
+Author: Jeff Davis <jdavis@postgresql.org>
+Date:   Fri Aug 2 11:49:03 2024 -0700
+
+    Small refactoring around ExecCreateTableAs().
+    
+    Since commit 4b74ebf726, the refresh logic is used to populate
+    materialized views, so we can simplify the error message in
+    ExecCreateTableAs().
+    
+    Also, RefreshMatViewByOid() is moved to just after
+    create_ctas_nodata() call to improve code readability.
+    
+    Author: Yugo Nagata
+    Discussion: https://postgr.es/m/20240802161301.d975daca9ba7a706fa05ecd7@sraoss.co.jp
+
+commit 3cffe7946c268be91a340ec9a27081cb93d67d35
+Author: Noah Misch <noah@leadboat.com>
+Date:   Fri Aug 2 12:49:56 2024 -0700
+
+    Fix name of "Visual Studio" in documentation.
+    
+    Back-patch to v17, which introduced this.
+    
+    Aleksander Alekseev
+    
+    Discussion: https://postgr.es/m/CAJ7c6TM7ct0EjoCQaLSVYoxxnEw4xCUFebWj77GktWsqEdyCtQ@mail.gmail.com
+
+commit 3c5db1d6b01642bcd8dbf5e34b68f034365747bb
+Author: Alexander Korotkov <akorotkov@postgresql.org>
+Date:   Fri Aug 2 21:13:05 2024 +0300
+
+    Implement pg_wal_replay_wait() stored procedure
+    
+    pg_wal_replay_wait() is to be used on standby and specifies waiting for
+    the specific WAL location to be replayed.  This option is useful when
+    the user makes some data changes on primary and needs a guarantee to see
+    these changes are on standby.
+    
+    The queue of waiters is stored in the shared memory as an LSN-ordered pairing
+    heap, where the waiter with the nearest LSN stays on the top.  During
+    the replay of WAL, waiters whose LSNs have already been replayed are deleted
+    from the shared memory pairing heap and woken up by setting their latches.
+    
+    pg_wal_replay_wait() needs to wait without any snapshot held.  Otherwise,
+    the snapshot could prevent the replay of WAL records, implying a kind of
+    self-deadlock.  This is why it is only possible to implement
+    pg_wal_replay_wait() as a procedure working without an active snapshot,
+    not a function.
+    
+    Catversion is bumped.
+    
+    Discussion: https://postgr.es/m/eb12f9b03851bb2583adab5df9579b4b%40postgrespro.ru
+    Author: Kartyshov Ivan, Alexander Korotkov
+    Reviewed-by: Michael Paquier, Peter Eisentraut, Dilip Kumar, Amit Kapila
+    Reviewed-by: Alexander Lakhin, Bharath Rupireddy, Euler Taveira
+    Reviewed-by: Heikki Linnakangas, Kyotaro Horiguchi
+
+commit a83f3088b8f409aaee7a939c2847157d97006193
+Author: Alvaro Herrera <alvherre@alvh.no-ip.org>
+Date:   Fri Aug 2 12:05:38 2024 -0400
+
+    Fix NLS file reference in pg_createsubscriber
+    
+    pg_createsubscriber is referring to a non-existent message translation
+    file, causing NLS to not work correctly. This command should use the
+    same file as pg_basebackup.
+    
+    Author: Kyotaro Horiguchi <horikyota.ntt@gmail.com>
+    Discussion: https://postgr.es/m/20240802.115717.1083441453338151622.horikyota.ntt@gmail.com
+
+commit 3b2f668b785c9b7970d86e7f72a717751d1ddfc2
+Author: Alvaro Herrera <alvherre@alvh.no-ip.org>
+Date:   Fri Aug 2 12:01:10 2024 -0400
+
+    pg_createsubscriber: Fix bogus error message
+    
+    Also some desultory style improvement
+
+commit 9fb855fe1ae04a147bd4cdaa571a1c9de5f03682
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Fri Aug 2 09:59:35 2024 +0200
+
+    Include bison header files into implementation files
+    
+    Before Bison 3.4, the generated parser implementation files run afoul
+    of -Wmissing-variable-declarations (in spite of commit ab61c40bfa2)
+    because declarations for yylval and possibly yylloc are missing.  The
+    generated header files contain an extern declaration, but the
+    implementation files don't include the header files.  Since Bison 3.4,
+    the generated implementation files automatically include the generated
+    header files, so then it works.
+    
+    To make this work with older Bison versions as well, include the
+    generated header file from the .y file.
+    
+    (With older Bison versions, the generated implementation file contains
+    effectively a copy of the header file pasted in, so including the
+    header file is redundant.  But we know this works anyway because the
+    core grammar uses this arrangement already.)
+    
+    Discussion: https://www.postgresql.org/message-id/flat/e0a62134-83da-4ba4-8cdb-ceb0111c95ce@eisentraut.org
+
+commit 63bef4df975cd8b0a3fee1384a80c569043a6d72
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Thu Aug 1 23:23:55 2024 +0300
+
+    Minor refactoring of assign_backendlist_entry()
+    
+    Make assign_backendlist_entry() responsible just for allocating the
+    Backend struct. Linking it to the RegisteredBgWorker is the caller's
+    responsibility now. Seems more clear that way.
+    
+    Discussion: https://www.postgresql.org/message-id/835232c0-a5f7-4f20-b95b-5b56ba57d741@iki.fi
+
+commit ef4c35b4166e3c99558eba1bc324b2fde61d6ed5
+Author: Heikki Linnakangas <heikki.linnakangas@iki.fi>
+Date:   Thu Aug 1 23:23:47 2024 +0300
+
+    Fix outdated comment; all running bgworkers are in BackendList
+    
+    Before commit 8a02b3d732, only bgworkers that connected to a database
+    had an entry in the Backendlist. Commit 8a02b3d732 changed that, but
+    forgot to update this comment.
+    
+    Discussion: https://www.postgresql.org/message-id/835232c0-a5f7-4f20-b95b-5b56ba57d741@iki.fi
+
+commit 3188a4582a8ce8223fba6e08636d8aaa4cbfd29f
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Fri Aug 2 04:49:34 2024 +0900
+
+    Switch PgStat_Kind from an enum to a uint32 type
+    
+    A follow-up patch is planned to make cumulative statistics pluggable,
+    and using a type is useful in the internal routines used by pgstats as
+    PgStat_Kind may have a value that was not originally in the enum removed
+    here, once made pluggable.
+    
+    While on it, this commit switches pgstat_is_kind_valid() to use
+    PgStat_Kind rather than an int, to be more consistent with its existing
+    callers.  Some loops based on the stats kind IDs are switched to use
+    PgStat_Kind rather than int, for consistency with the new time.
+    
+    Author: Michael Paquier
+    Reviewed-by: Dmitry Dolgov, Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zmqm9j5EO0I4W8dx@paquier.xyz
+
+commit b860848232aab440c9ac4c5de3563565e3d2934b
+Author: Michael Paquier <michael@paquier.xyz>
+Date:   Fri Aug 2 01:57:28 2024 +0900
+
+    Add redo LSN to pgstats files
+    
+    This is used in the startup process to check that the pgstats file we
+    are reading includes the redo LSN referring to the shutdown checkpoint
+    where it has been written.  The redo LSN in the pgstats file needs to
+    match with what the control file has.
+    
+    This is intended to be used for an upcoming change that will extend the
+    write of the stats file to happen during checkpoints, rather than only
+    shutdown sequences.
+    
+    Bump PGSTAT_FILE_FORMAT_ID.
+    
+    Reviewed-by: Bertrand Drouvot
+    Discussion: https://postgr.es/m/Zp8o6_cl0KSgsnvS@paquier.xyz
+
+commit c27090bd605a54d00c808ce1656a097fddd118f7
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Aug 1 12:41:26 2024 +0200
+
+    Convert some extern variables to static, Windows code
+    
+    Similar to 720b0eaae9b, discovered by MinGW.
+
+commit 6bbbd7f65f44256a6aea6cb4fd2432a954d37f9e
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Aug 1 11:59:29 2024 +0200
+
+    Convert an extern variable to static
+    
+    Similar to 720b0eaae9b, fixes new code from bd15b7db489.
+
+commit c671e142bf4b568434eb8559baff34d32eed5b29
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Aug 1 12:09:56 2024 +0200
+
+    pg_createsubscriber: Rename option --socket-directory to --socketdir
+    
+    For consistency with the equivalent option in pg_upgrade.
+    
+    Reviewed-by: Hayato Kuroda <kuroda.hayato@fujitsu.com>
+    Reviewed-by: Euler Taveira <euler@eulerto.com>
+    Discussion: https://www.postgresql.org/message-id/flat/1ed82b9b-8e20-497d-a2f8-aebdd793d595%40eisentraut.org
+
+commit e66b32e43b222692feed8015f320b9894a987346
+Author: Etsuro Fujita <efujita@postgresql.org>
+Date:   Thu Aug 1 17:45:00 2024 +0900
+
+    Update comment in portal.h.
+    
+    We store tuples into the portal's tuple store for a PORTAL_ONE_MOD_WITH
+    query as well.
+    
+    Back-patch to all supported branches.
+    
+    Reviewed by Andy Fan.
+    
+    Discussion: https://postgr.es/m/CAPmGK14HVYBZYZtHabjeCd-e31VT%3Dwx6rQNq8QfehywLcpZ2Hw%40mail.gmail.com
+
+commit a292c98d62ddc0ad681f772ab91bf68ee399cb4b
+Author: Peter Eisentraut <peter@eisentraut.org>
+Date:   Thu Aug 1 09:37:44 2024 +0200
+
+    Convert node test compile-time settings into run-time parameters
+    
+    This converts
+    
+        COPY_PARSE_PLAN_TREES
+        WRITE_READ_PARSE_PLAN_TREES
+        RAW_EXPRESSION_COVERAGE_TEST
+    
+    into run-time parameters
+    
+        debug_copy_parse_plan_trees
+        debug_write_read_parse_plan_trees
+        debug_raw_expression_coverage_test
+    
+    They can be activated for tests using PG_TEST_INITDB_EXTRA_OPTS.
+    
+    The compile-time symbols are kept for build farm compatibility, but
+    they now just determine the default value of the run-time settings.
+    
+    Furthermore, support for these settings is not compiled in at all
+    unless assertions are enabled, or the new symbol
+    DEBUG_NODE_TESTS_ENABLED is defined at compile time, or any of the
+    legacy compile-time setting symbols are defined.  So there is no
+    run-time overhead in production builds.  (This is similar to the
+    handling of DISCARD_CACHES_ENABLED.)
+    
+    Discussion: https://www.postgresql.org/message-id/flat/30747bd8-f51e-4e0c-a310-a6e2c37ec8aa%40eisentraut.org
+
+commit a67da49e1d983fc7662f7854e9eec5debbd14446
+Author: Amit Kapila <akapila@postgresql.org>
+Date:   Thu Aug 1 10:11:06 2024 +0530
+
+    Avoid duplicate table scans for cross-partition updates during logical replication.
+    
+    When performing a cross-partition update in the apply worker, it
+    needlessly scans the old partition twice, resulting in noticeable
+    overhead.
+    
+    This commit optimizes it by removing the redundant table scan.
+    
+    Author: Hou Zhijie
+    Reviewed-by: Hayato Kuroda, Amit Kapila
+    Discussion: https://postgr.es/m/OS0PR01MB571623E39984D94CBB5341D994AB2@OS0PR01MB5716.jpnprd01.prod.outlook.com
+
+commit a7f107df2b700c859e4d9ad2ca66b07a465d6223
+Author: Andres Freund <andres@anarazel.de>
+Date:   Wed Jul 31 18:11:49 2024 -0700
+
+    Evaluate arguments of correlated SubPlans in the referencing ExprState
+    
+    Until now we generated an ExprState for each parameter to a SubPlan and
+    evaluated them one-by-one ExecScanSubPlan. That's sub-optimal as creating lots
+    of small ExprStates
+    a) makes JIT compilation more expensive
+    b) wastes memory
+    c) is a bit slower to execute
+    
+    This commit arranges to evaluate parameters to a SubPlan as part of the
+    ExprState referencing a SubPlan, using the new EEOP_PARAM_SET expression
+    step. We emit one EEOP_PARAM_SET for each argument to a subplan, just before
+    the EEOP_SUBPLAN step.
+    
+    It likely is worth using EEOP_PARAM_SET in other places as well, e.g. for
+    SubPlan outputs, nestloop parameters and - more ambitiously - to get rid of
+    ExprContext->domainValue/caseValue/ecxt_agg*.  But that's for later.
+    
+    Author: Andres Freund <andres@anarazel.de>
+    Reviewed-by: Tom Lane <tgl@sss.pgh.pa.us>
+    Reviewed-by: Alena Rybakina <lena.ribackina@yandex.ru>
+    Discussion: https://postgr.es/m/20230225214401.346ancgjqc3zmvek@awork3.anarazel.de
+
+commit e6a9637488e2673efb87f8ead657789e9889fb17
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Wed Jul 31 20:53:33 2024 -0400
+
+    Revert "Allow parallel workers to cope with a newly-created session user ID."
+    
+    This reverts commit f5f30c22ed69fb37b896c4d4546b2ab823c3fd61.
+    
+    Some buildfarm animals are failing with "cannot change
+    "client_encoding" during a parallel operation".  It looks like
+    assign_client_encoding is unhappy at being asked to roll back a
+    client_encoding setting after a parallel worker encounters a
+    failure.  There must be more to it though: why didn't I see this
+    during local testing?  In any case, it's clear that moving the
+    RestoreGUCState() call is not as side-effect-free as I thought.
+    Given that the bug f5f30c22e intended to fix has gone unreported
+    for years, it's not something that's urgent to fix; I'm not
+    willing to risk messing with it further with only days to our
+    next release wrap.
+
+commit ca2eea3ac89a4ea16ab069cb681510d05de5285f
+Author: Jeff Davis <jdavis@postgresql.org>
+Date:   Wed Jul 31 16:42:19 2024 -0700
+
+    Add is_create parameter to RefreshMatviewByOid().
+    
+    RefreshMatviewByOid is used for both REFRESH and CREATE MATERIALIZED
+    VIEW.  This flag is currently just used for handling internal error
+    messages, but also aimed to improve code-readability.
+    
+    Author: Yugo Nagata
+    Discussion: https://postgr.es/m/20240726122630.70e889f63a4d7e26f8549de8@sraoss.co.jp
+
+commit f683d3a4ca6dc441a86ed90070f126c20ea46b45
+Author: Jeff Davis <jdavis@postgresql.org>
+Date:   Wed Jul 31 16:15:26 2024 -0700
+
+    Remove unused ParamListInfo argument from ExecRefreshMatView.
+    
+    Author: Yugo Nagata
+    Discussion: https://postgr.es/m/20240726122630.70e889f63a4d7e26f8549de8@sraoss.co.jp
+
+commit f5f30c22ed69fb37b896c4d4546b2ab823c3fd61
+Author: Tom Lane <tgl@sss.pgh.pa.us>
+Date:   Wed Jul 31 18:54:10 2024 -0400
+
+    Allow parallel workers to cope with a newly-created session user ID.
+    
+    Parallel workers failed after a sequence like
+            BEGIN;
+            CREATE USER foo;
+            SET SESSION AUTHORIZATION foo;
+    because check_session_authorization could not see the uncommitted
+    pg_authid row for "foo".  This is because we ran RestoreGUCState()
+    in a separate transaction using an ordinary just-created snapshot.
+    The same disease afflicts any other GUC that requires catalog lookups
+    and isn't forgiving about the lookups failing.
+    
+    To fix, postpone RestoreGUCState() into the worker's main transaction
+    after we've set up a snapshot duplicating the leader's.  This affects
+    check_transaction_isolation and check_transaction_deferrable, which

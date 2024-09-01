@@ -1,0 +1,217 @@
+                                                List of relations
+ Schema |         Name         |       Type        | Owner | Persistence | Access method |  Size   | Description 
+--------+----------------------+-------------------+-------+-------------+---------------+---------+-------------
+ public | pgbench_accounts     | partitioned table | tomas | permanent   |               | 0 bytes | 
+ public | pgbench_accounts_1   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_10  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_100 | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_11  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_12  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_13  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_14  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_15  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_16  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_17  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_18  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_19  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_2   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_20  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_21  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_22  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_23  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_24  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_25  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_26  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_27  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_28  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_29  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_3   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_30  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_31  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_32  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_33  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_34  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_35  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_36  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_37  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_38  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_39  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_4   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_40  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_41  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_42  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_43  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_44  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_45  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_46  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_47  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_48  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_49  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_5   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_50  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_51  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_52  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_53  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_54  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_55  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_56  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_57  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_58  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_59  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_6   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_60  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_61  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_62  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_63  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_64  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_65  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_66  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_67  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_68  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_69  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_7   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_70  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_71  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_72  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_73  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_74  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_75  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_76  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_77  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_78  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_79  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_8   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_80  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_81  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_82  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_83  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_84  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_85  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_86  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_87  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_88  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_89  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_9   | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_90  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_91  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_92  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_93  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_94  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_95  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_96  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_97  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_98  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_accounts_99  | table             | tomas | permanent   | heap          | 688 kB  | 
+ public | pgbench_branches     | table             | tomas | permanent   | heap          | 40 kB   | 
+ public | pgbench_history      | table             | tomas | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers      | table             | tomas | permanent   | heap          | 40 kB   | 
+(104 rows)
+
+                                                              List of relations
+ Schema |           Name            |       Type        | Owner |        Table         | Persistence | Access method |  Size   | Description 
+--------+---------------------------+-------------------+-------+----------------------+-------------+---------------+---------+-------------
+ public | pgbench_accounts_100_pkey | index             | tomas | pgbench_accounts_100 | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_10_pkey  | index             | tomas | pgbench_accounts_10  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_11_pkey  | index             | tomas | pgbench_accounts_11  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_12_pkey  | index             | tomas | pgbench_accounts_12  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_13_pkey  | index             | tomas | pgbench_accounts_13  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_14_pkey  | index             | tomas | pgbench_accounts_14  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_15_pkey  | index             | tomas | pgbench_accounts_15  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_16_pkey  | index             | tomas | pgbench_accounts_16  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_17_pkey  | index             | tomas | pgbench_accounts_17  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_18_pkey  | index             | tomas | pgbench_accounts_18  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_19_pkey  | index             | tomas | pgbench_accounts_19  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_1_pkey   | index             | tomas | pgbench_accounts_1   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_20_pkey  | index             | tomas | pgbench_accounts_20  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_21_pkey  | index             | tomas | pgbench_accounts_21  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_22_pkey  | index             | tomas | pgbench_accounts_22  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_23_pkey  | index             | tomas | pgbench_accounts_23  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_24_pkey  | index             | tomas | pgbench_accounts_24  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_25_pkey  | index             | tomas | pgbench_accounts_25  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_26_pkey  | index             | tomas | pgbench_accounts_26  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_27_pkey  | index             | tomas | pgbench_accounts_27  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_28_pkey  | index             | tomas | pgbench_accounts_28  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_29_pkey  | index             | tomas | pgbench_accounts_29  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_2_pkey   | index             | tomas | pgbench_accounts_2   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_30_pkey  | index             | tomas | pgbench_accounts_30  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_31_pkey  | index             | tomas | pgbench_accounts_31  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_32_pkey  | index             | tomas | pgbench_accounts_32  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_33_pkey  | index             | tomas | pgbench_accounts_33  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_34_pkey  | index             | tomas | pgbench_accounts_34  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_35_pkey  | index             | tomas | pgbench_accounts_35  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_36_pkey  | index             | tomas | pgbench_accounts_36  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_37_pkey  | index             | tomas | pgbench_accounts_37  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_38_pkey  | index             | tomas | pgbench_accounts_38  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_39_pkey  | index             | tomas | pgbench_accounts_39  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_3_pkey   | index             | tomas | pgbench_accounts_3   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_40_pkey  | index             | tomas | pgbench_accounts_40  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_41_pkey  | index             | tomas | pgbench_accounts_41  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_42_pkey  | index             | tomas | pgbench_accounts_42  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_43_pkey  | index             | tomas | pgbench_accounts_43  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_44_pkey  | index             | tomas | pgbench_accounts_44  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_45_pkey  | index             | tomas | pgbench_accounts_45  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_46_pkey  | index             | tomas | pgbench_accounts_46  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_47_pkey  | index             | tomas | pgbench_accounts_47  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_48_pkey  | index             | tomas | pgbench_accounts_48  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_49_pkey  | index             | tomas | pgbench_accounts_49  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_4_pkey   | index             | tomas | pgbench_accounts_4   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_50_pkey  | index             | tomas | pgbench_accounts_50  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_51_pkey  | index             | tomas | pgbench_accounts_51  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_52_pkey  | index             | tomas | pgbench_accounts_52  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_53_pkey  | index             | tomas | pgbench_accounts_53  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_54_pkey  | index             | tomas | pgbench_accounts_54  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_55_pkey  | index             | tomas | pgbench_accounts_55  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_56_pkey  | index             | tomas | pgbench_accounts_56  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_57_pkey  | index             | tomas | pgbench_accounts_57  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_58_pkey  | index             | tomas | pgbench_accounts_58  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_59_pkey  | index             | tomas | pgbench_accounts_59  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_5_pkey   | index             | tomas | pgbench_accounts_5   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_60_pkey  | index             | tomas | pgbench_accounts_60  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_61_pkey  | index             | tomas | pgbench_accounts_61  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_62_pkey  | index             | tomas | pgbench_accounts_62  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_63_pkey  | index             | tomas | pgbench_accounts_63  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_64_pkey  | index             | tomas | pgbench_accounts_64  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_65_pkey  | index             | tomas | pgbench_accounts_65  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_66_pkey  | index             | tomas | pgbench_accounts_66  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_67_pkey  | index             | tomas | pgbench_accounts_67  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_68_pkey  | index             | tomas | pgbench_accounts_68  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_69_pkey  | index             | tomas | pgbench_accounts_69  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_6_pkey   | index             | tomas | pgbench_accounts_6   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_70_pkey  | index             | tomas | pgbench_accounts_70  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_71_pkey  | index             | tomas | pgbench_accounts_71  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_72_pkey  | index             | tomas | pgbench_accounts_72  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_73_pkey  | index             | tomas | pgbench_accounts_73  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_74_pkey  | index             | tomas | pgbench_accounts_74  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_75_pkey  | index             | tomas | pgbench_accounts_75  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_76_pkey  | index             | tomas | pgbench_accounts_76  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_77_pkey  | index             | tomas | pgbench_accounts_77  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_78_pkey  | index             | tomas | pgbench_accounts_78  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_79_pkey  | index             | tomas | pgbench_accounts_79  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_7_pkey   | index             | tomas | pgbench_accounts_7   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_80_pkey  | index             | tomas | pgbench_accounts_80  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_81_pkey  | index             | tomas | pgbench_accounts_81  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_82_pkey  | index             | tomas | pgbench_accounts_82  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_83_pkey  | index             | tomas | pgbench_accounts_83  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_84_pkey  | index             | tomas | pgbench_accounts_84  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_85_pkey  | index             | tomas | pgbench_accounts_85  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_86_pkey  | index             | tomas | pgbench_accounts_86  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_87_pkey  | index             | tomas | pgbench_accounts_87  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_88_pkey  | index             | tomas | pgbench_accounts_88  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_89_pkey  | index             | tomas | pgbench_accounts_89  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_8_pkey   | index             | tomas | pgbench_accounts_8   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_90_pkey  | index             | tomas | pgbench_accounts_90  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_91_pkey  | index             | tomas | pgbench_accounts_91  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_92_pkey  | index             | tomas | pgbench_accounts_92  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_93_pkey  | index             | tomas | pgbench_accounts_93  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_94_pkey  | index             | tomas | pgbench_accounts_94  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_95_pkey  | index             | tomas | pgbench_accounts_95  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_96_pkey  | index             | tomas | pgbench_accounts_96  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_97_pkey  | index             | tomas | pgbench_accounts_97  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_98_pkey  | index             | tomas | pgbench_accounts_98  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_99_pkey  | index             | tomas | pgbench_accounts_99  | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_9_pkey   | index             | tomas | pgbench_accounts_9   | permanent   | btree         | 128 kB  | 
+ public | pgbench_accounts_pkey     | partitioned index | tomas | pgbench_accounts     | permanent   | btree         | 0 bytes | 
+ public | pgbench_branches_pkey     | index             | tomas | pgbench_branches     | permanent   | btree         | 16 kB   | 
+ public | pgbench_tellers_pkey      | index             | tomas | pgbench_tellers      | permanent   | btree         | 16 kB   | 
+(103 rows)
+

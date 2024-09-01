@@ -1,0 +1,19 @@
+2024-08-10 11:16:29.516 CEST [3718387] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-10 11:16:29.517 CEST [3718387] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 11:16:29.517 CEST [3718387] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 11:16:29.539 CEST [3718387] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 11:16:29.542 CEST [3718390] LOG:  database system was shut down at 2024-08-10 11:15:34 CEST
+2024-08-10 11:16:29.545 CEST [3718387] LOG:  database system is ready to accept connections
+2024-08-10 11:16:36.588 CEST [3718388] LOG:  checkpoints are occurring too frequently (7 seconds apart)
+2024-08-10 11:16:36.588 CEST [3718388] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-08-10 11:16:36.588 CEST [3718388] LOG:  checkpoint starting: wal
+2024-08-10 11:16:38.429 CEST [3718388] LOG:  checkpoint complete: wrote 5646 buffers (2.2%); 0 WAL file(s) added, 0 removed, 34 recycled; write=1.603 s, sync=0.210 s, total=1.841 s; sync files=607, longest=0.022 s, average=0.001 s; distance=556369 kB, estimate=556369 kB; lsn=B/C3EBC390, redo lsn=B/BF0AC580
+2024-08-10 11:16:38.430 CEST [3718388] LOG:  checkpoint starting: immediate force wait
+2024-08-10 11:16:38.623 CEST [3718388] LOG:  checkpoint complete: wrote 17064 buffers (6.5%); 0 WAL file(s) added, 0 removed, 4 recycled; write=0.131 s, sync=0.048 s, total=0.194 s; sync files=151, longest=0.012 s, average=0.001 s; distance=79935 kB, estimate=508726 kB; lsn=B/C3EBC460, redo lsn=B/C3EBC408
+2024-08-10 11:19:48.899 CEST [3718387] LOG:  received fast shutdown request
+2024-08-10 11:19:48.900 CEST [3718387] LOG:  aborting any active transactions
+2024-08-10 11:19:48.901 CEST [3718387] LOG:  background worker "logical replication launcher" (PID 3718393) exited with exit code 1
+2024-08-10 11:19:48.902 CEST [3718388] LOG:  shutting down
+2024-08-10 11:19:48.903 CEST [3718388] LOG:  checkpoint starting: shutdown immediate
+2024-08-10 11:19:48.909 CEST [3718388] LOG:  checkpoint complete: wrote 45 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.005 s, sync=0.002 s, total=0.007 s; sync files=10, longest=0.001 s, average=0.001 s; distance=112 kB, estimate=457864 kB; lsn=B/C3ED8530, redo lsn=B/C3ED8530
+2024-08-10 11:19:49.113 CEST [3718387] LOG:  database system is shut down

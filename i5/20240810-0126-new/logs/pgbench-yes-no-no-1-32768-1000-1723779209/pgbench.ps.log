@@ -1,0 +1,140 @@
+    PID TTY      STAT   TIME COMMAND
+      1 ?        Ss     1:07 /sbin/init
+      2 ?        S      0:00 [kthreadd]
+      3 ?        I<     0:00 [rcu_gp]
+      4 ?        I<     0:00 [rcu_par_gp]
+      5 ?        I<     0:00 [slub_flushwq]
+      6 ?        I<     0:00 [netns]
+      8 ?        I<     0:00 [kworker/0:0H-events_highpri]
+     10 ?        I<     0:00 [mm_percpu_wq]
+     11 ?        I      0:00 [rcu_tasks_kthread]
+     12 ?        I      0:00 [rcu_tasks_rude_kthread]
+     13 ?        I      0:00 [rcu_tasks_trace_kthread]
+     14 ?        S     25:16 [ksoftirqd/0]
+     15 ?        I     15:07 [rcu_preempt]
+     16 ?        S      0:03 [migration/0]
+     18 ?        S      0:00 [cpuhp/0]
+     19 ?        S      0:00 [cpuhp/1]
+     20 ?        S      0:03 [migration/1]
+     21 ?        S     25:12 [ksoftirqd/1]
+     23 ?        I<     0:00 [kworker/1:0H-events_highpri]
+     24 ?        S      0:00 [cpuhp/2]
+     25 ?        S      0:03 [migration/2]
+     26 ?        S     25:18 [ksoftirqd/2]
+     28 ?        I<     0:00 [kworker/2:0H-events_highpri]
+     29 ?        S      0:00 [cpuhp/3]
+     30 ?        S      0:04 [migration/3]
+     31 ?        S     25:41 [ksoftirqd/3]
+     33 ?        I<     0:00 [kworker/3:0H-events_highpri]
+     38 ?        S      0:00 [kdevtmpfs]
+     39 ?        I<     0:00 [inet_frag_wq]
+     40 ?        S      0:00 [kauditd]
+     41 ?        S      0:00 [khungtaskd]
+     42 ?        S      0:00 [oom_reaper]
+     43 ?        I<     0:00 [writeback]
+     44 ?        S     28:53 [kcompactd0]
+     45 ?        SN     0:00 [ksmd]
+     47 ?        SN     1:22 [khugepaged]
+     48 ?        I<     0:00 [kintegrityd]
+     49 ?        I<     0:00 [kblockd]
+     50 ?        I<     0:00 [blkcg_punt_bio]
+     51 ?        I<     0:00 [tpm_dev_wq]
+     52 ?        I<     0:00 [edac-poller]
+     53 ?        I<     0:00 [devfreq_wq]
+     54 ?        I<     3:37 [kworker/3:1H-kblockd]
+     55 ?        S    130:16 [kswapd0]
+     63 ?        I<     0:00 [kthrotld]
+     65 ?        I<     0:00 [acpi_thermal_pm]
+     67 ?        I<     0:00 [mld]
+     68 ?        I<     0:00 [ipv6_addrconf]
+     71 ?        I<     1:42 [kworker/1:1H-kblockd]
+     74 ?        I<     0:00 [kstrp]
+     79 ?        I<     0:00 [zswap-shrink]
+     80 ?        I<     0:00 [kworker/u9:0-hci0]
+    133 ?        I<     1:42 [kworker/2:1H-kblockd]
+    135 ?        I<     1:42 [kworker/0:1H-kblockd]
+    151 ?        I<     0:00 [firewire]
+    155 ?        I<     0:00 [firewire_ohci]
+    156 ?        I<     0:00 [ata_sff]
+    160 ?        S      0:00 [scsi_eh_0]
+    161 ?        I<     0:00 [scsi_tmf_0]
+    162 ?        S      0:00 [scsi_eh_1]
+    163 ?        I<     0:00 [scsi_tmf_1]
+    164 ?        S      0:00 [scsi_eh_2]
+    165 ?        I<     0:00 [scsi_tmf_2]
+    166 ?        S      0:00 [scsi_eh_3]
+    167 ?        I<     0:00 [scsi_tmf_3]
+    168 ?        S      0:00 [scsi_eh_4]
+    169 ?        I<     0:00 [scsi_tmf_4]
+    170 ?        S      0:00 [scsi_eh_5]
+    171 ?        I<     0:00 [scsi_tmf_5]
+    176 ?        S      0:00 [scsi_eh_6]
+    177 ?        I<     0:00 [scsi_tmf_6]
+    178 ?        S      0:00 [scsi_eh_7]
+    179 ?        I<     0:00 [scsi_tmf_7]
+    182 ?        S      0:00 [scsi_eh_8]
+    183 ?        I<     0:00 [scsi_tmf_8]
+    184 ?        S      0:00 [scsi_eh_9]
+    185 ?        I<     0:00 [scsi_tmf_9]
+    204 ?        S      0:00 [scsi_eh_10]
+    205 ?        I<     0:00 [scsi_tmf_10]
+    206 ?        S      0:29 [usb-storage]
+    211 ?        I<     0:00 [uas]
+    215 ?        I<     0:00 [md]
+    229 ?        I<     0:00 [raid5wq]
+    265 ?        S      2:32 [jbd2/sdb2-8]
+    266 ?        I<     0:00 [ext4-rsv-conver]
+    332 ?        Ss     0:07 /lib/systemd/systemd-udevd
+    388 ?        S      0:00 [watchdogd]
+    389 ?        S      0:00 [irq/45-mei_me]
+    398 ?        I<     0:00 [cryptd]
+    447 ?        I<     0:00 [led_workqueue]
+    545 ?        S      0:00 [card0-crtc0]
+    546 ?        S      0:00 [card0-crtc1]
+    553 ?        I<     0:00 [kworker/u9:2-hci0]
+    584 ?        Ssl    0:05 /lib/systemd/systemd-timesyncd
+    602 ?        Ss     0:00 dhclient -4 -v -i -pf /run/dhclient.eno1.pid -lf /var/lib/dhcp/dhclient.eno1.leases -I -df /var/lib/dhcp/dhclient6.eno1.leases eno1
+    615 ?        Ss     0:03 /usr/sbin/cron -f
+    616 ?        Ss     0:35 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+    619 ?        Ss     0:01 /usr/sbin/smartd -n
+    623 ?        Ss     0:05 /lib/systemd/systemd-logind
+    627 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear - linux
+    891 ?        Ss     3:45 /usr/sbin/exim4 -bd -q30m
+   3727 ?        S      1:00 [jbd2/sdh1-8]
+   3728 ?        I<     0:00 [ext4-rsv-conver]
+   3731 ?        S      6:07 [jbd2/md0-8]
+   3732 ?        I<     0:00 [ext4-rsv-conver]
+  53003 ?        Ss     0:18 /lib/systemd/systemd-journald
+  72262 ?        Ss     0:02 /lib/systemd/systemd --user
+  72263 ?        S      0:00 (sd-pam)
+ 140452 ?        Ss     0:00 SCREEN
+ 140453 pts/1    Ss     0:00 /bin/bash
+ 140454 pts/1    S      0:00 su - tomas
+ 140455 pts/1    S      0:01 -bash
+ 204581 pts/1    S+     0:26 /usr/bin/bash -x ./run.sh new
+2285366 ?        I      0:00 [kworker/0:0-md]
+2309278 ?        I      0:03 [kworker/u8:2-ext4-rsv-conversion]
+2325739 ?        I      0:00 [kworker/0:1-cgroup_destroy]
+2555069 ?        I      0:00 [kworker/2:0-events_power_efficient]
+2660848 ?        I      0:00 [kworker/u8:3-ext4-rsv-conversion]
+2662437 ?        I      0:00 [kworker/2:1-wg-crypt-wg0]
+2675929 ?        I      0:00 [kworker/3:3-events]
+2676345 ?        I      0:00 [kworker/1:2-mm_percpu_wq]
+2689572 ?        I      0:00 [kworker/3:2-mm_percpu_wq]
+2689765 ?        I      0:00 [kworker/u8:0-ext4-rsv-conversion]
+2701260 ?        I      0:00 [kworker/u8:5-ext4-rsv-conversion]
+2702794 ?        I      0:00 [kworker/1:1-events]
+2703243 ?        I      0:00 [kworker/3:0-events_freezable_power_]
+2712320 ?        I      0:00 [kworker/0:2-wg-crypt-wg0]
+2712330 ?        I<     0:00 [wg-crypt-wg0]
+2712341 ?        I      0:00 [kworker/2:2-md]
+2716686 ?        I      0:00 [kworker/1:0-mm_percpu_wq]
+2729673 ?        Ss     0:00 /mnt/pgdata/builds/pgbench-yes-no-no-1-32768-1000-1723779209/bin/postgres -D /mnt/pgdata/data-test
+2729674 ?        Ss     0:00 postgres: checkpointer 
+2729675 ?        Ss     0:00 postgres: background writer 
+2729677 ?        Ss     0:00 postgres: walwriter 
+2729678 ?        Ss     0:00 postgres: autovacuum launcher 
+2729679 ?        Ss     0:00 postgres: logical replication launcher 
+2729683 pts/1    S+     0:00 /usr/bin/bash ./run-pgbench.sh i5 pgbench-yes-no-no-1-32768-1000-1723779209 32768 yes no no 1 /mnt/data/lock-scalability-test-2/20240810-0126-new/logs/pgbench-yes-no-no-1-32768-1000-1723779209 3 10 1 16 4 1000
+2729684 pts/1    R+     0:00 ps ax
+4064826 ?        Ss     0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups

@@ -1,0 +1,17 @@
+                                        List of relations
+ Schema |    Name     |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+-------------+----------+-------+-------------+---------------+------------+-------------
+ public | dim1        | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim1_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | t           | table    | tomas | permanent   | heap          | 346 MB     | 
+ public | t_id_seq    | sequence | tomas | permanent   |               | 8192 bytes | 
+(4 rows)
+
+                                        List of relations
+ Schema |   Name    | Type  | Owner | Table | Persistence | Access method |  Size  | Description 
+--------+-----------+-------+-------+-------+-------------+---------------+--------+-------------
+ public | dim1_pkey | index | tomas | dim1  | permanent   | btree         | 240 kB | 
+ public | t_d1_idx  | index | tomas | t     | permanent   | btree         | 70 MB  | 
+ public | t_pkey    | index | tomas | t     | permanent   | btree         | 214 MB | 
+(3 rows)
+

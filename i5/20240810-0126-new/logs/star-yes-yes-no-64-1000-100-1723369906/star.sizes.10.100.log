@@ -1,0 +1,413 @@
+                                         List of relations
+ Schema |     Name      |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+---------------+----------+-------+-------------+---------------+------------+-------------
+ public | dim1          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim10         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim100        | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim100_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim10_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim11         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim11_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim12         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim12_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim13         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim13_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim14         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim14_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim15         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim15_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim16         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim16_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim17         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim17_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim18         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim18_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim19         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim19_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim1_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim2          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim20         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim20_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim21         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim21_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim22         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim22_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim23         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim23_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim24         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim24_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim25         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim25_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim26         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim26_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim27         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim27_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim28         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim28_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim29         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim29_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim2_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim3          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim30         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim30_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim31         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim31_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim32         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim32_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim33         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim33_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim34         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim34_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim35         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim35_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim36         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim36_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim37         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim37_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim38         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim38_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim39         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim39_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim3_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim4          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim40         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim40_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim41         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim41_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim42         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim42_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim43         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim43_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim44         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim44_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim45         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim45_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim46         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim46_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim47         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim47_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim48         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim48_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim49         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim49_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim4_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim5          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim50         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim50_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim51         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim51_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim52         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim52_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim53         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim53_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim54         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim54_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim55         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim55_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim56         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim56_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim57         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim57_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim58         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim58_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim59         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim59_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim5_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim6          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim60         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim60_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim61         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim61_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim62         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim62_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim63         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim63_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim64         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim64_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim65         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim65_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim66         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim66_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim67         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim67_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim68         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim68_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim69         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim69_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim6_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim7          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim70         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim70_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim71         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim71_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim72         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim72_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim73         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim73_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim74         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim74_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim75         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim75_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim76         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim76_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim77         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim77_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim78         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim78_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim79         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim79_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim7_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim8          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim80         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim80_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim81         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim81_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim82         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim82_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim83         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim83_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim84         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim84_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim85         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim85_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim86         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim86_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim87         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim87_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim88         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim88_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim89         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim89_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim8_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim9          | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim90         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim90_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim91         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim91_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim92         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim92_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim93         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim93_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim94         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim94_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim95         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim95_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim96         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim96_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim97         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim97_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim98         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim98_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim99         | table    | tomas | permanent   | heap          | 392 kB     | 
+ public | dim99_id_seq  | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | dim9_id_seq   | sequence | tomas | permanent   |               | 8192 bytes | 
+ public | t             | table    | tomas | permanent   | heap          | 4342 MB    | 
+ public | t_id_seq      | sequence | tomas | permanent   |               | 8192 bytes | 
+(202 rows)
+
+                                         List of relations
+ Schema |    Name     | Type  | Owner | Table  | Persistence | Access method |  Size  | Description 
+--------+-------------+-------+-------+--------+-------------+---------------+--------+-------------
+ public | dim100_pkey | index | tomas | dim100 | permanent   | btree         | 240 kB | 
+ public | dim10_pkey  | index | tomas | dim10  | permanent   | btree         | 240 kB | 
+ public | dim11_pkey  | index | tomas | dim11  | permanent   | btree         | 240 kB | 
+ public | dim12_pkey  | index | tomas | dim12  | permanent   | btree         | 240 kB | 
+ public | dim13_pkey  | index | tomas | dim13  | permanent   | btree         | 240 kB | 
+ public | dim14_pkey  | index | tomas | dim14  | permanent   | btree         | 240 kB | 
+ public | dim15_pkey  | index | tomas | dim15  | permanent   | btree         | 240 kB | 
+ public | dim16_pkey  | index | tomas | dim16  | permanent   | btree         | 240 kB | 
+ public | dim17_pkey  | index | tomas | dim17  | permanent   | btree         | 240 kB | 
+ public | dim18_pkey  | index | tomas | dim18  | permanent   | btree         | 240 kB | 
+ public | dim19_pkey  | index | tomas | dim19  | permanent   | btree         | 240 kB | 
+ public | dim1_pkey   | index | tomas | dim1   | permanent   | btree         | 240 kB | 
+ public | dim20_pkey  | index | tomas | dim20  | permanent   | btree         | 240 kB | 
+ public | dim21_pkey  | index | tomas | dim21  | permanent   | btree         | 240 kB | 
+ public | dim22_pkey  | index | tomas | dim22  | permanent   | btree         | 240 kB | 
+ public | dim23_pkey  | index | tomas | dim23  | permanent   | btree         | 240 kB | 
+ public | dim24_pkey  | index | tomas | dim24  | permanent   | btree         | 240 kB | 
+ public | dim25_pkey  | index | tomas | dim25  | permanent   | btree         | 240 kB | 
+ public | dim26_pkey  | index | tomas | dim26  | permanent   | btree         | 240 kB | 
+ public | dim27_pkey  | index | tomas | dim27  | permanent   | btree         | 240 kB | 
+ public | dim28_pkey  | index | tomas | dim28  | permanent   | btree         | 240 kB | 
+ public | dim29_pkey  | index | tomas | dim29  | permanent   | btree         | 240 kB | 
+ public | dim2_pkey   | index | tomas | dim2   | permanent   | btree         | 240 kB | 
+ public | dim30_pkey  | index | tomas | dim30  | permanent   | btree         | 240 kB | 
+ public | dim31_pkey  | index | tomas | dim31  | permanent   | btree         | 240 kB | 
+ public | dim32_pkey  | index | tomas | dim32  | permanent   | btree         | 240 kB | 
+ public | dim33_pkey  | index | tomas | dim33  | permanent   | btree         | 240 kB | 
+ public | dim34_pkey  | index | tomas | dim34  | permanent   | btree         | 240 kB | 
+ public | dim35_pkey  | index | tomas | dim35  | permanent   | btree         | 240 kB | 
+ public | dim36_pkey  | index | tomas | dim36  | permanent   | btree         | 240 kB | 
+ public | dim37_pkey  | index | tomas | dim37  | permanent   | btree         | 240 kB | 
+ public | dim38_pkey  | index | tomas | dim38  | permanent   | btree         | 240 kB | 
+ public | dim39_pkey  | index | tomas | dim39  | permanent   | btree         | 240 kB | 
+ public | dim3_pkey   | index | tomas | dim3   | permanent   | btree         | 240 kB | 
+ public | dim40_pkey  | index | tomas | dim40  | permanent   | btree         | 240 kB | 
+ public | dim41_pkey  | index | tomas | dim41  | permanent   | btree         | 240 kB | 
+ public | dim42_pkey  | index | tomas | dim42  | permanent   | btree         | 240 kB | 
+ public | dim43_pkey  | index | tomas | dim43  | permanent   | btree         | 240 kB | 
+ public | dim44_pkey  | index | tomas | dim44  | permanent   | btree         | 240 kB | 
+ public | dim45_pkey  | index | tomas | dim45  | permanent   | btree         | 240 kB | 
+ public | dim46_pkey  | index | tomas | dim46  | permanent   | btree         | 240 kB | 
+ public | dim47_pkey  | index | tomas | dim47  | permanent   | btree         | 240 kB | 
+ public | dim48_pkey  | index | tomas | dim48  | permanent   | btree         | 240 kB | 
+ public | dim49_pkey  | index | tomas | dim49  | permanent   | btree         | 240 kB | 
+ public | dim4_pkey   | index | tomas | dim4   | permanent   | btree         | 240 kB | 
+ public | dim50_pkey  | index | tomas | dim50  | permanent   | btree         | 240 kB | 
+ public | dim51_pkey  | index | tomas | dim51  | permanent   | btree         | 240 kB | 
+ public | dim52_pkey  | index | tomas | dim52  | permanent   | btree         | 240 kB | 
+ public | dim53_pkey  | index | tomas | dim53  | permanent   | btree         | 240 kB | 
+ public | dim54_pkey  | index | tomas | dim54  | permanent   | btree         | 240 kB | 
+ public | dim55_pkey  | index | tomas | dim55  | permanent   | btree         | 240 kB | 
+ public | dim56_pkey  | index | tomas | dim56  | permanent   | btree         | 240 kB | 
+ public | dim57_pkey  | index | tomas | dim57  | permanent   | btree         | 240 kB | 
+ public | dim58_pkey  | index | tomas | dim58  | permanent   | btree         | 240 kB | 
+ public | dim59_pkey  | index | tomas | dim59  | permanent   | btree         | 240 kB | 
+ public | dim5_pkey   | index | tomas | dim5   | permanent   | btree         | 240 kB | 
+ public | dim60_pkey  | index | tomas | dim60  | permanent   | btree         | 240 kB | 
+ public | dim61_pkey  | index | tomas | dim61  | permanent   | btree         | 240 kB | 
+ public | dim62_pkey  | index | tomas | dim62  | permanent   | btree         | 240 kB | 
+ public | dim63_pkey  | index | tomas | dim63  | permanent   | btree         | 240 kB | 
+ public | dim64_pkey  | index | tomas | dim64  | permanent   | btree         | 240 kB | 
+ public | dim65_pkey  | index | tomas | dim65  | permanent   | btree         | 240 kB | 
+ public | dim66_pkey  | index | tomas | dim66  | permanent   | btree         | 240 kB | 
+ public | dim67_pkey  | index | tomas | dim67  | permanent   | btree         | 240 kB | 
+ public | dim68_pkey  | index | tomas | dim68  | permanent   | btree         | 240 kB | 
+ public | dim69_pkey  | index | tomas | dim69  | permanent   | btree         | 240 kB | 
+ public | dim6_pkey   | index | tomas | dim6   | permanent   | btree         | 240 kB | 
+ public | dim70_pkey  | index | tomas | dim70  | permanent   | btree         | 240 kB | 
+ public | dim71_pkey  | index | tomas | dim71  | permanent   | btree         | 240 kB | 
+ public | dim72_pkey  | index | tomas | dim72  | permanent   | btree         | 240 kB | 
+ public | dim73_pkey  | index | tomas | dim73  | permanent   | btree         | 240 kB | 
+ public | dim74_pkey  | index | tomas | dim74  | permanent   | btree         | 240 kB | 
+ public | dim75_pkey  | index | tomas | dim75  | permanent   | btree         | 240 kB | 
+ public | dim76_pkey  | index | tomas | dim76  | permanent   | btree         | 240 kB | 
+ public | dim77_pkey  | index | tomas | dim77  | permanent   | btree         | 240 kB | 
+ public | dim78_pkey  | index | tomas | dim78  | permanent   | btree         | 240 kB | 
+ public | dim79_pkey  | index | tomas | dim79  | permanent   | btree         | 240 kB | 
+ public | dim7_pkey   | index | tomas | dim7   | permanent   | btree         | 240 kB | 
+ public | dim80_pkey  | index | tomas | dim80  | permanent   | btree         | 240 kB | 
+ public | dim81_pkey  | index | tomas | dim81  | permanent   | btree         | 240 kB | 
+ public | dim82_pkey  | index | tomas | dim82  | permanent   | btree         | 240 kB | 
+ public | dim83_pkey  | index | tomas | dim83  | permanent   | btree         | 240 kB | 
+ public | dim84_pkey  | index | tomas | dim84  | permanent   | btree         | 240 kB | 
+ public | dim85_pkey  | index | tomas | dim85  | permanent   | btree         | 240 kB | 
+ public | dim86_pkey  | index | tomas | dim86  | permanent   | btree         | 240 kB | 
+ public | dim87_pkey  | index | tomas | dim87  | permanent   | btree         | 240 kB | 
+ public | dim88_pkey  | index | tomas | dim88  | permanent   | btree         | 240 kB | 
+ public | dim89_pkey  | index | tomas | dim89  | permanent   | btree         | 240 kB | 
+ public | dim8_pkey   | index | tomas | dim8   | permanent   | btree         | 240 kB | 
+ public | dim90_pkey  | index | tomas | dim90  | permanent   | btree         | 240 kB | 
+ public | dim91_pkey  | index | tomas | dim91  | permanent   | btree         | 240 kB | 
+ public | dim92_pkey  | index | tomas | dim92  | permanent   | btree         | 240 kB | 
+ public | dim93_pkey  | index | tomas | dim93  | permanent   | btree         | 240 kB | 
+ public | dim94_pkey  | index | tomas | dim94  | permanent   | btree         | 240 kB | 
+ public | dim95_pkey  | index | tomas | dim95  | permanent   | btree         | 240 kB | 
+ public | dim96_pkey  | index | tomas | dim96  | permanent   | btree         | 240 kB | 
+ public | dim97_pkey  | index | tomas | dim97  | permanent   | btree         | 240 kB | 
+ public | dim98_pkey  | index | tomas | dim98  | permanent   | btree         | 240 kB | 
+ public | dim99_pkey  | index | tomas | dim99  | permanent   | btree         | 240 kB | 
+ public | dim9_pkey   | index | tomas | dim9   | permanent   | btree         | 240 kB | 
+ public | t_d100_idx  | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d10_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d11_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d12_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d13_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d14_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d15_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d16_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d17_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d18_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d19_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d1_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d20_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d21_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d22_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d23_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d24_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d25_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d26_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d27_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d28_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d29_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d2_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d30_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d31_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d32_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d33_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d34_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d35_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d36_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d37_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d38_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d39_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d3_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d40_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d41_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d42_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d43_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d44_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d45_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d46_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d47_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d48_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d49_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d4_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d50_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d51_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d52_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d53_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d54_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d55_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d56_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d57_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d58_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d59_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d5_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d60_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d61_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d62_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d63_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d64_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d65_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d66_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d67_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d68_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d69_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d6_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d70_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d71_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d72_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d73_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d74_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d75_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d76_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d77_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d78_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d79_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d7_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d80_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d81_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d82_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d83_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d84_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d85_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d86_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d87_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d88_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d89_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d8_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d90_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d91_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d92_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d93_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d94_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d95_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d96_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d97_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d98_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d99_idx   | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_d9_idx    | index | tomas | t      | permanent   | btree         | 70 MB  | 
+ public | t_pkey      | index | tomas | t      | permanent   | btree         | 214 MB | 
+(201 rows)
+

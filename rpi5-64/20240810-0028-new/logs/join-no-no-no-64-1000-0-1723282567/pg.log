@@ -1,0 +1,20 @@
+2024-08-10 10:37:10.242 BST [1961918] LOG:  starting PostgreSQL 18devel on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2024-08-10 10:37:10.242 BST [1961918] LOG:  listening on IPv6 address "::1", port 5432
+2024-08-10 10:37:10.242 BST [1961918] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-08-10 10:37:10.294 BST [1961918] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-08-10 10:37:10.305 BST [1961921] LOG:  database system was shut down at 2024-08-10 10:36:07 BST
+2024-08-10 10:37:10.311 BST [1961918] LOG:  database system is ready to accept connections
+2024-08-10 10:37:20.822 BST [1961919] LOG:  checkpoints are occurring too frequently (10 seconds apart)
+2024-08-10 10:37:20.822 BST [1961919] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-08-10 10:37:20.822 BST [1961919] LOG:  checkpoint starting: wal
+2024-08-10 10:37:25.326 BST [1961950] LOG:  skipping vacuum of "pgbench_accounts" --- lock not available
+2024-08-10 10:37:29.061 BST [1961919] LOG:  checkpoint complete: wrote 7013 buffers (2.7%); 0 WAL file(s) added, 0 removed, 34 recycled; write=5.673 s, sync=2.343 s, total=8.239 s; sync files=607, longest=0.272 s, average=0.004 s; distance=542591 kB, estimate=542591 kB; lsn=6/7AC5FD00, redo lsn=6/7507C8C0
+2024-08-10 10:37:29.061 BST [1961919] LOG:  checkpoint starting: immediate force wait
+2024-08-10 10:37:30.843 BST [1961919] LOG:  checkpoint complete: wrote 17083 buffers (6.5%); 0 WAL file(s) added, 0 removed, 5 recycled; write=0.089 s, sync=1.622 s, total=1.782 s; sync files=151, longest=1.292 s, average=0.011 s; distance=94093 kB, estimate=497741 kB; lsn=6/7AC5FDD0, redo lsn=6/7AC5FD78
+2024-08-10 10:40:41.077 BST [1961918] LOG:  received fast shutdown request
+2024-08-10 10:40:41.089 BST [1961918] LOG:  aborting any active transactions
+2024-08-10 10:40:41.090 BST [1961918] LOG:  background worker "logical replication launcher" (PID 1961924) exited with exit code 1
+2024-08-10 10:40:41.090 BST [1961919] LOG:  shutting down
+2024-08-10 10:40:41.094 BST [1961919] LOG:  checkpoint starting: shutdown immediate
+2024-08-10 10:40:41.140 BST [1961919] LOG:  checkpoint complete: wrote 45 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.021 s, sync=0.009 s, total=0.050 s; sync files=10, longest=0.005 s, average=0.001 s; distance=105 kB, estimate=447977 kB; lsn=6/7AC7A330, redo lsn=6/7AC7A330
+2024-08-10 10:40:41.205 BST [1961918] LOG:  database system is shut down

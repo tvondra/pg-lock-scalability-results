@@ -1,0 +1,23 @@
+                                       List of relations
+ Schema |   Name   |   Type   | Owner | Persistence | Access method |    Size    | Description 
+--------+----------+----------+-------+-------------+---------------+------------+-------------
+ public | t        | table    | tomas | permanent   | heap          | 43 MB      | 
+ public | t_id_seq | sequence | tomas | permanent   |               | 8192 bytes | 
+(2 rows)
+
+                                        List of relations
+ Schema |   Name    | Type  | Owner | Table | Persistence | Access method |  Size   | Description 
+--------+-----------+-------+-------+-------+-------------+---------------+---------+-------------
+ public | t_c10_idx | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c11_idx | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c2_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c3_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c4_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c5_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c6_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c7_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c8_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_c9_idx  | index | tomas | t     | permanent   | btree         | 2208 kB | 
+ public | t_pkey    | index | tomas | t     | permanent   | btree         | 2208 kB | 
+(11 rows)
+

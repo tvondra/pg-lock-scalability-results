@@ -1,0 +1,48 @@
+                                                List of relations
+ Schema |        Name         |       Type        | Owner  | Persistence | Access method |  Size   | Description 
+--------+---------------------+-------------------+--------+-------------+---------------+---------+-------------
+ public | pgbench_accounts    | partitioned table | debian | permanent   |               | 0 bytes | 
+ public | pgbench_accounts_1  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_10 | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_2  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_3  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_4  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_5  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_6  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_7  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_8  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_accounts_9  | table             | debian | permanent   | heap          | 13 MB   | 
+ public | pgbench_branches    | table             | debian | permanent   | heap          | 40 kB   | 
+ public | pgbench_history     | table             | debian | permanent   | heap          | 0 bytes | 
+ public | pgbench_tellers     | table             | debian | permanent   | heap          | 40 kB   | 
+(14 rows)
+
+                                                                  List of relations
+ Schema |                Name                |       Type        | Owner  |        Table        | Persistence | Access method |  Size   | Description 
+--------+------------------------------------+-------------------+--------+---------------------+-------------+---------------+---------+-------------
+ public | pgbench_accounts_10_aid_parent_idx | index             | debian | pgbench_accounts_10 | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_10_pkey           | index             | debian | pgbench_accounts_10 | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_1_aid_parent_idx  | index             | debian | pgbench_accounts_1  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_1_pkey            | index             | debian | pgbench_accounts_1  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_2_aid_parent_idx  | index             | debian | pgbench_accounts_2  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_2_pkey            | index             | debian | pgbench_accounts_2  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_3_aid_parent_idx  | index             | debian | pgbench_accounts_3  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_3_pkey            | index             | debian | pgbench_accounts_3  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_4_aid_parent_idx  | index             | debian | pgbench_accounts_4  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_4_pkey            | index             | debian | pgbench_accounts_4  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_5_aid_parent_idx  | index             | debian | pgbench_accounts_5  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_5_pkey            | index             | debian | pgbench_accounts_5  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_6_aid_parent_idx  | index             | debian | pgbench_accounts_6  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_6_pkey            | index             | debian | pgbench_accounts_6  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_7_aid_parent_idx  | index             | debian | pgbench_accounts_7  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_7_pkey            | index             | debian | pgbench_accounts_7  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_8_aid_parent_idx  | index             | debian | pgbench_accounts_8  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_8_pkey            | index             | debian | pgbench_accounts_8  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_9_aid_parent_idx  | index             | debian | pgbench_accounts_9  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_9_pkey            | index             | debian | pgbench_accounts_9  | permanent   | btree         | 2208 kB | 
+ public | pgbench_accounts_aid_parent_idx    | partitioned index | debian | pgbench_accounts    | permanent   | btree         | 0 bytes | 
+ public | pgbench_accounts_pkey              | partitioned index | debian | pgbench_accounts    | permanent   | btree         | 0 bytes | 
+ public | pgbench_branches_pkey              | index             | debian | pgbench_branches    | permanent   | btree         | 16 kB   | 
+ public | pgbench_tellers_pkey               | index             | debian | pgbench_tellers     | permanent   | btree         | 16 kB   | 
+(24 rows)
+
