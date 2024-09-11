@@ -1,0 +1,22 @@
+2024-09-05 23:02:29.600 UTC [2617893] LOG:  FastPathLockGroupsPerBackend = 64
+2024-09-05 23:02:29.600 UTC [2617893] LOG:  FastPathLockGroupsPerBackend = 64
+2024-09-05 23:02:30.682 UTC [2617893] LOG:  ptrlen 4737024
+2024-09-05 23:02:30.728 UTC [2617893] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit
+2024-09-05 23:02:30.728 UTC [2617893] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-09-05 23:02:30.737 UTC [2617893] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-09-05 23:02:30.756 UTC [2617896] LOG:  database system was shut down at 2024-09-05 23:02:27 UTC
+2024-09-05 23:02:30.766 UTC [2617893] LOG:  database system is ready to accept connections
+2024-09-05 23:02:48.712 UTC [2617894] LOG:  checkpoints are occurring too frequently (18 seconds apart)
+2024-09-05 23:02:48.712 UTC [2617894] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-05 23:02:48.712 UTC [2617894] LOG:  checkpoint starting: wal
+2024-09-05 23:02:52.857 UTC [2617922] LOG:  skipping vacuum of "pgbench_accounts_539" --- lock not available
+2024-09-05 23:03:18.259 UTC [2617894] LOG:  checkpoint complete: wrote 250 buffers (0.0%); 0 WAL file(s) added, 0 removed, 33 recycled; write=11.725 s, sync=17.689 s, total=29.548 s; sync files=9601, longest=0.021 s, average=0.002 s; distance=537450 kB, estimate=537450 kB; lsn=5/B200F3B0, redo lsn=5/A701FA08
+2024-09-05 23:03:18.260 UTC [2617894] LOG:  checkpoint starting: immediate force wait
+2024-09-05 23:03:19.432 UTC [2617894] LOG:  checkpoint complete: wrote 22562 buffers (1.1%); 0 WAL file(s) added, 0 removed, 11 recycled; write=0.914 s, sync=0.180 s, total=1.173 s; sync files=3147, longest=0.161 s, average=0.001 s; distance=180158 kB, estimate=501721 kB; lsn=5/B200F4B8, redo lsn=5/B200F428
+2024-09-05 23:04:56.455 UTC [2617893] LOG:  received fast shutdown request
+2024-09-05 23:04:56.461 UTC [2617893] LOG:  aborting any active transactions
+2024-09-05 23:04:56.462 UTC [2617893] LOG:  background worker "logical replication launcher" (PID 2617899) exited with exit code 1
+2024-09-05 23:04:56.473 UTC [2617894] LOG:  shutting down
+2024-09-05 23:04:56.484 UTC [2617894] LOG:  checkpoint starting: shutdown immediate
+2024-09-05 23:04:56.527 UTC [2617894] LOG:  checkpoint complete: wrote 313 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.019 s, sync=0.005 s, total=0.054 s; sync files=7, longest=0.004 s, average=0.001 s; distance=1221 kB, estimate=451671 kB; lsn=5/B2140B08, redo lsn=5/B2140B08
+2024-09-05 23:04:57.037 UTC [2617893] LOG:  database system is shut down

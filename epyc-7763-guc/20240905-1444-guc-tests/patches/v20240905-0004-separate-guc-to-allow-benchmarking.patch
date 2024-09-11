@@ -1,0 +1,63 @@
+From 53113fed1d365bd211c2e9dfe37876183f00e6a9 Mon Sep 17 00:00:00 2001
+From: Tomas Vondra <tv@fuzzy.cz>
+Date: Mon, 2 Sep 2024 02:19:16 +0200
+Subject: [PATCH v20240905 4/5] separate guc to allow benchmarking
+
+---
+ src/backend/storage/lmgr/proc.c     | 18 +++++++++---------
+ src/backend/utils/misc/guc_tables.c | 10 ++++++++++
+ 2 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/src/backend/storage/lmgr/proc.c b/src/backend/storage/lmgr/proc.c
+index c3d2856b151..b25699a94c6 100644
+--- a/src/backend/storage/lmgr/proc.c
++++ b/src/backend/storage/lmgr/proc.c
+@@ -121,15 +121,15 @@ ProcGlobalShmemSize(void)
+ 	 * max_locks_per_xact = 16k. The default is max_locks_per_xact = 64,
+ 	 * which means 4 groups by default.
+ 	 */
+-	FastPathLockGroupsPerBackend = 1;
+-	while (FastPathLockGroupsPerBackend < FP_LOCK_GROUPS_PER_BACKEND_MAX)
+-	{
+-		/* stop once we hit max_locks_per_xact */
+-		if (FastPathLockGroupsPerBackend * FP_LOCK_SLOTS_PER_GROUP >= max_locks_per_xact)
+-			break;
+-
+-		FastPathLockGroupsPerBackend *= 2;
+-	}
++//	FastPathLockGroupsPerBackend = 1;
++//	while (FastPathLockGroupsPerBackend < FP_LOCK_GROUPS_PER_BACKEND_MAX)
++//	{
++//		/* stop once we hit max_locks_per_xact */
++//		if (FastPathLockGroupsPerBackend * FP_LOCK_SLOTS_PER_GROUP >= max_locks_per_xact)
++//			break;
++//
++//		FastPathLockGroupsPerBackend *= 2;
++//	}
+ 
+ 	elog(LOG, "FastPathLockGroupsPerBackend = %d", FastPathLockGroupsPerBackend);
+ 
+diff --git a/src/backend/utils/misc/guc_tables.c b/src/backend/utils/misc/guc_tables.c
+index 686309db58b..cef6341979f 100644
+--- a/src/backend/utils/misc/guc_tables.c
++++ b/src/backend/utils/misc/guc_tables.c
+@@ -2788,6 +2788,16 @@ struct config_int ConfigureNamesInt[] =
+ 		NULL, NULL, NULL
+ 	},
+ 
++	{
++		{"fastpath_lock_groups", PGC_POSTMASTER, LOCK_MANAGEMENT,
++			gettext_noop("Sets the maximum number of locks per transaction."),
++			gettext_noop("number of groups in the fast-path lock array.")
++		},
++		&FastPathLockGroupsPerBackend,
++		1, 1, 4096,
++		NULL, NULL, NULL
++	},
++
+ 	{
+ 		{"max_pred_locks_per_transaction", PGC_POSTMASTER, LOCK_MANAGEMENT,
+ 			gettext_noop("Sets the maximum number of predicate locks per transaction."),
+-- 
+2.46.0
+

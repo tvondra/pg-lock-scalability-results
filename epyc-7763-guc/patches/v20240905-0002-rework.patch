@@ -1,0 +1,301 @@
+From f67d39acdc1c13b43167a45cd1e7429b56e06019 Mon Sep 17 00:00:00 2001
+From: Tomas Vondra <tomas@2ndquadrant.com>
+Date: Mon, 2 Sep 2024 15:37:41 +0200
+Subject: [PATCH v20240905 2/5] rework
+
+---
+ src/backend/storage/lmgr/lock.c | 125 +++++++++++++++++++++++---------
+ src/include/storage/proc.h      |   4 +-
+ 2 files changed, 92 insertions(+), 37 deletions(-)
+
+diff --git a/src/backend/storage/lmgr/lock.c b/src/backend/storage/lmgr/lock.c
+index 5115375669d..f41e4a33f06 100644
+--- a/src/backend/storage/lmgr/lock.c
++++ b/src/backend/storage/lmgr/lock.c
+@@ -184,19 +184,49 @@ static int	FastPathLocalUseCounts[FP_LOCK_GROUPS_PER_BACKEND];
+  */
+ static bool IsRelationExtensionLockHeld PG_USED_FOR_ASSERTS_ONLY = false;
+ 
++/*
++ * Macros to calculate the group and index for a relation.
++ *
++ * The formula is a simple hash function, designed to spread the OIDs a bit,
++ * so that even contiguous values end up in different groups. In most cases
++ * there will be gaps anyway, but the multiplication should help a bit.
++ *
++ * The selected value (49157) is a prime not too close to 2^k, and it's
++ * small enough to not cause overflows (in 64-bit).
++ *
++ * XXX Maybe it'd be easier / cheaper to just do this in 32-bits? If we
++ * did (rel % 100000) or something like that first, that'd be enough to
++ * not wrap around. But even if it wrapped, would that be a problem?
++ */
++#define FAST_PATH_LOCK_REL_GROUP(rel) 	(((uint64) (rel) * 49157) % FP_LOCK_GROUPS_PER_BACKEND)
++
++/*
++ * Given a lock index (into the per-backend array), calculated using the
++ * FP_LOCK_SLOT_INDEX macro, calculate group and index (within the group).
++ */
++#define FAST_PATH_LOCK_GROUP(index)	\
++	(AssertMacro(((index) >= 0) && ((index) < FP_LOCK_SLOTS_PER_BACKEND)), \
++	 ((index) / FP_LOCK_SLOTS_PER_GROUP))
++#define FAST_PATH_LOCK_INDEX(index)	\
++	(AssertMacro(((index) >= 0) && ((index) < FP_LOCK_SLOTS_PER_BACKEND)), \
++	 ((index) % FP_LOCK_SLOTS_PER_GROUP))
++
++/* Calculate index in the whole per-backend array of lock slots. */
++#define FP_LOCK_SLOT_INDEX(group, index) \
++	(AssertMacro(((group) >= 0) && ((group) < FP_LOCK_GROUPS_PER_BACKEND)), \
++	 AssertMacro(((index) >= 0) && ((index) < FP_LOCK_SLOTS_PER_GROUP)), \
++	 ((group) * FP_LOCK_SLOTS_PER_GROUP + (index)))
++
+ /* Macros for manipulating proc->fpLockBits */
+ #define FAST_PATH_BITS_PER_SLOT			3
+ #define FAST_PATH_LOCKNUMBER_OFFSET		1
+-#define FAST_PATH_LOCK_REL_GROUP(rel) 	(((uint64) (rel) * 7883 + 4481) % FP_LOCK_GROUPS_PER_BACKEND)
+-#define FAST_PATH_LOCK_INDEX(n)			((n) % FP_LOCK_SLOTS_PER_GROUP)
+-#define FAST_PATH_LOCK_GROUP(n)			((n) / FP_LOCK_SLOTS_PER_GROUP)
+ #define FAST_PATH_MASK					((1 << FAST_PATH_BITS_PER_SLOT) - 1)
+ #define FAST_PATH_GET_BITS(proc, n) \
+ 	(((proc)->fpLockBits[(n)/16] >> (FAST_PATH_BITS_PER_SLOT * FAST_PATH_LOCK_INDEX(n))) & FAST_PATH_MASK)
+ #define FAST_PATH_BIT_POSITION(n, l) \
+ 	(AssertMacro((l) >= FAST_PATH_LOCKNUMBER_OFFSET), \
+ 	 AssertMacro((l) < FAST_PATH_BITS_PER_SLOT+FAST_PATH_LOCKNUMBER_OFFSET), \
+-	 AssertMacro((n) < FP_LOCKS_PER_BACKEND), \
++	 AssertMacro((n) < FP_LOCK_SLOTS_PER_BACKEND), \
+ 	 ((l) - FAST_PATH_LOCKNUMBER_OFFSET + FAST_PATH_BITS_PER_SLOT * (FAST_PATH_LOCK_INDEX(n))))
+ #define FAST_PATH_SET_LOCKMODE(proc, n, l) \
+ 	 (proc)->fpLockBits[FAST_PATH_LOCK_GROUP(n)] |= UINT64CONST(1) << FAST_PATH_BIT_POSITION(n, l)
+@@ -2642,20 +2672,25 @@ LockReassignOwner(LOCALLOCK *locallock, ResourceOwner parent)
+ static bool
+ FastPathGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ {
+-	uint32		i;
+-	uint32		f;
+-	uint32		unused_slot = FP_LOCKS_PER_BACKEND;
++	uint32		unused_slot = FP_LOCK_SLOTS_PER_BACKEND;
++	uint32		i,
++				group;
+ 
+-	int			group = FAST_PATH_LOCK_REL_GROUP(relid);
++	/* Which FP group does the lock belong to? */
++	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
+ 
+ 	/* Scan for existing entry for this relid, remembering empty slot. */
+ 	for (i = 0; i < FP_LOCK_SLOTS_PER_GROUP; i++)
+ 	{
+-		f = group * FP_LOCK_SLOTS_PER_GROUP + i;
++		uint32		f;
++
++		/* index into the whole per-backend array */
++		f = FP_LOCK_SLOT_INDEX(group, i);
+ 
+-		Assert(f >= 0 && f < FP_LOCKS_PER_BACKEND);
++		/* must not overflow the array of all locks for a backend */
++		Assert(f < FP_LOCK_SLOTS_PER_BACKEND);
+ 
+ 		if (FAST_PATH_GET_BITS(MyProc, f) == 0)
+ 			unused_slot = f;
+@@ -2668,7 +2703,7 @@ FastPathGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ 	}
+ 
+ 	/* If no existing entry, use any empty slot. */
+-	if (unused_slot < FP_LOCKS_PER_BACKEND)
++	if (unused_slot < FP_LOCK_SLOTS_PER_BACKEND)
+ 	{
+ 		MyProc->fpRelId[unused_slot] = relid;
+ 		FAST_PATH_SET_LOCKMODE(MyProc, unused_slot, lockmode);
+@@ -2688,20 +2723,25 @@ FastPathGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ static bool
+ FastPathUnGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ {
+-	uint32		i;
+-	uint32		f;
+ 	bool		result = false;
++	uint32		i,
++				group;
+ 
+-	int			group = FAST_PATH_LOCK_REL_GROUP(relid);
++	/* Which FP group does the lock belong to? */
++	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
+ 
+ 	FastPathLocalUseCounts[group] = 0;
+ 	for (i = 0; i < FP_LOCK_SLOTS_PER_GROUP; i++)
+ 	{
+-		f = group * FP_LOCK_SLOTS_PER_GROUP + i;
++		uint32		f;
++
++		/* index into the whole per-backend array */
++		f = FP_LOCK_SLOT_INDEX(group, i);
+ 
+-		Assert(f >= 0 && f < FP_LOCKS_PER_BACKEND);
++		/* must not overflow the array of all locks for a backend */
++		Assert(f < FP_LOCK_SLOTS_PER_BACKEND);
+ 
+ 		if (MyProc->fpRelId[f] == relid
+ 			&& FAST_PATH_CHECK_LOCKMODE(MyProc, f, lockmode))
+@@ -2730,7 +2770,7 @@ FastPathTransferRelationLocks(LockMethod lockMethodTable, const LOCKTAG *locktag
+ {
+ 	LWLock	   *partitionLock = LockHashPartitionLock(hashcode);
+ 	Oid			relid = locktag->locktag_field2;
+-	uint32		i, j, group;
++	uint32		i;
+ 
+ 	/*
+ 	 * Every PGPROC that can potentially hold a fast-path lock is present in
+@@ -2741,7 +2781,8 @@ FastPathTransferRelationLocks(LockMethod lockMethodTable, const LOCKTAG *locktag
+ 	for (i = 0; i < ProcGlobal->allProcCount; i++)
+ 	{
+ 		PGPROC	   *proc = &ProcGlobal->allProcs[i];
+-		uint32		f;
++		uint32		j,
++					group;
+ 
+ 		LWLockAcquire(&proc->fpInfoLock, LW_EXCLUSIVE);
+ 
+@@ -2766,17 +2807,21 @@ FastPathTransferRelationLocks(LockMethod lockMethodTable, const LOCKTAG *locktag
+ 			continue;
+ 		}
+ 
++		/* Which FP group does the lock belong to? */
+ 		group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-		Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++		Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
+ 
+ 		for (j = 0; j < FP_LOCK_SLOTS_PER_GROUP; j++)
+ 		{
+ 			uint32		lockmode;
++			uint32		f;
+ 
+-			f = group * FP_LOCK_SLOTS_PER_GROUP + j;
++			/* index into the whole per-backend array */
++			f = FP_LOCK_SLOT_INDEX(group, j);
+ 
+-			Assert(f >= 0 && f < FP_LOCKS_PER_BACKEND);
++			/* must not overflow the array of all locks for a backend */
++			Assert(f < FP_LOCK_SLOTS_PER_BACKEND);
+ 
+ 			/* Look for an allocated slot matching the given relid. */
+ 			if (relid != proc->fpRelId[f] || FAST_PATH_GET_BITS(proc, f) == 0)
+@@ -2828,21 +2873,26 @@ FastPathGetRelationLockEntry(LOCALLOCK *locallock)
+ 	PROCLOCK   *proclock = NULL;
+ 	LWLock	   *partitionLock = LockHashPartitionLock(locallock->hashcode);
+ 	Oid			relid = locktag->locktag_field2;
+-	uint32		f, i;
++	uint32		i,
++				group;
+ 
+-	int			group = FAST_PATH_LOCK_REL_GROUP(relid);
++	/* Which FP group does the lock belong to? */
++	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
+ 
+ 	LWLockAcquire(&MyProc->fpInfoLock, LW_EXCLUSIVE);
+ 
+ 	for (i = 0; i < FP_LOCK_SLOTS_PER_GROUP; i++)
+ 	{
+ 		uint32		lockmode;
++		uint32		f;
+ 
+-		f = group * FP_LOCK_SLOTS_PER_GROUP + i;
++		/* index into the whole per-backend array */
++		f = FP_LOCK_SLOT_INDEX(group, i);
+ 
+-		Assert(f >= 0 && f < FP_LOCKS_PER_BACKEND);
++		/* must not overflow the array of all locks for a backend */
++		Assert(f < FP_LOCK_SLOTS_PER_BACKEND);
+ 
+ 		/* Look for an allocated slot matching the given relid. */
+ 		if (relid != MyProc->fpRelId[f] || FAST_PATH_GET_BITS(MyProc, f) == 0)
+@@ -2946,10 +2996,12 @@ GetLockConflicts(const LOCKTAG *locktag, LOCKMODE lockmode, int *countp)
+ 	LWLock	   *partitionLock;
+ 	int			count = 0;
+ 	int			fast_count = 0;
++	uint32		group;
+ 
+-	int			group = FAST_PATH_LOCK_REL_GROUP(locktag->locktag_field2);
++	/* Which FP group does the lock belong to? */
++	group = FAST_PATH_LOCK_REL_GROUP(locktag->locktag_field2);
+ 
+-	Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
+ 
+ 	if (lockmethodid <= 0 || lockmethodid >= lengthof(LockMethods))
+ 		elog(ERROR, "unrecognized lock method: %d", lockmethodid);
+@@ -2987,7 +3039,7 @@ GetLockConflicts(const LOCKTAG *locktag, LOCKMODE lockmode, int *countp)
+ 	 */
+ 	if (ConflictsWithRelationFastPath(locktag, lockmode))
+ 	{
+-		int			i, j;
++		int			i;
+ 		Oid			relid = locktag->locktag_field2;
+ 		VirtualTransactionId vxid;
+ 
+@@ -3004,7 +3056,7 @@ GetLockConflicts(const LOCKTAG *locktag, LOCKMODE lockmode, int *countp)
+ 		for (i = 0; i < ProcGlobal->allProcCount; i++)
+ 		{
+ 			PGPROC	   *proc = &ProcGlobal->allProcs[i];
+-			uint32		f;
++			uint32		j;
+ 
+ 			/* A backend never blocks itself */
+ 			if (proc == MyProc)
+@@ -3029,10 +3081,13 @@ GetLockConflicts(const LOCKTAG *locktag, LOCKMODE lockmode, int *countp)
+ 			for (j = 0; j < FP_LOCK_SLOTS_PER_GROUP; j++)
+ 			{
+ 				uint32		lockmask;
++				uint32		f;
+ 
+-				f = group * FP_LOCK_SLOTS_PER_GROUP + j;
++				/* index into the whole per-backend array */
++				f = FP_LOCK_SLOT_INDEX(group, j);
+ 
+-				Assert(f >= 0 && f < FP_LOCKS_PER_BACKEND);
++				/* must not overflow the array of all locks for a backend */
++				Assert(f < FP_LOCK_SLOTS_PER_BACKEND);
+ 
+ 				/* Look for an allocated slot matching the given relid. */
+ 				if (relid != proc->fpRelId[f])
+@@ -3693,7 +3748,7 @@ GetLockStatusData(void)
+ 
+ 		LWLockAcquire(&proc->fpInfoLock, LW_SHARED);
+ 
+-		for (f = 0; f < FP_LOCKS_PER_BACKEND; ++f)
++		for (f = 0; f < FP_LOCK_SLOTS_PER_BACKEND; ++f)
+ 		{
+ 			LockInstanceData *instance;
+ 			uint32		lockbits = FAST_PATH_GET_BITS(proc, f);
+diff --git a/src/include/storage/proc.h b/src/include/storage/proc.h
+index f074266a48c..d988cfce99e 100644
+--- a/src/include/storage/proc.h
++++ b/src/include/storage/proc.h
+@@ -85,7 +85,7 @@ struct XidCache
+  */
+ #define		FP_LOCK_GROUPS_PER_BACKEND	64
+ #define		FP_LOCK_SLOTS_PER_GROUP		16		/* don't change */
+-#define		FP_LOCKS_PER_BACKEND		(FP_LOCK_SLOTS_PER_GROUP * FP_LOCK_GROUPS_PER_BACKEND)
++#define		FP_LOCK_SLOTS_PER_BACKEND	(FP_LOCK_SLOTS_PER_GROUP * FP_LOCK_GROUPS_PER_BACKEND)
+ /*
+  * Flags for PGPROC.delayChkptFlags
+  *
+@@ -294,7 +294,7 @@ struct PGPROC
+ 	/* Lock manager data, recording fast-path locks taken by this backend. */
+ 	LWLock		fpInfoLock;		/* protects per-backend fast-path state */
+ 	uint64		fpLockBits[FP_LOCK_GROUPS_PER_BACKEND];		/* lock modes held for each fast-path slot */
+-	Oid			fpRelId[FP_LOCKS_PER_BACKEND]; /* slots for rel oids */
++	Oid			fpRelId[FP_LOCK_SLOTS_PER_BACKEND]; /* slots for rel oids */
+ 	bool		fpVXIDLock;		/* are we holding a fast-path VXID lock? */
+ 	LocalTransactionId fpLocalTransactionId;	/* lxid for fast-path VXID
+ 												 * lock */
+-- 
+2.46.0
+

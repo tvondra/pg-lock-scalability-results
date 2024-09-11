@@ -1,0 +1,52 @@
+BINDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/bin
+DOCDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/share/doc/postgresql
+HTMLDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/share/doc/postgresql
+INCLUDEDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/include
+PKGINCLUDEDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/include/postgresql
+INCLUDEDIR-SERVER = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/include/postgresql/server
+LIBDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/lib
+PKGLIBDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/lib/postgresql
+LOCALEDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/share/locale
+MANDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/share/man
+SHAREDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/share/postgresql
+SYSCONFDIR = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/etc/postgresql
+PGXS = /mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/lib/postgresql/pgxs/src/makefiles/pgxs.mk
+CONFIGURE =  '--prefix=/mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc' '--enable-debug' '--enable-depend' 'CC=ccache gcc'
+CC = ccache gcc
+CPPFLAGS = -D_GNU_SOURCE
+CFLAGS = -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wimplicit-fallthrough=3 -Wcast-function-type -Wshadow=compatible-local -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -Wno-format-truncation -Wno-stringop-truncation -g -O2
+CFLAGS_SL = -fPIC
+LDFLAGS = -Wl,--as-needed -Wl,-rpath,'/mnt/data/builds/pg-partitions-no-groups-64-pool-no-guc/lib',--enable-new-dtags
+LDFLAGS_EX = 
+LDFLAGS_SL = 
+LIBS = -lpgcommon -lpgport -lz -ledit -lm 
+VERSION = PostgreSQL 18devel
+NOTICE:  database "tmp" does not exist, skipping
+dropping old tables...
+NOTICE:  table "pgbench_accounts" does not exist, skipping
+NOTICE:  table "pgbench_branches" does not exist, skipping
+NOTICE:  table "pgbench_history" does not exist, skipping
+NOTICE:  table "pgbench_tellers" does not exist, skipping
+creating tables...
+creating 1000 partitions...
+generating data (client-side)...
+100000 of 1000000 tuples (10%) of pgbench_accounts done (elapsed 0.25 s, remaining 2.28 s)
+200000 of 1000000 tuples (20%) of pgbench_accounts done (elapsed 0.58 s, remaining 2.32 s)
+300000 of 1000000 tuples (30%) of pgbench_accounts done (elapsed 0.97 s, remaining 2.27 s)
+400000 of 1000000 tuples (40%) of pgbench_accounts done (elapsed 1.31 s, remaining 1.97 s)
+500000 of 1000000 tuples (50%) of pgbench_accounts done (elapsed 1.64 s, remaining 1.64 s)
+600000 of 1000000 tuples (60%) of pgbench_accounts done (elapsed 2.01 s, remaining 1.34 s)
+700000 of 1000000 tuples (70%) of pgbench_accounts done (elapsed 2.32 s, remaining 0.99 s)
+800000 of 1000000 tuples (80%) of pgbench_accounts done (elapsed 2.66 s, remaining 0.67 s)
+900000 of 1000000 tuples (90%) of pgbench_accounts done (elapsed 3.03 s, remaining 0.34 s)
+1000000 of 1000000 tuples (100%) of pgbench_accounts done (elapsed 3.39 s, remaining 0.00 s)
+vacuuming...
+creating primary keys...
+done in 9.22 s (drop tables 0.00 s, create tables 3.51 s, client-side generate 3.66 s, vacuum 1.53 s, primary keys 0.51 s).
+ALTER TABLE
+UPDATE 1000000
+CREATE INDEX
+VACUUM
+VACUUM
+CHECKPOINT
+ALTER DATABASE

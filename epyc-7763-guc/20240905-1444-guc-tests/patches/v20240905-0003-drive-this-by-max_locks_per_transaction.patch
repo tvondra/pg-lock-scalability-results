@@ -1,0 +1,235 @@
+From 52fd498820e62f1d41beb5b1fd736d54505b34dd Mon Sep 17 00:00:00 2001
+From: Tomas Vondra <tv@fuzzy.cz>
+Date: Mon, 2 Sep 2024 01:56:17 +0200
+Subject: [PATCH v20240905 3/5] drive this by max_locks_per_transaction
+
+---
+ src/backend/storage/lmgr/lock.c | 34 ++++++++++++++++++-------
+ src/backend/storage/lmgr/proc.c | 45 +++++++++++++++++++++++++++++++++
+ src/include/storage/proc.h      | 10 +++++---
+ 3 files changed, 76 insertions(+), 13 deletions(-)
+
+diff --git a/src/backend/storage/lmgr/lock.c b/src/backend/storage/lmgr/lock.c
+index f41e4a33f06..0e630804680 100644
+--- a/src/backend/storage/lmgr/lock.c
++++ b/src/backend/storage/lmgr/lock.c
+@@ -166,8 +166,13 @@ typedef struct TwoPhaseLockRecord
+  * might be higher than the real number if another backend has transferred
+  * our locks to the primary lock table, but it can never be lower than the
+  * real value, since only we can acquire locks on our own behalf.
++ *
++ * XXX Allocate a static array of the maximum size. We could have a pointer
++ * and then allocate just the right size to save a couple kB, but that does
++ * not seem worth the extra complexity of having to initialize it etc. This
++ * way it gets initialized automaticaly.
+  */
+-static int	FastPathLocalUseCounts[FP_LOCK_GROUPS_PER_BACKEND];
++static int	FastPathLocalUseCounts[FP_LOCK_GROUPS_PER_BACKEND_MAX];
+ 
+ /*
+  * Flag to indicate if the relation extension lock is held by this backend.
+@@ -184,6 +189,17 @@ static int	FastPathLocalUseCounts[FP_LOCK_GROUPS_PER_BACKEND];
+  */
+ static bool IsRelationExtensionLockHeld PG_USED_FOR_ASSERTS_ONLY = false;
+ 
++/*
++ * Number of fast-path locks per backend - size of the arrays in PGPROC.
++ * This is set only once during start, before initializing shared memory.
++ * After that it remains constant.
++ *
++ * XXX Right now this is sized based on max_locks_per_transaction GUC.
++ * We try to fit the expected number of locks into the cache, with some
++ * upper limit as a safety.
++ */
++int FastPathLockGroupsPerBackend = 0;
++
+ /*
+  * Macros to calculate the group and index for a relation.
+  *
+@@ -198,7 +214,7 @@ static bool IsRelationExtensionLockHeld PG_USED_FOR_ASSERTS_ONLY = false;
+  * did (rel % 100000) or something like that first, that'd be enough to
+  * not wrap around. But even if it wrapped, would that be a problem?
+  */
+-#define FAST_PATH_LOCK_REL_GROUP(rel) 	(((uint64) (rel) * 49157) % FP_LOCK_GROUPS_PER_BACKEND)
++#define FAST_PATH_LOCK_REL_GROUP(rel) 	(((uint64) (rel) * 49157) % FastPathLockGroupsPerBackend)
+ 
+ /*
+  * Given a lock index (into the per-backend array), calculated using the
+@@ -213,7 +229,7 @@ static bool IsRelationExtensionLockHeld PG_USED_FOR_ASSERTS_ONLY = false;
+ 
+ /* Calculate index in the whole per-backend array of lock slots. */
+ #define FP_LOCK_SLOT_INDEX(group, index) \
+-	(AssertMacro(((group) >= 0) && ((group) < FP_LOCK_GROUPS_PER_BACKEND)), \
++	(AssertMacro(((group) >= 0) && ((group) < FastPathLockGroupsPerBackend)), \
+ 	 AssertMacro(((index) >= 0) && ((index) < FP_LOCK_SLOTS_PER_GROUP)), \
+ 	 ((group) * FP_LOCK_SLOTS_PER_GROUP + (index)))
+ 
+@@ -2100,7 +2116,7 @@ LockRelease(const LOCKTAG *locktag, LOCKMODE lockmode, bool sessionLock)
+ 	/* Which FP group does the lock belong to? */
+ 	group = FAST_PATH_LOCK_REL_GROUP(locktag->locktag_field2);
+ 
+-	Assert(group >= 0 && group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group >= 0 && group < FastPathLockGroupsPerBackend);
+ 
+ 	/* Attempt fast release of any lock eligible for the fast path. */
+ 	if (EligibleForRelationFastPath(locktag, lockmode) &&
+@@ -2679,7 +2695,7 @@ FastPathGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ 	/* Which FP group does the lock belong to? */
+ 	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FastPathLockGroupsPerBackend);
+ 
+ 	/* Scan for existing entry for this relid, remembering empty slot. */
+ 	for (i = 0; i < FP_LOCK_SLOTS_PER_GROUP; i++)
+@@ -2730,7 +2746,7 @@ FastPathUnGrantRelationLock(Oid relid, LOCKMODE lockmode)
+ 	/* Which FP group does the lock belong to? */
+ 	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FastPathLockGroupsPerBackend);
+ 
+ 	FastPathLocalUseCounts[group] = 0;
+ 	for (i = 0; i < FP_LOCK_SLOTS_PER_GROUP; i++)
+@@ -2810,7 +2826,7 @@ FastPathTransferRelationLocks(LockMethod lockMethodTable, const LOCKTAG *locktag
+ 		/* Which FP group does the lock belong to? */
+ 		group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-		Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
++		Assert(group < FastPathLockGroupsPerBackend);
+ 
+ 		for (j = 0; j < FP_LOCK_SLOTS_PER_GROUP; j++)
+ 		{
+@@ -2879,7 +2895,7 @@ FastPathGetRelationLockEntry(LOCALLOCK *locallock)
+ 	/* Which FP group does the lock belong to? */
+ 	group = FAST_PATH_LOCK_REL_GROUP(relid);
+ 
+-	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FastPathLockGroupsPerBackend);
+ 
+ 	LWLockAcquire(&MyProc->fpInfoLock, LW_EXCLUSIVE);
+ 
+@@ -3001,7 +3017,7 @@ GetLockConflicts(const LOCKTAG *locktag, LOCKMODE lockmode, int *countp)
+ 	/* Which FP group does the lock belong to? */
+ 	group = FAST_PATH_LOCK_REL_GROUP(locktag->locktag_field2);
+ 
+-	Assert(group < FP_LOCK_GROUPS_PER_BACKEND);
++	Assert(group < FastPathLockGroupsPerBackend);
+ 
+ 	if (lockmethodid <= 0 || lockmethodid >= lengthof(LockMethods))
+ 		elog(ERROR, "unrecognized lock method: %d", lockmethodid);
+diff --git a/src/backend/storage/lmgr/proc.c b/src/backend/storage/lmgr/proc.c
+index ac66da8638f..c3d2856b151 100644
+--- a/src/backend/storage/lmgr/proc.c
++++ b/src/backend/storage/lmgr/proc.c
+@@ -113,6 +113,28 @@ ProcGlobalShmemSize(void)
+ 	size = add_size(size, mul_size(TotalProcs, sizeof(*ProcGlobal->subxidStates)));
+ 	size = add_size(size, mul_size(TotalProcs, sizeof(*ProcGlobal->statusFlags)));
+ 
++	/*
++	 * Calculate the number of fast-path lock groups. We allow anything
++	 * between 1 and 1024 groups, with the usual power-of-2 logic.
++	 *
++	 * XXX The 1 is the current value, 1024 is an arbitrary limit matching
++	 * max_locks_per_xact = 16k. The default is max_locks_per_xact = 64,
++	 * which means 4 groups by default.
++	 */
++	FastPathLockGroupsPerBackend = 1;
++	while (FastPathLockGroupsPerBackend < FP_LOCK_GROUPS_PER_BACKEND_MAX)
++	{
++		/* stop once we hit max_locks_per_xact */
++		if (FastPathLockGroupsPerBackend * FP_LOCK_SLOTS_PER_GROUP >= max_locks_per_xact)
++			break;
++
++		FastPathLockGroupsPerBackend *= 2;
++	}
++
++	elog(LOG, "FastPathLockGroupsPerBackend = %d", FastPathLockGroupsPerBackend);
++
++	size = add_size(size, mul_size(TotalProcs, FastPathLockGroupsPerBackend * (sizeof(uint64) + sizeof(Oid) * FP_LOCK_SLOTS_PER_GROUP)));
++
+ 	return size;
+ }
+ 
+@@ -162,6 +184,8 @@ InitProcGlobal(void)
+ 				j;
+ 	bool		found;
+ 	uint32		TotalProcs = MaxBackends + NUM_AUXILIARY_PROCS + max_prepared_xacts;
++	char	   *ptr,
++			   *endptr;
+ 
+ 	/* Create the ProcGlobal shared structure */
+ 	ProcGlobal = (PROC_HDR *)
+@@ -211,12 +235,31 @@ InitProcGlobal(void)
+ 	ProcGlobal->statusFlags = (uint8 *) ShmemAlloc(TotalProcs * sizeof(*ProcGlobal->statusFlags));
+ 	MemSet(ProcGlobal->statusFlags, 0, TotalProcs * sizeof(*ProcGlobal->statusFlags));
+ 
++	/*
++	 * Allocate arrays for fast-path locks. Those are variable-length, based
++	 * on max_locks_per_transaction, so can't be included in PGPROC.
++	 */
++	ptr = ShmemAlloc(TotalProcs * (FastPathLockGroupsPerBackend * (sizeof(uint64) + sizeof(Oid) * FP_LOCK_SLOTS_PER_GROUP)));
++	endptr = ptr + (TotalProcs * (FastPathLockGroupsPerBackend * (sizeof(uint64) + sizeof(Oid) * FP_LOCK_SLOTS_PER_GROUP)));
++	MemSet(ptr, 0, TotalProcs * (FastPathLockGroupsPerBackend * (sizeof(uint64) + sizeof(Oid) * FP_LOCK_SLOTS_PER_GROUP)));
++
++	elog(LOG, "ptrlen %lu", (endptr - ptr));
++
+ 	for (i = 0; i < TotalProcs; i++)
+ 	{
+ 		PGPROC	   *proc = &procs[i];
+ 
+ 		/* Common initialization for all PGPROCs, regardless of type. */
+ 
++		/*
++		 * Set the fast-path lock arrays.
++		 */
++		proc->fpLockBits = (uint64 *) ptr;
++		ptr += sizeof(uint64) * FastPathLockGroupsPerBackend;
++
++		proc->fpRelId = (Oid *) ptr;
++		ptr += sizeof(Oid) * FastPathLockGroupsPerBackend * FP_LOCK_SLOTS_PER_GROUP;
++
+ 		/*
+ 		 * Set up per-PGPROC semaphore, latch, and fpInfoLock.  Prepared xact
+ 		 * dummy PGPROCs don't need these though - they're never associated
+@@ -278,6 +321,8 @@ InitProcGlobal(void)
+ 		pg_atomic_init_u64(&(proc->waitStart), 0);
+ 	}
+ 
++	Assert(endptr == ptr);
++
+ 	/*
+ 	 * Save pointers to the blocks of PGPROC structures reserved for auxiliary
+ 	 * processes and prepared transactions.
+diff --git a/src/include/storage/proc.h b/src/include/storage/proc.h
+index d988cfce99e..c9184cefccf 100644
+--- a/src/include/storage/proc.h
++++ b/src/include/storage/proc.h
+@@ -83,9 +83,11 @@ struct XidCache
+  * rather than the main lock table.  This eases contention on the lock
+  * manager LWLocks.  See storage/lmgr/README for additional details.
+  */
+-#define		FP_LOCK_GROUPS_PER_BACKEND	64
++extern PGDLLIMPORT int	FastPathLockGroupsPerBackend;
++#define		FP_LOCK_GROUPS_PER_BACKEND_MAX	4096
+ #define		FP_LOCK_SLOTS_PER_GROUP		16		/* don't change */
+-#define		FP_LOCK_SLOTS_PER_BACKEND	(FP_LOCK_SLOTS_PER_GROUP * FP_LOCK_GROUPS_PER_BACKEND)
++#define		FP_LOCK_SLOTS_PER_BACKEND	(FP_LOCK_SLOTS_PER_GROUP * FastPathLockGroupsPerBackend)
++
+ /*
+  * Flags for PGPROC.delayChkptFlags
+  *
+@@ -293,8 +295,8 @@ struct PGPROC
+ 
+ 	/* Lock manager data, recording fast-path locks taken by this backend. */
+ 	LWLock		fpInfoLock;		/* protects per-backend fast-path state */
+-	uint64		fpLockBits[FP_LOCK_GROUPS_PER_BACKEND];		/* lock modes held for each fast-path slot */
+-	Oid			fpRelId[FP_LOCK_SLOTS_PER_BACKEND]; /* slots for rel oids */
++	uint64	   *fpLockBits;		/* lock modes held for each fast-path slot */
++	Oid		   *fpRelId;		/* slots for rel oids */
+ 	bool		fpVXIDLock;		/* are we holding a fast-path VXID lock? */
+ 	LocalTransactionId fpLocalTransactionId;	/* lxid for fast-path VXID
+ 												 * lock */
+-- 
+2.46.0
+

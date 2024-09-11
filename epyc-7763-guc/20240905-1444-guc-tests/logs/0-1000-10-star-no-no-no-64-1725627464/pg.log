@@ -1,0 +1,46 @@
+2024-09-06 12:57:45.837 UTC [3963197] LOG:  FastPathLockGroupsPerBackend = 64
+2024-09-06 12:57:45.837 UTC [3963197] LOG:  FastPathLockGroupsPerBackend = 64
+2024-09-06 12:57:46.926 UTC [3963197] LOG:  ptrlen 4737024
+2024-09-06 12:57:46.972 UTC [3963197] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit
+2024-09-06 12:57:46.972 UTC [3963197] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-09-06 12:57:46.979 UTC [3963197] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-09-06 12:57:46.996 UTC [3963200] LOG:  database system was shut down at 2024-09-06 12:57:44 UTC
+2024-09-06 12:57:47.008 UTC [3963197] LOG:  database system is ready to accept connections
+2024-09-06 12:57:54.866 UTC [3963198] LOG:  checkpoints are occurring too frequently (8 seconds apart)
+2024-09-06 12:57:54.866 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:57:54.866 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:58:05.439 UTC [3963198] LOG:  checkpoint complete: wrote 40708 buffers (1.9%); 0 WAL file(s) added, 3 removed, 30 recycled; write=8.049 s, sync=2.089 s, total=10.573 s; sync files=345, longest=1.395 s, average=0.007 s; distance=553346 kB, estimate=553346 kB; lsn=6/CD001278, redo lsn=6/ACF86970
+2024-09-06 12:58:05.439 UTC [3963198] LOG:  checkpoints are occurring too frequently (11 seconds apart)
+2024-09-06 12:58:05.439 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:58:05.439 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:58:14.190 UTC [3963198] LOG:  checkpoint complete: wrote 39492 buffers (1.9%); 0 WAL file(s) added, 2 removed, 32 recycled; write=6.469 s, sync=1.904 s, total=8.751 s; sync files=3, longest=1.450 s, average=0.635 s; distance=544367 kB, estimate=552449 kB; lsn=6/ED000978, redo lsn=6/CE322870
+2024-09-06 12:58:14.415 UTC [3963198] LOG:  checkpoints are occurring too frequently (9 seconds apart)
+2024-09-06 12:58:14.415 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:58:14.416 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:58:40.608 UTC [3963198] LOG:  checkpoint complete: wrote 39544 buffers (1.9%); 0 WAL file(s) added, 2 removed, 31 recycled; write=22.477 s, sync=3.614 s, total=26.193 s; sync files=13, longest=0.584 s, average=0.278 s; distance=544561 kB, estimate=551660 kB; lsn=7/FDB4358, redo lsn=6/EF6EEC90
+2024-09-06 12:58:41.717 UTC [3963198] LOG:  checkpoints are occurring too frequently (27 seconds apart)
+2024-09-06 12:58:41.717 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:58:41.717 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:58:54.624 UTC [3963198] LOG:  checkpoint complete: wrote 66899 buffers (3.2%); 0 WAL file(s) added, 2 removed, 31 recycled; write=9.357 s, sync=3.181 s, total=12.907 s; sync files=21, longest=2.438 s, average=0.152 s; distance=543078 kB, estimate=550802 kB; lsn=7/3001ED90, redo lsn=7/109485C0
+2024-09-06 12:58:54.624 UTC [3963198] LOG:  checkpoints are occurring too frequently (13 seconds apart)
+2024-09-06 12:58:54.624 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:58:54.624 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:58:54.775 UTC [3963253] LOG:  skipping vacuum of "t" --- lock not available
+2024-09-06 12:58:59.438 UTC [3963198] LOG:  checkpoint complete: wrote 27 buffers (0.0%); 0 WAL file(s) added, 0 removed, 33 recycled; write=2.624 s, sync=2.041 s, total=4.814 s; sync files=31, longest=1.951 s, average=0.066 s; distance=546146 kB, estimate=550336 kB; lsn=7/450057A8, redo lsn=7/31EA1080
+2024-09-06 12:59:04.477 UTC [3963198] LOG:  checkpoints are occurring too frequently (10 seconds apart)
+2024-09-06 12:59:04.477 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:59:04.478 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:59:30.520 UTC [3963198] LOG:  checkpoint complete: wrote 507 buffers (0.0%); 0 WAL file(s) added, 2 removed, 31 recycled; write=21.169 s, sync=4.650 s, total=26.043 s; sync files=50, longest=1.303 s, average=0.093 s; distance=528047 kB, estimate=548107 kB; lsn=7/72C6C9B8, redo lsn=7/5224CCF8
+2024-09-06 12:59:30.783 UTC [3963198] LOG:  checkpoints are occurring too frequently (26 seconds apart)
+2024-09-06 12:59:30.783 UTC [3963198] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-06 12:59:30.783 UTC [3963198] LOG:  checkpoint starting: wal
+2024-09-06 12:59:32.395 UTC [3963198] LOG:  checkpoint complete: wrote 9 buffers (0.0%); 0 WAL file(s) added, 0 removed, 33 recycled; write=0.923 s, sync=0.600 s, total=1.613 s; sync files=8, longest=0.450 s, average=0.075 s; distance=541242 kB, estimate=547421 kB; lsn=7/7684DCC8, redo lsn=7/732DB8C8
+2024-09-06 12:59:34.437 UTC [3963198] LOG:  checkpoint starting: immediate force wait
+2024-09-06 12:59:39.478 UTC [3963198] LOG:  checkpoint complete: wrote 94667 buffers (4.5%); 0 WAL file(s) added, 0 removed, 4 recycled; write=3.815 s, sync=1.193 s, total=5.041 s; sync files=408, longest=0.661 s, average=0.003 s; distance=72540 kB, estimate=499933 kB; lsn=7/779B2C20, redo lsn=7/779B2BC8
+2024-09-06 13:01:14.999 UTC [3963197] LOG:  received fast shutdown request
+2024-09-06 13:01:15.002 UTC [3963197] LOG:  aborting any active transactions
+2024-09-06 13:01:15.003 UTC [3963197] LOG:  background worker "logical replication launcher" (PID 3963203) exited with exit code 1
+2024-09-06 13:01:15.017 UTC [3963198] LOG:  shutting down
+2024-09-06 13:01:15.021 UTC [3963198] LOG:  checkpoint starting: shutdown immediate
+2024-09-06 13:01:15.058 UTC [3963198] LOG:  checkpoint complete: wrote 48 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.020 s, sync=0.006 s, total=0.041 s; sync files=10, longest=0.004 s, average=0.001 s; distance=105 kB, estimate=449950 kB; lsn=7/779CD120, redo lsn=7/779CD120
+2024-09-06 13:01:15.840 UTC [3963197] LOG:  database system is shut down

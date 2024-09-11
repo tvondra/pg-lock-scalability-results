@@ -1,0 +1,430 @@
+From 2efbfdae31528ce0a3b21d4edc72689afc95a2c3 Mon Sep 17 00:00:00 2001
+From: Tomas Vondra <tomas@2ndquadrant.com>
+Date: Tue, 3 Sep 2024 19:27:16 +0200
+Subject: [PATCH v20240905 5/5] lock stats
+
+---
+ src/backend/catalog/system_views.sql      |   6 +
+ src/backend/storage/lmgr/lock.c           |  18 +++
+ src/backend/utils/activity/Makefile       |   1 +
+ src/backend/utils/activity/pgstat.c       |  19 +++
+ src/backend/utils/activity/pgstat_locks.c | 134 ++++++++++++++++++++++
+ src/backend/utils/adt/pgstatfuncs.c       |  18 +++
+ src/include/catalog/pg_proc.dat           |  13 +++
+ src/include/pgstat.h                      |  21 +++-
+ src/include/utils/pgstat_internal.h       |  22 ++++
+ 9 files changed, 251 insertions(+), 1 deletion(-)
+ create mode 100644 src/backend/utils/activity/pgstat_locks.c
+
+diff --git a/src/backend/catalog/system_views.sql b/src/backend/catalog/system_views.sql
+index 7fd5d256a18..f5aecf14365 100644
+--- a/src/backend/catalog/system_views.sql
++++ b/src/backend/catalog/system_views.sql
+@@ -1134,6 +1134,12 @@ CREATE VIEW pg_stat_bgwriter AS
+         pg_stat_get_buf_alloc() AS buffers_alloc,
+         pg_stat_get_bgwriter_stat_reset_time() AS stats_reset;
+ 
++CREATE VIEW pg_stat_locks AS
++    SELECT
++        pg_stat_get_fplocks_num_inserted() AS num_inserted,
++        pg_stat_get_fplocks_num_overflowed() AS num_overflowed,
++        pg_stat_get_fplocks_stat_reset_time() AS stats_reset;
++
+ CREATE VIEW pg_stat_checkpointer AS
+     SELECT
+         pg_stat_get_checkpointer_num_timed() AS num_timed,
+diff --git a/src/backend/storage/lmgr/lock.c b/src/backend/storage/lmgr/lock.c
+index 0e630804680..6603093144b 100644
+--- a/src/backend/storage/lmgr/lock.c
++++ b/src/backend/storage/lmgr/lock.c
+@@ -39,6 +39,7 @@
+ #include "access/xlogutils.h"
+ #include "miscadmin.h"
+ #include "pg_trace.h"
++#include "pgstat.h"
+ #include "storage/proc.h"
+ #include "storage/procarray.h"
+ #include "storage/sinvaladt.h"
+@@ -964,6 +965,23 @@ LockAcquireExtended(const LOCKTAG *locktag,
+ 		log_lock = true;
+ 	}
+ 
++	/*
++	 * See if an eligible lock would fit into the fast path cache or not.
++	 * This is not quite correct, for two reasons. Firstly, eligible locks
++	 * may end up requiring a regular lock because of a strong lock being
++	 * held by someone else. Secondly, the count can be a bit stale, if
++	 * some other backend promoted some of our fast-path locks.
++	 *
++	 * XXX Worth counting non-eligible locks too?
++	 */
++	if (EligibleForRelationFastPath(locktag, lockmode))
++	{
++		if (FastPathLocalUseCounts[FAST_PATH_LOCK_REL_GROUP(locktag->locktag_field2)] < FP_LOCK_SLOTS_PER_GROUP)
++			++PendingFastPathLockStats.num_inserted;
++		else
++			++PendingFastPathLockStats.num_overflowed;
++	}
++
+ 	/*
+ 	 * Attempt to take lock via fast path, if eligible.  But if we remember
+ 	 * having filled up the fast path array, we don't attempt to make any
+diff --git a/src/backend/utils/activity/Makefile b/src/backend/utils/activity/Makefile
+index b9fd66ea17c..4b595f304d0 100644
+--- a/src/backend/utils/activity/Makefile
++++ b/src/backend/utils/activity/Makefile
+@@ -25,6 +25,7 @@ OBJS = \
+ 	pgstat_database.o \
+ 	pgstat_function.o \
+ 	pgstat_io.o \
++	pgstat_locks.o \
+ 	pgstat_relation.o \
+ 	pgstat_replslot.o \
+ 	pgstat_shmem.o \
+diff --git a/src/backend/utils/activity/pgstat.c b/src/backend/utils/activity/pgstat.c
+index 178b5ef65aa..39475c5915f 100644
+--- a/src/backend/utils/activity/pgstat.c
++++ b/src/backend/utils/activity/pgstat.c
+@@ -81,6 +81,7 @@
+  * - pgstat_database.c
+  * - pgstat_function.c
+  * - pgstat_io.c
++ * - pgstat_locks.c
+  * - pgstat_relation.c
+  * - pgstat_replslot.c
+  * - pgstat_slru.c
+@@ -446,6 +447,21 @@ static const PgStat_KindInfo pgstat_kind_builtin_infos[PGSTAT_KIND_BUILTIN_SIZE]
+ 		.reset_all_cb = pgstat_wal_reset_all_cb,
+ 		.snapshot_cb = pgstat_wal_snapshot_cb,
+ 	},
++
++	[PGSTAT_KIND_FPLOCKS] = {
++		.name = "fp-locks",
++
++		.fixed_amount = true,
++
++		.snapshot_ctl_off = offsetof(PgStat_Snapshot, fplocks),
++		.shared_ctl_off = offsetof(PgStat_ShmemControl, fplocks),
++		.shared_data_off = offsetof(PgStatShared_FastPathLocks, stats),
++		.shared_data_len = sizeof(((PgStatShared_FastPathLocks *) 0)->stats),
++
++		.init_shmem_cb = pgstat_fplocks_init_shmem_cb,
++		.reset_all_cb = pgstat_fplocks_reset_all_cb,
++		.snapshot_cb = pgstat_fplocks_snapshot_cb,
++	},
+ };
+ 
+ /*
+@@ -739,6 +755,9 @@ pgstat_report_stat(bool force)
+ 	/* flush SLRU stats */
+ 	partial_flush |= pgstat_slru_flush(nowait);
+ 
++	/* flush lock stats */
++	partial_flush |= pgstat_fplocks_flush(nowait);
++
+ 	last_flush = now;
+ 
+ 	/*
+diff --git a/src/backend/utils/activity/pgstat_locks.c b/src/backend/utils/activity/pgstat_locks.c
+new file mode 100644
+index 00000000000..99a5d5259da
+--- /dev/null
++++ b/src/backend/utils/activity/pgstat_locks.c
+@@ -0,0 +1,134 @@
++/* -------------------------------------------------------------------------
++ *
++ * pgstat_locks.c
++ *	  Implementation of locks statistics.
++ *
++ * This file contains the implementation of lock statistics. It is kept
++ * separate from pgstat.c to enforce the line between the statistics access /
++ * storage implementation and the details about individual types of
++ * statistics.
++ *
++ * Copyright (c) 2001-2024, PostgreSQL Global Development Group
++ *
++ * IDENTIFICATION
++ *	  src/backend/utils/activity/pgstat_locks.c
++ * -------------------------------------------------------------------------
++ */
++
++#include "postgres.h"
++
++#include "utils/pgstat_internal.h"
++
++
++PgStat_FastPathLockStats PendingFastPathLockStats = {0};
++
++
++
++/*
++ * Do we have any locks to report?
++ */
++static bool
++pgstat_have_pending_locks(void)
++{
++	return (PendingFastPathLockStats.num_inserted > 0) ||
++		   (PendingFastPathLockStats.num_overflowed > 0);
++}
++
++
++/*
++ * If nowait is true, this function returns true if the lock could not be
++ * acquired. Otherwise return false.
++ */
++bool
++pgstat_fplocks_flush(bool nowait)
++{
++	PgStatShared_FastPathLocks *stats_shmem = &pgStatLocal.shmem->fplocks;
++
++	Assert(IsUnderPostmaster || !IsPostmasterEnvironment);
++	Assert(pgStatLocal.shmem != NULL &&
++		   !pgStatLocal.shmem->is_shutdown);
++
++	/*
++	 * This function can be called even if nothing at all has happened. Avoid
++	 * taking lock for nothing in that case.
++	 */
++	if (!pgstat_have_pending_locks())
++		return false;
++
++	if (!nowait)
++		LWLockAcquire(&stats_shmem->lock, LW_EXCLUSIVE);
++	else if (!LWLockConditionalAcquire(&stats_shmem->lock, LW_EXCLUSIVE))
++		return true;
++
++#define FPLOCKS_ACC(fld) stats_shmem->stats.fld += PendingFastPathLockStats.fld
++	FPLOCKS_ACC(num_inserted);
++	FPLOCKS_ACC(num_overflowed);
++#undef FPLOCKS_ACC
++
++	LWLockRelease(&stats_shmem->lock);
++
++	/*
++	 * Clear out the statistics buffer, so it can be re-used.
++	 */
++	MemSet(&PendingFastPathLockStats, 0, sizeof(PendingFastPathLockStats));
++
++	return false;
++}
++
++/*
++ * Support function for the SQL-callable pgstat* functions. Returns
++ * a pointer to the fast-path lock statistics struct.
++ */
++PgStat_FastPathLockStats *
++pgstat_fetch_stat_fplocks(void)
++{
++	pgstat_snapshot_fixed(PGSTAT_KIND_FPLOCKS);
++
++	return &pgStatLocal.snapshot.fplocks;
++}
++
++void
++pgstat_fplocks_init_shmem_cb(void *stats)
++{
++	PgStatShared_FastPathLocks *stats_shmem = (PgStatShared_FastPathLocks *) stats;
++
++	LWLockInitialize(&stats_shmem->lock, LWTRANCHE_PGSTATS_DATA);
++}
++
++void
++pgstat_fplocks_reset_all_cb(TimestampTz ts)
++{
++	PgStatShared_FastPathLocks *stats_shmem = &pgStatLocal.shmem->fplocks;
++
++	/* see explanation above PgStatShared_FastPathLocks for the reset protocol */
++	LWLockAcquire(&stats_shmem->lock, LW_EXCLUSIVE);
++	pgstat_copy_changecounted_stats(&stats_shmem->reset_offset,
++									&stats_shmem->stats,
++									sizeof(stats_shmem->stats),
++									&stats_shmem->changecount);
++	stats_shmem->stats.stat_reset_timestamp = ts;
++	LWLockRelease(&stats_shmem->lock);
++}
++
++void
++pgstat_fplocks_snapshot_cb(void)
++{
++	PgStatShared_FastPathLocks *stats_shmem = &pgStatLocal.shmem->fplocks;
++	PgStat_FastPathLockStats *reset_offset = &stats_shmem->reset_offset;
++	PgStat_FastPathLockStats reset;
++
++	pgstat_copy_changecounted_stats(&pgStatLocal.snapshot.fplocks,
++									&stats_shmem->stats,
++									sizeof(stats_shmem->stats),
++									&stats_shmem->changecount);
++
++	LWLockAcquire(&stats_shmem->lock, LW_SHARED);
++	memcpy(&reset, reset_offset, sizeof(stats_shmem->stats));
++	LWLockRelease(&stats_shmem->lock);
++
++	/* compensate by reset offsets */
++#define FPLOCKS_COMP(fld) pgStatLocal.snapshot.fplocks.fld -= reset.fld;
++	FPLOCKS_COMP(num_inserted);
++	FPLOCKS_COMP(num_overflowed);
++#undef FPLOCKS_COMP
++}
+diff --git a/src/backend/utils/adt/pgstatfuncs.c b/src/backend/utils/adt/pgstatfuncs.c
+index 97dc09ac0d9..dcd4957777d 100644
+--- a/src/backend/utils/adt/pgstatfuncs.c
++++ b/src/backend/utils/adt/pgstatfuncs.c
+@@ -1261,6 +1261,24 @@ pg_stat_get_buf_alloc(PG_FUNCTION_ARGS)
+ 	PG_RETURN_INT64(pgstat_fetch_stat_bgwriter()->buf_alloc);
+ }
+ 
++Datum
++pg_stat_get_fplocks_num_inserted(PG_FUNCTION_ARGS)
++{
++	PG_RETURN_INT64(pgstat_fetch_stat_fplocks()->num_inserted);
++}
++
++Datum
++pg_stat_get_fplocks_num_overflowed(PG_FUNCTION_ARGS)
++{
++	PG_RETURN_INT64(pgstat_fetch_stat_fplocks()->num_overflowed);
++}
++
++Datum
++pg_stat_get_fplocks_stat_reset_time(PG_FUNCTION_ARGS)
++{
++	PG_RETURN_TIMESTAMPTZ(pgstat_fetch_stat_fplocks()->stat_reset_timestamp);
++}
++
+ /*
+ * When adding a new column to the pg_stat_io view, add a new enum value
+ * here above IO_NUM_COLUMNS.
+diff --git a/src/include/catalog/pg_proc.dat b/src/include/catalog/pg_proc.dat
+index ff5436acacf..242aea463ae 100644
+--- a/src/include/catalog/pg_proc.dat
++++ b/src/include/catalog/pg_proc.dat
+@@ -5986,6 +5986,19 @@
+   provolatile => 'v', prorettype => 'void', proargtypes => 'oid',
+   prosrc => 'pg_stat_reset_subscription_stats' },
+ 
++{ oid => '6095', descr => 'statistics: number of acquired fast-path locks',
++  proname => 'pg_stat_get_fplocks_num_inserted', provolatile => 's', proparallel => 'r',
++  prorettype => 'int8', proargtypes => '', prosrc => 'pg_stat_get_fplocks_num_inserted' },
++
++{ oid => '6096', descr => 'statistics: number of not acquired fast-path locks',
++  proname => 'pg_stat_get_fplocks_num_overflowed', provolatile => 's', proparallel => 'r',
++  prorettype => 'int8', proargtypes => '', prosrc => 'pg_stat_get_fplocks_num_overflowed' },
++
++{ oid => '6097', descr => 'statistics: last reset for the fast-path locks',
++  proname => 'pg_stat_get_fplocks_stat_reset_time', provolatile => 's',
++  proparallel => 'r', prorettype => 'timestamptz', proargtypes => '',
++  prosrc => 'pg_stat_get_fplocks_stat_reset_time' },
++
+ { oid => '3163', descr => 'current trigger depth',
+   proname => 'pg_trigger_depth', provolatile => 's', proparallel => 'r',
+   prorettype => 'int4', proargtypes => '', prosrc => 'pg_trigger_depth' },
+diff --git a/src/include/pgstat.h b/src/include/pgstat.h
+index be2c91168a1..f66b189f8df 100644
+--- a/src/include/pgstat.h
++++ b/src/include/pgstat.h
+@@ -57,9 +57,10 @@
+ #define PGSTAT_KIND_IO	9
+ #define PGSTAT_KIND_SLRU	10
+ #define PGSTAT_KIND_WAL	11
++#define PGSTAT_KIND_FPLOCKS	12
+ 
+ #define PGSTAT_KIND_BUILTIN_MIN PGSTAT_KIND_DATABASE
+-#define PGSTAT_KIND_BUILTIN_MAX PGSTAT_KIND_WAL
++#define PGSTAT_KIND_BUILTIN_MAX PGSTAT_KIND_FPLOCKS
+ #define PGSTAT_KIND_BUILTIN_SIZE (PGSTAT_KIND_BUILTIN_MAX + 1)
+ 
+ /* Custom stats kinds */
+@@ -303,6 +304,13 @@ typedef struct PgStat_CheckpointerStats
+ 	TimestampTz stat_reset_timestamp;
+ } PgStat_CheckpointerStats;
+ 
++typedef struct PgStat_FastPathLockStats
++{
++	PgStat_Counter num_inserted;
++	PgStat_Counter num_overflowed;
++	TimestampTz stat_reset_timestamp;
++} PgStat_FastPathLockStats;
++
+ 
+ /*
+  * Types related to counting IO operations
+@@ -538,6 +546,10 @@ extern PgStat_ArchiverStats *pgstat_fetch_stat_archiver(void);
+ extern void pgstat_report_bgwriter(void);
+ extern PgStat_BgWriterStats *pgstat_fetch_stat_bgwriter(void);
+ 
++/*
++ * Functions in pgstat_locks.c
++ */
++extern PgStat_FastPathLockStats *pgstat_fetch_stat_fplocks(void);
+ 
+ /*
+  * Functions in pgstat_checkpointer.c
+@@ -811,4 +823,11 @@ extern PGDLLIMPORT SessionEndType pgStatSessionEndCause;
+ extern PGDLLIMPORT PgStat_PendingWalStats PendingWalStats;
+ 
+ 
++/*
++ * Variables in pgstat_locks.c
++ */
++
++/* updated directly by fast-path locking */
++extern PGDLLIMPORT PgStat_FastPathLockStats PendingFastPathLockStats;
++
+ #endif							/* PGSTAT_H */
+diff --git a/src/include/utils/pgstat_internal.h b/src/include/utils/pgstat_internal.h
+index 25820cbf0a6..0627983846c 100644
+--- a/src/include/utils/pgstat_internal.h
++++ b/src/include/utils/pgstat_internal.h
+@@ -340,6 +340,15 @@ typedef struct PgStatShared_BgWriter
+ 	PgStat_BgWriterStats reset_offset;
+ } PgStatShared_BgWriter;
+ 
++typedef struct PgStatShared_FastPathLocks
++{
++	/* lock protects ->reset_offset as well as stats->stat_reset_timestamp */
++	LWLock		lock;
++	uint32		changecount;
++	PgStat_FastPathLockStats stats;
++	PgStat_FastPathLockStats reset_offset;
++} PgStatShared_FastPathLocks;
++
+ typedef struct PgStatShared_Checkpointer
+ {
+ 	/* lock protects ->reset_offset as well as stats->stat_reset_timestamp */
+@@ -453,6 +462,7 @@ typedef struct PgStat_ShmemControl
+ 	PgStatShared_IO io;
+ 	PgStatShared_SLRU slru;
+ 	PgStatShared_Wal wal;
++	PgStatShared_FastPathLocks fplocks;
+ 
+ 	/*
+ 	 * Custom stats data with fixed-numbered objects, indexed by (PgStat_Kind
+@@ -487,6 +497,8 @@ typedef struct PgStat_Snapshot
+ 
+ 	PgStat_WalStats wal;
+ 
++	PgStat_FastPathLockStats fplocks;
++
+ 	/*
+ 	 * Data in snapshot for custom fixed-numbered statistics, indexed by
+ 	 * (PgStat_Kind - PGSTAT_KIND_CUSTOM_MIN).  Each entry is allocated in
+@@ -704,6 +716,16 @@ extern void pgstat_drop_transactional(PgStat_Kind kind, Oid dboid, Oid objoid);
+ extern void pgstat_create_transactional(PgStat_Kind kind, Oid dboid, Oid objoid);
+ 
+ 
++/*
++ * Functions in pgstat_locks.c
++ */
++
++extern bool pgstat_fplocks_flush(bool);
++extern void pgstat_fplocks_init_shmem_cb(void *stats);
++extern void pgstat_fplocks_reset_all_cb(TimestampTz ts);
++extern void pgstat_fplocks_snapshot_cb(void);
++
++
+ /*
+  * Variables in pgstat.c
+  */
+-- 
+2.46.0
+

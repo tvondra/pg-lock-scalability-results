@@ -1,0 +1,15 @@
+2024-09-07 19:47:56.295 UTC [2763714] LOG:  FastPathLockGroupsPerBackend = 4096
+2024-09-07 19:47:56.295 UTC [2763714] LOG:  FastPathLockGroupsPerBackend = 4096
+2024-09-07 19:47:57.594 UTC [2763714] LOG:  ptrlen 303169536
+2024-09-07 19:47:57.655 UTC [2763714] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit
+2024-09-07 19:47:57.655 UTC [2763714] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-09-07 19:47:57.662 UTC [2763714] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-09-07 19:47:57.681 UTC [2763717] LOG:  database system was shut down at 2024-09-07 19:47:54 UTC
+2024-09-07 19:47:57.694 UTC [2763714] LOG:  database system is ready to accept connections
+2024-09-07 19:49:33.299 UTC [2763714] LOG:  received fast shutdown request
+2024-09-07 19:49:33.302 UTC [2763714] LOG:  aborting any active transactions
+2024-09-07 19:49:33.303 UTC [2763714] LOG:  background worker "logical replication launcher" (PID 2763720) exited with exit code 1
+2024-09-07 19:49:33.310 UTC [2763715] LOG:  shutting down
+2024-09-07 19:49:33.313 UTC [2763715] LOG:  checkpoint starting: shutdown immediate
+2024-09-07 19:49:33.351 UTC [2763715] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.025 s, sync=0.004 s, total=0.041 s; sync files=2, longest=0.003 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=8/278D4D70, redo lsn=8/278D4D70
+2024-09-07 19:49:33.859 UTC [2763714] LOG:  database system is shut down
