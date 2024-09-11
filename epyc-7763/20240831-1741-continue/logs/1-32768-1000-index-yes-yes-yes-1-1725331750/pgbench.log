@@ -1,0 +1,13 @@
+pgbench (18devel)
+transaction type: /mnt/data/scalability-tests/20240831-1741-continue/logs/1-32768-1000-index-yes-yes-yes-1-1725331750/index.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 256
+number of threads: 256
+maximum number of tries: 1
+duration: 5 s
+number of transactions actually processed: 3969244
+number of failed transactions: 0 (0.000%)
+latency average = 0.317 ms
+initial connection time = 106.050 ms
+tps = 806670.013190 (without initial connection time)

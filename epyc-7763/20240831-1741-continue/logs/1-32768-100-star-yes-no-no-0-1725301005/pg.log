@@ -1,0 +1,12 @@
+2024-09-02 18:16:47.539 UTC [4051557] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit
+2024-09-02 18:16:47.540 UTC [4051557] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-09-02 18:16:47.547 UTC [4051557] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-09-02 18:16:47.564 UTC [4051560] LOG:  database system was shut down at 2024-09-02 18:16:44 UTC
+2024-09-02 18:16:47.577 UTC [4051557] LOG:  database system is ready to accept connections
+2024-09-02 18:18:32.890 UTC [4051557] LOG:  received fast shutdown request
+2024-09-02 18:18:32.895 UTC [4051557] LOG:  aborting any active transactions
+2024-09-02 18:18:32.896 UTC [4051557] LOG:  background worker "logical replication launcher" (PID 4051563) exited with exit code 1
+2024-09-02 18:18:32.904 UTC [4051558] LOG:  shutting down
+2024-09-02 18:18:32.910 UTC [4051558] LOG:  checkpoint starting: shutdown immediate
+2024-09-02 18:18:32.963 UTC [4051558] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.029 s, sync=0.003 s, total=0.059 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=8/260DE278, redo lsn=8/260DE278
+2024-09-02 18:18:33.631 UTC [4051557] LOG:  database system is shut down

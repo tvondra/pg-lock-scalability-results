@@ -1,0 +1,18 @@
+2024-09-02 00:31:18.800 UTC [971404] LOG:  starting PostgreSQL 18devel on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit
+2024-09-02 00:31:18.800 UTC [971404] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-09-02 00:31:18.807 UTC [971404] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-09-02 00:31:18.825 UTC [971407] LOG:  database system was shut down at 2024-09-02 00:31:16 UTC
+2024-09-02 00:31:18.837 UTC [971404] LOG:  database system is ready to accept connections
+2024-09-02 00:31:26.066 UTC [971405] LOG:  checkpoints are occurring too frequently (8 seconds apart)
+2024-09-02 00:31:26.066 UTC [971405] HINT:  Consider increasing the configuration parameter "max_wal_size".
+2024-09-02 00:31:26.066 UTC [971405] LOG:  checkpoint starting: wal
+2024-09-02 00:31:30.082 UTC [971405] LOG:  checkpoint complete: wrote 2176 buffers (0.1%); 0 WAL file(s) added, 0 removed, 33 recycled; write=1.997 s, sync=1.854 s, total=4.017 s; sync files=692, longest=0.075 s, average=0.003 s; distance=545490 kB, estimate=545490 kB; lsn=7/34E8A840, redo lsn=7/2F4BBF60
+2024-09-02 00:31:30.083 UTC [971405] LOG:  checkpoint starting: immediate force wait
+2024-09-02 00:31:30.881 UTC [971405] LOG:  checkpoint complete: wrote 17137 buffers (0.8%); 0 WAL file(s) added, 0 removed, 5 recycled; write=0.104 s, sync=0.660 s, total=0.798 s; sync files=183, longest=0.659 s, average=0.004 s; distance=91962 kB, estimate=500137 kB; lsn=7/34E8A910, redo lsn=7/34E8A8B8
+2024-09-02 00:33:06.385 UTC [971404] LOG:  received fast shutdown request
+2024-09-02 00:33:06.388 UTC [971404] LOG:  aborting any active transactions
+2024-09-02 00:33:06.389 UTC [971404] LOG:  background worker "logical replication launcher" (PID 971410) exited with exit code 1
+2024-09-02 00:33:06.397 UTC [971405] LOG:  shutting down
+2024-09-02 00:33:06.400 UTC [971405] LOG:  checkpoint starting: shutdown immediate
+2024-09-02 00:33:06.437 UTC [971405] LOG:  checkpoint complete: wrote 48 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.015 s, sync=0.005 s, total=0.041 s; sync files=10, longest=0.003 s, average=0.001 s; distance=120 kB, estimate=450135 kB; lsn=7/34EA8C50, redo lsn=7/34EA8C50
+2024-09-02 00:33:06.915 UTC [971404] LOG:  database system is shut down
